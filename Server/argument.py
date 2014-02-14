@@ -48,7 +48,6 @@ class Argument:
                 s += "Long: " + self.number_value
             return s
 
-
     def to_string(self):
         if self.type == self.STRING:
             return self.string_value
@@ -61,11 +60,10 @@ class Argument:
         else:
             return self.number_value
 
-
     def get_argument_as_string(self, code):
         for a in dir(self):
             if a.startswith("ARG_"):
-                if getattr(self,a) == code:
+                if getattr(self, a) == code:
                     return a
         return "ArgName"
 

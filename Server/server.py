@@ -111,9 +111,17 @@ def analysis_message_login(sock, cmd):
         """Add player to list"""
         name_sock_map[cmd.get_string(Argument.ARG_PLAYER_USERNAME)] = sock
         sock_name_map[sock] = cmd.get_string(Argument.ARG_PLAYER_USERNAME)
-
         send_cmd = Command(Command.CMD_LOGIN)
         send_cmd.add_int(Argument.ARG_CODE, 1)
+        send(sock, send_cmd)
+        """Send player info"""
+        info = db.get_user_info(cmd.get_string(Argument.ARG_PLAYER_USERNAME))
+        send_cmd = Command(Command.CMD_PLAYER_INFO)
+        send_cmd.add_int(Argument.ARG_PLAYER_LEVEL, int(info["u_level"]))
+        send_cmd.add_int(Argument.ARG_PLAYER_LEVEL_UP_POINT, int(info["u_levelup_point"]))
+        send_cmd.add_int(Argument.ARG_PLAYER_CUP, int(info["u_cup"]))
+        #TODO need modify
+        send_cmd.add_int(Argument.ARG_PLAYER_LEVEL_UP_REQUIRE, 1000)
         send(sock, send_cmd)
     else:
         send_cmd = Command(Command.CMD_LOGIN)
@@ -223,7 +231,8 @@ def send(sock, send_cmd):
     print "Send:   "+send_cmd.get_log()
     pass
 
-HOST, PORT, RECV_BUFFER = "192.168.1.165", 9090, 4096
+
+HOST, PORT, RECV_BUFFER = "192.168.1.101", 9090, 4096
 data = None
 reading = True
 """Connection List"""
@@ -265,5 +274,9 @@ while True:
                 print "Client (%s, %s) is offline" % addr
                 sock.close()
                 connection_list.remove(sock)
+                """Remove cline from list user"""
+                name_sock_map.pop(sock_name_map[sock])
+                sock_name_map.pop(sock)
+
                 continue
 server_socket.close()
