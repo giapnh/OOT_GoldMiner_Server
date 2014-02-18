@@ -237,6 +237,7 @@ data = None
 reading = True
 """Connection List"""
 connection_list = []
+playing_list = []
 """List player loged in"""
 name_sock_map = {}
 sock_name_map = {}
