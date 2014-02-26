@@ -2,6 +2,7 @@
 __author__ = 'Nguyen Huu Giap'
 from struct import *
 
+
 class Argument:
     #region Fields and Constants
     LONG = 8

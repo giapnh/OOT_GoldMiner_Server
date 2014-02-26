@@ -232,11 +232,12 @@ def send(sock, send_cmd):
     pass
 
 
-HOST, PORT, RECV_BUFFER = "192.168.1.101", 9090, 4096
+HOST, PORT, RECV_BUFFER = "192.168.1.174", 9090, 4096
 data = None
 reading = True
 """Connection List"""
 connection_list = []
+playing_list = []
 """List player loged in"""
 name_sock_map = {}
 sock_name_map = {}
@@ -277,6 +278,5 @@ while True:
                 """Remove cline from list user"""
                 name_sock_map.pop(sock_name_map[sock])
                 sock_name_map.pop(sock)
-
                 continue
 server_socket.close()
