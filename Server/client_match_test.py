@@ -56,7 +56,7 @@ def read(data):
     print "Received: "+cmd.get_log()
     pass
 
-HOST, PORT = "192.168.1.101", 9090
+HOST, PORT = "192.168.1.174", 9090
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((HOST, PORT))
 # cmd = Command(Command.CMD_ADD_FRIEND)
@@ -68,6 +68,8 @@ password = raw_input("Password:")
 cmd.add_string(Argument.ARG_PLAYER_USERNAME, username)
 cmd.add_string(Argument.ARG_PLAYER_PASSWORD, password)
 sock.sendall(cmd.get_bytes())
+data = sock.recv(1024)
+read(data)
 data = sock.recv(1024)
 read(data)
 data = sock.recv(1024)

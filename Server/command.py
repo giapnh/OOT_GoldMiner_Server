@@ -15,11 +15,19 @@ class Command:
     CMD_REGISTER = 1
     CMD_LOGIN = 2
     CMD_PLAYER_INFO = 3
+
+    CMD_DISCONNECT = 4
+
     CMD_LIST_FRIEND = 10
     CMD_ADD_FRIEND = 11
     CMD_ACCEPT_FRIEND = 12
     CMD_REMOVE_FRIEND = 13
     CMD_PLAYER_CHAT = 20
+
+    CMD_FRIEND_INFO = 30
+
+    CMD_GAME_MATCHING = 100
+
 
     def __init__(self, code):
         self.args = {}

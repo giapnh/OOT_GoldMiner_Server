@@ -8,6 +8,7 @@ from argument import Argument
 from struct import *
 import socket
 import select
+import Message
 
 """
 @author: giapnh
@@ -82,7 +83,7 @@ def analysis_message(sock, cmd):
     elif cmd.code == Command.CMD_PLAYER_CHAT:
         analysis_message_chat(sock, cmd)
         pass
-        """"""
+        """Friend Action"""
     elif cmd.code == Command.CMD_LIST_FRIEND:
         analysis_message_list_friend(sock, cmd)
         pass
@@ -94,6 +95,11 @@ def analysis_message(sock, cmd):
         pass
     elif cmd.code == Command.CMD_REMOVE_FRIEND:
         analysis_message_remove_friend(sock, cmd)
+        pass
+        """Game Action"""
+    elif cmd.code == Command.CMD_GAME_MATCHING:
+
+        pass
     else:
         pass
     return cmd
@@ -108,28 +114,53 @@ def analysis_message_login(sock, cmd):
     """
     if db.check_user_login(cmd.get_string(Argument.ARG_PLAYER_USERNAME),
                            cmd.get_string(Argument.ARG_PLAYER_PASSWORD)):
-        """Add player to list"""
-        name_sock_map[cmd.get_string(Argument.ARG_PLAYER_USERNAME)] = sock
-        sock_name_map[sock] = cmd.get_string(Argument.ARG_PLAYER_USERNAME)
-        send_cmd = Command(Command.CMD_LOGIN)
-        send_cmd.add_int(Argument.ARG_CODE, 1)
-        send(sock, send_cmd)
-        """Send player info"""
-        info = db.get_user_info(cmd.get_string(Argument.ARG_PLAYER_USERNAME))
-        send_cmd = Command(Command.CMD_PLAYER_INFO)
-        send_cmd.add_int(Argument.ARG_PLAYER_LEVEL, int(info["u_level"]))
-        send_cmd.add_int(Argument.ARG_PLAYER_LEVEL_UP_POINT, int(info["u_levelup_point"]))
-        send_cmd.add_int(Argument.ARG_PLAYER_CUP, int(info["u_cup"]))
-        #TODO need modify
-        send_cmd.add_int(Argument.ARG_PLAYER_LEVEL_UP_REQUIRE, 1000)
-        send(sock, send_cmd)
+        if cmd.get_string(Argument.ARG_PLAYER_USERNAME) in name_sock_map.keys():
+            #Send message disconnect to old client
+            old_sock = name_sock_map[cmd.get_string(Argument.ARG_PLAYER_USERNAME)]
+            disconnect_cmd = Command(Command.CMD_DISCONNECT)
+            disconnect_cmd.add_int(Argument.ARG_CODE, 1)
+            disconnect_cmd.add_string(Argument.ARG_MESSAGE, Message.MSG_DISCONNECT)
+            send(old_sock, disconnect_cmd)
+            #Send message login success to new client
+            """Add player to list"""
+            name_sock_map[cmd.get_string(Argument.ARG_PLAYER_USERNAME)] = sock
+            sock_name_map[sock] = cmd.get_string(Argument.ARG_PLAYER_USERNAME)
+            sock_name_map.pop(old_sock)
+            send_cmd = Command(Command.CMD_LOGIN)
+            send_cmd.add_int(Argument.ARG_CODE, 1)
+            send(sock, send_cmd)
+            """Send player info"""
+            info = db.get_user_info(cmd.get_string(Argument.ARG_PLAYER_USERNAME))
+            send_cmd = Command(Command.CMD_PLAYER_INFO)
+            send_cmd.add_int(Argument.ARG_PLAYER_LEVEL, int(info["u_level"]))
+            send_cmd.add_int(Argument.ARG_PLAYER_LEVEL_UP_POINT, int(info["u_levelup_point"]))
+            send_cmd.add_int(Argument.ARG_PLAYER_CUP, int(info["u_cup"]))
+            #TODO need modify
+            send_cmd.add_int(Argument.ARG_PLAYER_LEVEL_UP_REQUIRE, 1000)
+            send(sock, send_cmd)
+            pass
+        else:
+            """Add player to list"""
+            name_sock_map[cmd.get_string(Argument.ARG_PLAYER_USERNAME)] = sock
+            sock_name_map[sock] = cmd.get_string(Argument.ARG_PLAYER_USERNAME)
+            send_cmd = Command(Command.CMD_LOGIN)
+            send_cmd.add_int(Argument.ARG_CODE, 1)
+            send(sock, send_cmd)
+            """Send player info"""
+            info = db.get_user_info(cmd.get_string(Argument.ARG_PLAYER_USERNAME))
+            send_cmd = Command(Command.CMD_PLAYER_INFO)
+            send_cmd.add_int(Argument.ARG_PLAYER_LEVEL, int(info["u_level"]))
+            send_cmd.add_int(Argument.ARG_PLAYER_LEVEL_UP_POINT, int(info["u_levelup_point"]))
+            send_cmd.add_int(Argument.ARG_PLAYER_CUP, int(info["u_cup"]))
+            #TODO need modify
+            send_cmd.add_int(Argument.ARG_PLAYER_LEVEL_UP_REQUIRE, 1000)
+            send(sock, send_cmd)
     else:
         send_cmd = Command(Command.CMD_LOGIN)
         send_cmd.add_int(Argument.ARG_CODE, 0)
         send_cmd.add_string(Argument.ARG_MESSAGE, "Invalid login info, please check again or register first!")
         send(sock, send_cmd)
 pass
-
 
 def analysis_message_register(sock, cmd):
     """
@@ -198,24 +229,17 @@ def analysis_message_add_friend(sock, cmd):
 
 
 def analysis_message_accept_friend(sock, cmd):
-    """
-    Accept friend message
-    @param sock:
-    @param cmd:
-    @return:
-    """
     db.accept_friend(cmd.get_string(Argument.ARG_PLAYER_USERNAME), cmd.get_string(Argument.ARG_FRIEND_USERNAME))
     pass
 
 
 def analysis_message_remove_friend(sock, cmd):
-    """
-    Remove friendship
-    @param sock:
-    @param cmd:
-    @return:
-    """
     db.un_friend(cmd.get_string(Argument.ARG_PLAYER_USERNAME), cmd.get_string(Argument.ARG_FRIEND_USERNAME))
+    pass
+
+
+def analysis_message_game_join(sock, cmd):
+    waiting_list[len(waiting_list)] = sock
     pass
 
 
@@ -237,6 +261,7 @@ data = None
 reading = True
 """Connection List"""
 connection_list = []
+waiting_list = []
 playing_list = []
 """List player loged in"""
 name_sock_map = {}
@@ -274,9 +299,9 @@ while True:
                 print 'My exception occurred, value:', err.message
                 print "Client (%s, %s) is offline" % addr
                 sock.close()
-                connection_list.remove(sock)
-                """Remove cline from list user"""
+                """Remove client from list user"""
                 name_sock_map.pop(sock_name_map[sock])
                 sock_name_map.pop(sock)
+                connection_list.remove(sock)
                 continue
 server_socket.close()

@@ -2,10 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0fc9d80f-9490-4338-a3cb-f35506f630f0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/GoldMiner_Server.iml" afterPath="$PROJECT_DIR$/.idea/GoldMiner_Server.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Server/Message.py" />
+      <change type="DELETED" beforePath="F:\WorkSpace\OneOfThem\GoldMiner_Server\Server\draf\Argument" afterPath="" />
+      <change type="DELETED" beforePath="F:\WorkSpace\OneOfThem\GoldMiner_Server\Server\draf\CommandID" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Server/argument.py" afterPath="$PROJECT_DIR$/Server/argument.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Server/client_match_test.py" afterPath="$PROJECT_DIR$/Server/client_match_test.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Server/command.py" afterPath="$PROJECT_DIR$/Server/command.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Server/server.py" afterPath="$PROJECT_DIR$/Server/server.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="GoldMiner_Server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,7 +35,7 @@
       <file leaf-file-name="command.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Server/command.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="67" column="27" selection-start="1862" selection-end="1862" vertical-scroll-proportion="0.0" vertical-offset="1139" max-vertical-offset="2856">
+            <state line="18" column="22" selection-start="317" selection-end="317" vertical-scroll-proportion="0.0" vertical-offset="99" max-vertical-offset="2958">
               <folding />
             </state>
           </provider>
@@ -40,7 +44,7 @@
       <file leaf-file-name="argument.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Server/argument.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="0" selection-start="77" selection-end="77" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="1683">
+            <state line="86" column="0" selection-start="2328" selection-end="2328" vertical-scroll-proportion="0.0" vertical-offset="1030" max-vertical-offset="1632">
               <folding />
             </state>
           </provider>
@@ -49,16 +53,16 @@
       <file leaf-file-name="server.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Server/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="249" column="28" selection-start="7725" selection-end="7725" vertical-scroll-proportion="0.6331776" vertical-offset="3945" max-vertical-offset="4879">
+            <state line="301" column="50" selection-start="10564" selection-end="10564" vertical-scroll-proportion="0.5233645" vertical-offset="4876" max-vertical-offset="5304">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Server/test.py">
+      <file leaf-file-name="Message.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Server/Message.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="0" selection-start="408" selection-end="408" vertical-scroll-proportion="0.0" vertical-offset="1425" max-vertical-offset="1853">
+            <state line="3" column="60" selection-start="88" selection-end="88" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="153">
               <folding />
             </state>
           </provider>
@@ -67,7 +71,7 @@
       <file leaf-file-name="client_match_test.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Server/client_match_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1598">
+            <state line="75" column="10" selection-start="2690" selection-end="2690" vertical-scroll-proportion="0.0" vertical-offset="980" max-vertical-offset="1632">
               <folding />
             </state>
           </provider>
@@ -76,7 +80,7 @@
       <file leaf-file-name="client.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Server/client/client.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="53" column="27" selection-start="2038" selection-end="2038" vertical-scroll-proportion="0.0" vertical-offset="969" max-vertical-offset="1462">
+            <state line="53" column="27" selection-start="2038" selection-end="2038" vertical-scroll-proportion="0.0" vertical-offset="901" max-vertical-offset="1513">
               <folding />
             </state>
           </provider>
@@ -96,17 +100,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="187">
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dbmanager.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Server/database/dbmanager.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="136" column="28" selection-start="5119" selection-end="5119" vertical-scroll-proportion="0.0" vertical-offset="2016" max-vertical-offset="2618">
-              <folding>
-                <element signature="e#55#69#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -133,10 +126,12 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/Server/command.py" />
-        <option value="$PROJECT_DIR$/Server/argument.py" />
         <option value="$PROJECT_DIR$/Server/client/player.py" />
         <option value="$PROJECT_DIR$/Server/database/dbmanager.py" />
+        <option value="$PROJECT_DIR$/Server/argument.py" />
+        <option value="$PROJECT_DIR$/Server/command.py" />
+        <option value="$PROJECT_DIR$/Server/Message.py" />
+        <option value="$PROJECT_DIR$/Server/client_match_test.py" />
         <option value="$PROJECT_DIR$/Server/server.py" />
       </list>
     </option>
@@ -188,7 +183,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -277,6 +271,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -295,7 +290,7 @@
       <console-settings />
     </option>
   </component>
-  <component name="RunManager" selected="Python.server">
+  <component name="RunManager" selected="Python.client_match_test">
     <configuration default="false" name="server" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -309,6 +304,24 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="GoldMiner_Server" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Server/server.py" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="client_match_test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Server" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="GoldMiner_Server" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Server/client_match_test.py" />
       <option name="PARAMETERS" value="" />
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
@@ -435,12 +448,14 @@
       <option name="USE_PATTERN" value="false" />
       <method />
     </configuration>
-    <list size="1">
+    <list size="2">
       <item index="0" class="java.lang.String" itemvalue="Python.server" />
+      <item index="1" class="java.lang.String" itemvalue="Python.client_match_test" />
     </list>
     <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="Python.server" />
+      <list size="2">
+        <item index="0" class="java.lang.String" itemvalue="Python.client_match_test" />
+        <item index="1" class="java.lang.String" itemvalue="Python.server" />
       </list>
     </recent_temporary>
   </component>
@@ -477,7 +492,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="62" y="0" width="1302" height="768" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -487,16 +502,16 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28247735" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28247735" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
     <layout-to-restore>
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -513,9 +528,9 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12636505" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35562807" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35562807" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -539,13 +554,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Server/command.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="27" selection-start="1862" selection-end="1862" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2856">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Server/argument.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="4" column="0" selection-start="77" selection-end="77" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="1683">
@@ -584,9 +592,7 @@
     <entry file="file://$PROJECT_DIR$/Server/database/dbmanager.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="58" column="62" selection-start="1888" selection-end="1903" vertical-scroll-proportion="0.0" vertical-offset="986" max-vertical-offset="2618">
-          <folding>
-            <element signature="e#55#69#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -635,9 +641,7 @@
     <entry file="file://$PROJECT_DIR$/Server/database/dbmanager.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="58" column="62" selection-start="1888" selection-end="1903" vertical-scroll-proportion="0.0" vertical-offset="986" max-vertical-offset="2618">
-          <folding>
-            <element signature="e#55#69#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -686,9 +690,7 @@
     <entry file="file://$PROJECT_DIR$/Server/database/dbmanager.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="58" column="62" selection-start="1888" selection-end="1903" vertical-scroll-proportion="0.0" vertical-offset="986" max-vertical-offset="2618">
-          <folding>
-            <element signature="e#55#69#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -737,9 +739,7 @@
     <entry file="file://$PROJECT_DIR$/Server/database/dbmanager.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="58" column="62" selection-start="1888" selection-end="1903" vertical-scroll-proportion="0.0" vertical-offset="986" max-vertical-offset="2618">
-          <folding>
-            <element signature="e#55#69#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -788,9 +788,7 @@
     <entry file="file://$PROJECT_DIR$/Server/database/dbmanager.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="58" column="62" selection-start="1888" selection-end="1903" vertical-scroll-proportion="0.0" vertical-offset="986" max-vertical-offset="2618">
-          <folding>
-            <element signature="e#55#69#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -818,9 +816,7 @@
     <entry file="file://$PROJECT_DIR$/Server/database/dbmanager.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="58" column="62" selection-start="1888" selection-end="1903" vertical-scroll-proportion="0.0" vertical-offset="986" max-vertical-offset="2618">
-          <folding>
-            <element signature="e#55#69#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -829,30 +825,9 @@
         <state line="221" column="0" selection-start="7538" selection-end="7538" vertical-scroll-proportion="0.33171913" vertical-offset="3569" max-vertical-offset="9690" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Server/command.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="27" selection-start="1862" selection-end="1862" vertical-scroll-proportion="0.0" vertical-offset="1139" max-vertical-offset="2856">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Server/draf.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="16" selection-start="243" selection-end="243" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Server/level.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="385">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Server/argument.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="77" selection-end="77" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1683">
           <folding />
         </state>
       </provider>
@@ -866,25 +841,7 @@
     </entry>
     <entry file="file://C:/Python27/Lib/hashlib.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2533">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Server/database/dbmanager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="136" column="28" selection-start="5119" selection-end="5119" vertical-scroll-proportion="0.0" vertical-offset="2016" max-vertical-offset="2618">
-          <folding>
-            <element signature="e#55#69#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Server/client_match_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1598">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2533" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Server/test.py">
@@ -901,9 +858,51 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Server/database/dbmanager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="123" column="8" selection-start="4461" selection-end="4461" vertical-scroll-proportion="0.33333334" vertical-offset="1869" max-vertical-offset="2601">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Server/level.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="385">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Server/command.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="22" selection-start="317" selection-end="317" vertical-scroll-proportion="0.0" vertical-offset="99" max-vertical-offset="2958">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Server/argument.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="86" column="0" selection-start="2328" selection-end="2328" vertical-scroll-proportion="0.0" vertical-offset="1030" max-vertical-offset="1632">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Server/Message.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="60" selection-start="88" selection-end="88" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="153">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Server/client_match_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="75" column="10" selection-start="2690" selection-end="2690" vertical-scroll-proportion="0.0" vertical-offset="980" max-vertical-offset="1632">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Server/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="249" column="28" selection-start="7725" selection-end="7725" vertical-scroll-proportion="0.6331776" vertical-offset="3945" max-vertical-offset="4879">
+        <state line="301" column="50" selection-start="10564" selection-end="10564" vertical-scroll-proportion="0.5233645" vertical-offset="4876" max-vertical-offset="5304">
           <folding />
         </state>
       </provider>
