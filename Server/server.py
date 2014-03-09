@@ -6,6 +6,7 @@ __author__ = 'Nguyen Huu Giap'
 from command import Command
 from argument import Argument
 from struct import *
+import thread
 import socket
 import select
 import Message
@@ -238,6 +239,9 @@ def analysis_message_remove_friend(sock, cmd):
     pass
 
 
+"""====================GAME MESSAGE================"""
+
+
 def analysis_message_game_join(sock, cmd):
     waiting_list[len(waiting_list)] = sock
     pass
@@ -249,6 +253,11 @@ def check_player_online(username=""):
     else:
         return False
 
+
+def thread_game_matching():
+    while reading:
+        pass
+    pass
 
 def send(sock, send_cmd):
     sock.sendall(send_cmd.get_bytes())
@@ -276,7 +285,9 @@ server_socket.setblocking(0)
 server_socket.listen(5)
 connection_list.append(server_socket)
 print "Game server started on port " + str(PORT)
-while True:
+print "Start thread matching"
+thread.start_new_thread(thread_game_matching)
+while reading:
     # Get the list sockets which are ready to be read through select
     read_sockets, write_sockets, error_sockets = select.select(connection_list, [], [])
     for sock in read_sockets:
@@ -299,9 +310,15 @@ while True:
                 print 'My exception occurred, value:', err.message
                 print "Client (%s, %s) is offline" % addr
                 sock.close()
-                """Remove client from list user"""
-                name_sock_map.pop(sock_name_map[sock])
-                sock_name_map.pop(sock)
-                connection_list.remove(sock)
-                continue
+                try:
+                    """Remove client from list user"""
+                    if sock in sock_name_map.keys():
+                        name_sock_map.pop(sock_name_map[sock])
+                        sock_name_map.pop(sock)
+                    connection_list.remove(sock)
+                    continue
+                except KeyError:
+                    pass
+reading = False
 server_socket.close()
+
