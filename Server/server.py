@@ -265,7 +265,7 @@ def send(sock, send_cmd):
     pass
 
 
-HOST, PORT, RECV_BUFFER = "192.168.1.174", 9090, 4096
+HOST, PORT, RECV_BUFFER = "localhost", 9090, 4096
 data = None
 reading = True
 """Connection List"""

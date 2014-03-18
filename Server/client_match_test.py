@@ -56,7 +56,7 @@ def read(data):
     print "Received: "+cmd.get_log()
     pass
 
-HOST, PORT = "192.168.1.174", 9090
+HOST, PORT = "localhost", 9090
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((HOST, PORT))
 # cmd = Command(Command.CMD_ADD_FRIEND)
