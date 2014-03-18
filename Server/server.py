@@ -254,9 +254,22 @@ def check_player_online(username=""):
         return False
 
 
-def thread_game_matching():
+def thread_game_matching(sleep_time=0):
+    #TODO
     while reading:
-        pass
+        #In one time, send message matched game for 2 user.
+        # After that pop that from waiting_list
+        if len(waiting_list) >= 2:
+            #Send to user1
+            cmd1 = Command(Command.CMD_GAME_MATCHING)
+            cmd1.add_int(Argument.ARG_CODE, 1)
+            send(waiting_list[0], cmd1)
+
+            #Send to user2
+            cmd2 = Command(Command.CMD_GAME_MATCHING)
+            cmd2.add_int(Argument.ARG_CODE, 1)
+            send(waiting_list[1], cmd2)
+            pass
     pass
 
 def send(sock, send_cmd):
@@ -286,7 +299,7 @@ server_socket.listen(5)
 connection_list.append(server_socket)
 print "Game server started on port " + str(PORT)
 print "Start thread matching"
-thread.start_new_thread(thread_game_matching)
+thread.start_new_thread(thread_game_matching, (0, ))
 while reading:
     # Get the list sockets which are ready to be read through select
     read_sockets, write_sockets, error_sockets = select.select(connection_list, [], [])

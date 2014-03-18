@@ -1,4 +1,4 @@
-#!F:\WorkSpace\OneOfThem\GoldMiner_Server\Vien\Scripts\python.exe
+#!F:\WorkSpace\OneOfThem\GoldMiner_Server\myVien\Scripts\python.exe
 # EASY-INSTALL-ENTRY-SCRIPT: 'setuptools==1.1.5','console_scripts','easy_install-2.7'
 __requires__ = 'setuptools==1.1.5'
 import sys

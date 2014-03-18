@@ -1,5 +1,5 @@
 @echo off
-set "VIRTUAL_ENV=F:\WorkSpace\OneOfThem\GoldMiner_Server\Vien"
+set "VIRTUAL_ENV=F:\WorkSpace\OneOfThem\GoldMiner_Server\myVien"
 
 if defined _OLD_VIRTUAL_PROMPT (
     set "PROMPT=%_OLD_VIRTUAL_PROMPT%"
@@ -9,7 +9,7 @@ if defined _OLD_VIRTUAL_PROMPT (
     )
 	set "_OLD_VIRTUAL_PROMPT=%PROMPT%"	
 )
-set "PROMPT=(Vien) %PROMPT%"
+set "PROMPT=(myVien) %PROMPT%"
 
 if not defined _OLD_VIRTUAL_PYTHONHOME (
     set "_OLD_VIRTUAL_PYTHONHOME=%PYTHONHOME%"
