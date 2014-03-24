@@ -288,10 +288,10 @@ def thread_game_matching(sleep_time=0):
             user1_info.add_int(Argument.ARG_PLAYER_LEVEL_UP_POINT, int(info["u_levelup_point"]))
             user1_info.add_int(Argument.ARG_PLAYER_CUP, int(info["u_cup"]))
             user1_info.add_int(Argument.ARG_PLAYER_LEVEL_UP_REQUIRE, 1000)
-            send(waiting_list[1], user1_info)
+            send(waiting_list[0], user1_info)
             "Remove from Waiting_List"
             waiting_list.pop(0)
-            waiting_list.pop(0)
+            waiting_list.pop(1)
             log.log("Remove from waiting_list")
             pass
     pass
@@ -303,7 +303,7 @@ def send(sock, send_cmd):
     pass
 
 
-HOST, PORT, RECV_BUFFER = "192.168.1.107", 9090, 4096
+HOST, PORT, RECV_BUFFER = "localhost", 9091, 4096
 data = None
 reading = True
 """Connection List"""
@@ -353,9 +353,6 @@ while reading:
                     if sock in sock_name_map.keys():
                         name_sock_map.pop(sock_name_map[sock])
                         sock_name_map.pop(sock)
-                    "Remove client if it waiting join game"
-                    if sock in waiting_list:
-                        waiting_list.remove(sock)
                     connection_list.remove(sock)
                     continue
                 except KeyError:

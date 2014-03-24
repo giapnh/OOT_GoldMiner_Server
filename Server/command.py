@@ -28,6 +28,8 @@ class Command:
 
     CMD_GAME_MATCHING = 100
 
+    CMD_GAME_READY = 101
+
 
     def __init__(self, code):
         self.args = {}

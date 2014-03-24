@@ -3,6 +3,14 @@ import socket
 from struct import *
 from command import Command
 from argument import Argument
+import client_message
+from help import log
+
+
+def send(sock, cmd):
+    log.log("Send: "+cmd.get_log())
+    sock.sendall(cmd.get_bytes())
+    pass
 
 
 def read(data):
@@ -56,30 +64,23 @@ def read(data):
     print "Received: "+cmd.get_log()
     pass
 
-HOST, PORT = "localhost", 9090
+HOST, PORT = "192.168.1.107", 9090
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((HOST, PORT))
 # cmd = Command(Command.CMD_ADD_FRIEND)
 # cmd.add_string(Argument.ARG_PLAYER_USERNAME, "giapnh")
 
-cmd = Command(Command.CMD_LOGIN)
 username = raw_input("Username:")
 password = raw_input("Password:")
-cmd.add_string(Argument.ARG_PLAYER_USERNAME, username)
-cmd.add_string(Argument.ARG_PLAYER_PASSWORD, password)
-sock.sendall(cmd.get_bytes())
+send(sock, client_message.gen_msg_register(username, password))
 data = sock.recv(1024)
 read(data)
-# data = sock.recv(1024)
-# read(data)
-# data = sock.recv(1024)
-# read(data)
-# data = sock.recv(1024)
-# read(data)
-cmd = Command(Command.CMD_GAME_MATCHING)
-cmd.add_string(Argument.ARG_PLAYER_USERNAME, username)
-sock.sendall(cmd.get_bytes())
-print "Send: "+cmd.get_log()
+send(sock, client_message.gen_msg_login(username, password))
+data = sock.recv(1024)
+read(data)
+data = sock.recv(1024)
+read(data)
+send(sock, client_message.gen_msg_join(username))
 data = sock.recv(1024)
 read(data)
 # chat_with = raw_input("You want chat with?")
