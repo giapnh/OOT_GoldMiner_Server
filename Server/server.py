@@ -11,11 +11,24 @@ import thread
 import socket
 import select
 import Message
+from room_info import RoomInfo
 
 """
 @author: giapnh
 """
 
+HOST, PORT, RECV_BUFFER = "192.168.1.179", 9090, 4096
+data = None
+reading = True
+"""Connection List"""
+connection_list = []
+waiting_list = []
+playing_list = []
+"Room list"
+room_list = []
+"""List player loged in"""
+name_sock_map = {}
+sock_name_map = {}
 
 def read(sock, data):
     """
@@ -101,6 +114,9 @@ def analysis_message(sock, cmd):
         """Game Action"""
     elif cmd.code == Command.CMD_GAME_MATCHING:
         analysis_message_game_join(sock, cmd)
+        pass
+    elif cmd.code == Command.CMD_GAME_READY:
+        analysis_message_game_ready(sock,cmd)
         pass
     else:
         pass
@@ -248,6 +264,11 @@ def analysis_message_game_join(sock, cmd):
     pass
 
 
+def analysis_message_game_ready(sock, cmd):
+
+    pass
+
+
 def check_player_online(username=""):
     if username in name_sock_map.keys():
         return True
@@ -256,14 +277,17 @@ def check_player_online(username=""):
 
 
 def thread_game_matching(sleep_time=0):
+    room_id = 0
     #TODO
     while reading:
         #In one time, send message matched game for 2 user.
         # After that pop that from waiting_list
         if len(waiting_list) >= 2:
+            room_id += 1
             #Send to user1
             cmd1 = Command(Command.CMD_GAME_MATCHING)
             cmd1.add_int(Argument.ARG_CODE, 1)
+            cmd1.add_int(Argument.ARG_R)
             send(waiting_list[0], cmd1)
             "Send other player info"
             user2_name = sock_name_map.get(waiting_list[1])
@@ -289,10 +313,13 @@ def thread_game_matching(sleep_time=0):
             user1_info.add_int(Argument.ARG_PLAYER_CUP, int(info["u_cup"]))
             user1_info.add_int(Argument.ARG_PLAYER_LEVEL_UP_REQUIRE, 1000)
             send(waiting_list[1], user1_info)
+            "Add to room_list"
+            room_list.append(RoomInfo(room_id, waiting_list[0], waiting_list[1]))
+            log.log("Apend new room")
             "Remove from Waiting_List"
             waiting_list.pop(0)
             waiting_list.pop(0)
-            log.log("Remove from waiting_list")
+            log.log("Remove from waiting_list; Now waiting list size = " + str(len(waiting_list)))
             pass
     pass
 
@@ -303,16 +330,7 @@ def send(sock, send_cmd):
     pass
 
 
-HOST, PORT, RECV_BUFFER = "192.168.1.107", 9090, 4096
-data = None
-reading = True
-"""Connection List"""
-connection_list = []
-waiting_list = []
-playing_list = []
-"""List player loged in"""
-name_sock_map = {}
-sock_name_map = {}
+
 """Database"""
 db = DBManager()
 db.connect('127.0.0.1', 'root', '', 'gold_miner_online')

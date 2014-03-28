@@ -87,4 +87,6 @@ class Argument:
 
     ARG_FRIEND_USERNAME = 40
 
+    ARG_ROOM_ID = 100
+
 
