@@ -74,7 +74,7 @@ while True:
     chat_with = raw_input("You want chat with?")
     message = raw_input("Message:")
     cmd = Command(Command.CMD_PLAYER_CHAT)
-    cmd.add_string(Argument.ARG_FRIEND_USERNAME, chat_with)
+    cmd.add_string(Argument.ARG_PLAYER_USERNAME, chat_with)
     cmd.add_string(Argument.ARG_MESSAGE, message)
     sock.sendall(cmd.get_bytes())
     print "Send: "+cmd.get_log()

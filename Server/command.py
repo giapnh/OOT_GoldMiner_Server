@@ -27,9 +27,12 @@ class Command:
     CMD_FRIEND_INFO = 30
 
     CMD_GAME_MATCHING = 100
+    CMD_GAME_MATCHING_CANCEL = 101
 
-    CMD_GAME_READY = 101
+    CMD_ROOM_INFO = 102
+    CMD_ROOM_EXIT = 105
 
+    CMD_GAME_READY = 110
 
     def __init__(self, code):
         self.args = {}

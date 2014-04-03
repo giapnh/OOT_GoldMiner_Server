@@ -21,7 +21,7 @@ class DBManager:
     """
     def check_user_exits(self, username=""):
         c = self.db.cursor()
-        c.execute("""SELECT * FROM user where u_username = %s""",
+        c.execute("""SELECT * FROM user where username = %s""",
                   (username, ))
         if c.rowcount == 1:
             print "Check user: " + username + ": Exits!!!"
@@ -34,7 +34,7 @@ class DBManager:
     """
     def check_user_login(self, username="", password=""):
         c = self.db.cursor()
-        c.execute("""SELECT * FROM user where u_username = %s and u_password = %s""",
+        c.execute("""SELECT * FROM user where username = %s and password = %s""",
                   (username, hashlib.md5(password).hexdigest(), ))
         if c.rowcount == 1:
             print "Check user: " + username + ": Exits!!!"
@@ -47,7 +47,7 @@ class DBManager:
     """
     def add_user(self, username="", password=""):
         c = self.db.cursor()
-        c.execute("""INSERT INTO user(u_username, u_password) VALUES(%s, %s)""",
+        c.execute("""INSERT INTO user(username, password) VALUES(%s, %s)""",
                   (username, hashlib.md5(password).hexdigest()))
         self.db.commit()
         pass
@@ -56,11 +56,13 @@ class DBManager:
     """
     def get_user_info(self, username=""):
         c = self.db.cursor()
-        c.execute("""SELECT u_username,u_level,u_levelup_point
-         ,u_cup FROM user where u_username = %s""", (username, ))
+        c.execute("""SELECT username,level,levelup_point
+         ,cup,speed_move,speed_drop,speed_drag FROM user where username = %s""", (username, ))
         if c.rowcount == 1:
             row = c.fetchone()
-            info = {"u_username": row[0], "u_level": row[1], "u_levelup_point": row[2], "u_cup": row[3]}
+            info = {"username": row[0], "level": row[1], "levelup_point": row[2], "cup": row[3],
+                    "speed_move": row[4], "speed_drop": row[5], "speed_drag": row[6]
+                    }
             return info
         else:
             return None
@@ -83,10 +85,10 @@ class DBManager:
         if not self.check_user_exits(current_user) or not self.check_user_exits(friend):
             return False
         else:
-            c.execute("""SELECT u_id FROM user where u_username = %s""", (current_user, ))
+            c.execute("""SELECT id FROM user where username = %s""", (current_user, ))
             row = c.fetchone()
             from_id = int(row[0])
-            c.execute("""SELECT u_id FROM user where u_username = %s""", (friend,))
+            c.execute("""SELECT id FROM user where username = %s""", (friend,))
             row2 = c.fetchone()
             to_id = int(row2[0])
             c.execute("""SELECT friendship_from, friendship_to FROM pending_friendship
@@ -106,10 +108,10 @@ class DBManager:
         if not self.check_user_exits(current_user) or not self.check_user_exits(friend):
             return False
         else:
-            c.execute("""SELECT u_id FROM user where u_username = %s""", (current_user, ))
+            c.execute("""SELECT id FROM user where username = %s""", (current_user, ))
             row = c.fetchone()
             from_id = int(row[0])
-            c.execute("""SELECT u_id FROM user where u_username = %s""", (friend,))
+            c.execute("""SELECT id FROM user where username = %s""", (friend,))
             row2 = c.fetchone()
             to_id = int(row2[0])
             #Add to pending_friendship
@@ -126,10 +128,10 @@ class DBManager:
         if not self.check_user_exits(current_user) or not self.check_user_exits(friend):
             return False
         else:
-            c.execute("""SELECT u_id FROM user where u_username = %s""", (current_user, ))
+            c.execute("""SELECT id FROM user where username = %s""", (current_user, ))
             row = c.fetchone()
             from_id = int(row[0])
-            c.execute("""SELECT u_id FROM user where u_username = %s""", (friend,))
+            c.execute("""SELECT id FROM user where username = %s""", (friend,))
             row2 = c.fetchone()
             to_id = int(row2[0])
             #Add to pending_friendship

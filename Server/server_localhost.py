@@ -189,10 +189,10 @@ def analysis_message_chat(sock, cmd):
     @return:
     """
     from_user = sock_name_map[sock]
-    to_user = cmd.get_string(Argument.ARG_FRIEND_USERNAME, "no name")
+    to_user = cmd.get_string(Argument.ARG_PLAYER_USERNAME, "no name")
     message = cmd.get_string(Argument.ARG_MESSAGE, "no content")
     send_cmd = Command(Command.CMD_PLAYER_CHAT)
-    send_cmd.add_string(Argument.ARG_FRIEND_USERNAME, from_user)
+    send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, from_user)
     send_cmd.add_string(Argument.ARG_MESSAGE, message)
     if check_player_online(to_user):
         name_sock_map[to_user].sendall(send_cmd.get_bytes())
@@ -220,7 +220,7 @@ def analysis_message_add_friend(sock, cmd):
     @return:
     """
     send_cmd = Command(Command.CMD_ADD_FRIEND)
-    if db.invite_friend(cmd.get_string(Argument.ARG_PLAYER_USERNAME), cmd.get_string(Argument.ARG_FRIEND_USERNAME)):
+    if db.invite_friend(cmd.get_string(Argument.ARG_PLAYER_USERNAME), cmd.get_string(Argument.ARG_PLAYER_USERNAME)):
         send_cmd.add_int(Argument.ARG_CODE, 1)
         send_cmd.add_string(Argument.ARG_MESSAGE, "Send invite friend successful!")
         #TODO send to friend invite message
@@ -231,12 +231,12 @@ def analysis_message_add_friend(sock, cmd):
 
 
 def analysis_message_accept_friend(sock, cmd):
-    db.accept_friend(cmd.get_string(Argument.ARG_PLAYER_USERNAME), cmd.get_string(Argument.ARG_FRIEND_USERNAME))
+    db.accept_friend(cmd.get_string(Argument.ARG_PLAYER_USERNAME), cmd.get_string(Argument.ARG_PLAYER_USERNAME))
     pass
 
 
 def analysis_message_remove_friend(sock, cmd):
-    db.un_friend(cmd.get_string(Argument.ARG_PLAYER_USERNAME), cmd.get_string(Argument.ARG_FRIEND_USERNAME))
+    db.un_friend(cmd.get_string(Argument.ARG_PLAYER_USERNAME), cmd.get_string(Argument.ARG_PLAYER_USERNAME))
     pass
 
 

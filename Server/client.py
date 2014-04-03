@@ -3,6 +3,8 @@ import socket
 from struct import *
 from command import Command
 from argument import Argument
+import message_helper
+from help import log
 
 
 def read(data):
@@ -56,25 +58,41 @@ def read(data):
     print "Received: "+cmd.get_log()
     pass
 
-HOST, PORT = "localhost", 9090
+def send(sock, cmd):
+    log.log("Send: "+cmd.get_log())
+    sock.sendall(cmd.get_bytes())
+    pass
+
+HOST, PORT = "192.168.1.179", 9090
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((HOST, PORT))
 # cmd = Command(Command.CMD_ADD_FRIEND)
 # cmd.add_string(Argument.ARG_PLAYER_USERNAME, "giapnh")
 
 cmd = Command(Command.CMD_LOGIN)
-username = raw_input("Username:")
-password = raw_input("Password:")
+# username = raw_input("Username:")
+# password = raw_input("Password:")
+username = "giapnh"
+password = "kachimasu"
 cmd.add_string(Argument.ARG_PLAYER_USERNAME, username)
 cmd.add_string(Argument.ARG_PLAYER_PASSWORD, password)
 sock.sendall(cmd.get_bytes())
+data = sock.recv(1024)
+read(data)
+data = sock.recv(1024)
+read(data)
+send(sock, message_helper.gen_msg_join(username))
+data = sock.recv(1024)
+read(data)
+data = sock.recv(1024)
+read(data)
 data = sock.recv(1024)
 read(data)
 while True:
     chat_with = raw_input("You want chat with?")
     message = raw_input("Message:")
     cmd = Command(Command.CMD_PLAYER_CHAT)
-    cmd.add_string(Argument.ARG_FRIEND_USERNAME, chat_with)
+    cmd.add_string(Argument.ARG_PLAYER_USERNAME, chat_with)
     cmd.add_string(Argument.ARG_MESSAGE, message)
     sock.sendall(cmd.get_bytes())
     print "Send: "+cmd.get_log()

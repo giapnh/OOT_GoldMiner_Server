@@ -3,7 +3,7 @@ import socket
 from struct import *
 from command import Command
 from argument import Argument
-import client_message
+import message_helper
 from help import log
 
 
@@ -64,23 +64,29 @@ def read(data):
     print "Received: "+cmd.get_log()
     pass
 
-HOST, PORT = "192.168.1.107", 9090
+HOST, PORT = "192.168.1.179", 9090
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((HOST, PORT))
 # cmd = Command(Command.CMD_ADD_FRIEND)
 # cmd.add_string(Argument.ARG_PLAYER_USERNAME, "giapnh")
 
-username = raw_input("Username:")
-password = raw_input("Password:")
-send(sock, client_message.gen_msg_register(username, password))
+# username = raw_input("Username:")
+# password = raw_input("Password:")
+username = "giapnh"
+password = "kachimasu"
+send(sock, message_helper.gen_msg_register(username, password))
 data = sock.recv(1024)
 read(data)
-send(sock, client_message.gen_msg_login(username, password))
+send(sock, message_helper.gen_msg_login(username, password))
 data = sock.recv(1024)
 read(data)
 data = sock.recv(1024)
 read(data)
-send(sock, client_message.gen_msg_join(username))
+send(sock, message_helper.gen_msg_join(username))
+data = sock.recv(1024)
+read(data)
+data = sock.recv(1024)
+read(data)
 data = sock.recv(1024)
 read(data)
 # chat_with = raw_input("You want chat with?")
