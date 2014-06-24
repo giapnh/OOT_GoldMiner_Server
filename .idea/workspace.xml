@@ -26,7 +26,7 @@
       <file leaf-file-name="command.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Server/command.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="24" selection-start="636" selection-end="636" vertical-scroll-proportion="0.0" vertical-offset="595" max-vertical-offset="3128">
+            <state line="40" column="25" selection-start="701" selection-end="701" vertical-scroll-proportion="0.0" vertical-offset="415" max-vertical-offset="3145">
               <folding />
             </state>
           </provider>
@@ -35,7 +35,7 @@
       <file leaf-file-name="server.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Server/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="463" column="62" selection-start="18006" selection-end="18006" vertical-scroll-proportion="0.49195403" vertical-offset="7589" max-vertical-offset="8126">
+            <state line="338" column="4" selection-start="12039" selection-end="12039" vertical-scroll-proportion="0.5403423" vertical-offset="5457" max-vertical-offset="8296">
               <folding />
             </state>
           </provider>
@@ -73,7 +73,7 @@
       <file leaf-file-name="argument.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Server/argument.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="94" column="20" selection-start="2510" selection-end="2510" vertical-scroll-proportion="0.0" vertical-offset="1299" max-vertical-offset="1734">
+            <state line="98" column="21" selection-start="2571" selection-end="2571" vertical-scroll-proportion="0.0" vertical-offset="1299" max-vertical-offset="1768">
               <folding />
             </state>
           </provider>
@@ -511,7 +511,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="54" y="-8" width="1320" height="784" extended-state="7" />
+    <frame x="54" y="-8" width="1320" height="784" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286385" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -857,21 +857,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Server/command.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="24" selection-start="636" selection-end="636" vertical-scroll-proportion="0.0" vertical-offset="450" max-vertical-offset="3094">
+        <state line="40" column="25" selection-start="701" selection-end="701" vertical-scroll-proportion="0.0" vertical-offset="415" max-vertical-offset="3145">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Server/argument.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="94" column="20" selection-start="2510" selection-end="2510" vertical-scroll-proportion="0.0" vertical-offset="1265" max-vertical-offset="1734">
+        <state line="98" column="21" selection-start="2571" selection-end="2571" vertical-scroll-proportion="0.0" vertical-offset="1299" max-vertical-offset="1768">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Server/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="463" column="62" selection-start="18006" selection-end="18006" vertical-scroll-proportion="0.49195403" vertical-offset="7589" max-vertical-offset="8126">
+        <state line="338" column="4" selection-start="12039" selection-end="12039" vertical-scroll-proportion="0.5403423" vertical-offset="5457" max-vertical-offset="8296">
           <folding />
         </state>
       </provider>

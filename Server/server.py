@@ -14,6 +14,7 @@ import thread
 import socket
 import select
 import Message
+import time
 from room_info import RoomInfo
 
 """
@@ -126,6 +127,10 @@ def analysis_message(sock, cmd):
         pass
     elif cmd.code == Command.CMD_GAME_READY:
         analysis_message_game_ready(sock, cmd)
+        pass
+        """On Game Playing Action"""
+    elif cmd.code == Command.CMD_PLAYER_MOVE:
+
         pass
     else:
         pass
@@ -323,12 +328,16 @@ def analysis_message_game_ready(sock, cmd):
             "Generate map"
             map_cmd = Command(Command.CMD_MAP_INFO)
             map_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map[room.sock1])
-            map_id = random.randint(1, 11)
+            map_id = random.randint(1, 6)
             map_cmd.add_int(Argument.ARG_MAP_ID, map_id)
             send(room.sock1, map_cmd)
             send(room.sock2, map_cmd)
 
-
+def analysis_message_player_move(sock, cmd):
+    move_from = cmd.get_int(Argument.ARG_MOVE_FROM)
+    move_to = cmd.get_int(Argument.ARG_MOVE_TO)
+    
+    pass
 
 def check_player_online(username=""):
     if username in name_sock_map.keys():
@@ -341,6 +350,7 @@ def thread_game_matching(sleep_time=0):
     room_id = 0
     #TODO
     while reading:
+        time.sleep(sleep_time)
         #In one time, send message matched game for 2 user.
         # After that pop that from waiting_list
         if len(waiting_list) >= 2:
@@ -422,7 +432,7 @@ server_socket.listen(5)
 connection_list.append(server_socket)
 log.log("Game server started on port " + str(PORT))
 log.log("Start thread matching")
-thread.start_new_thread(thread_game_matching, (0, ))
+thread.start_new_thread(thread_game_matching, (0.01, ))
 while reading:
     # Get the list sockets which are ready to be read through select
     read_sockets, write_sockets, error_sockets = select.select(connection_list, [], [])

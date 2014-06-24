@@ -94,3 +94,6 @@ class Argument:
 
     ARG_MAP_ID = 120
 
+    "On game"
+    ARG_MOVE_FROM = 130
+    ARG_MOVE_TO = 131

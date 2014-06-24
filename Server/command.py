@@ -37,6 +37,9 @@ class Command:
 
     CMD_MAP_INFO = 120
 
+    "On game"
+    CMD_PLAYER_MOVE = 130
+
     def __init__(self, code):
         self.args = {}
         self.code = code
