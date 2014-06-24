@@ -33,6 +33,9 @@ class Command:
     CMD_ROOM_EXIT = 105
 
     CMD_GAME_READY = 110
+    CMD_GAME_START = 111
+
+    CMD_MAP_INFO = 120
 
     def __init__(self, code):
         self.args = {}

@@ -92,3 +92,5 @@ class Argument:
     ARG_CUP_WIN = 101
     ARG_CUP_LOST = 102
 
+    ARG_MAP_ID = 120
+

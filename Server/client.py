@@ -88,6 +88,12 @@ data = sock.recv(1024)
 read(data)
 data = sock.recv(1024)
 read(data)
+cmd = Command(Command.CMD_GAME_READY)
+cmd.add_int(Argument.ARG_CODE, 1)
+sock.sendall(cmd.get_bytes())
+data = sock.recv(1024)
+read(data)
+"""
 while True:
     chat_with = raw_input("You want chat with?")
     message = raw_input("Message:")
@@ -98,4 +104,4 @@ while True:
     print "Send: "+cmd.get_log()
     data = sock.recv(1024)
     read(data)
-
+"""

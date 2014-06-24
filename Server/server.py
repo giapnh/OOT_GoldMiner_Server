@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from smtpd import usage
+from turtle import _Root
 from database.dbmanager import DBManager
 from help import log
 import message_helper
@@ -8,6 +9,7 @@ __author__ = 'Nguyen Huu Giap'
 from command import Command
 from argument import Argument
 from struct import *
+import random
 import thread
 import socket
 import select
@@ -18,7 +20,7 @@ from room_info import RoomInfo
 @author: giapnh
 """
 
-HOST, PORT, RECV_BUFFER = "192.168.1.179", 9090, 4096
+HOST, PORT, RECV_BUFFER = "192.168.100.38", 9090, 4096
 data = None
 reading = True
 """Connection List"""
@@ -301,7 +303,7 @@ def analysis_message_game_ready(sock, cmd):
                 room.ready[0] = True
             else:
                 room.ready[0] = False
-            return
+
         elif room.sock2 == sock:
             ready_cmd = Command(Command.CMD_GAME_READY)
             ready_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(sock, "no name"))
@@ -312,8 +314,20 @@ def analysis_message_game_ready(sock, cmd):
                 room.ready[1] = True
             else:
                 room.ready[1] = False
-            return
-    pass
+
+        if room.is_all_ready():
+            "Send start game message if 2 player ready"
+            start_cmd = Command(Command.CMD_GAME_START)
+            send(room.sock1, start_cmd)
+            send(room.sock2, start_cmd)
+            "Generate map"
+            map_cmd = Command(Command.CMD_MAP_INFO)
+            map_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map[room.sock1])
+            map_id = random.randint(1, 11)
+            map_cmd.add_int(Argument.ARG_MAP_ID, map_id)
+            send(room.sock1, map_cmd)
+            send(room.sock2, map_cmd)
+
 
 
 def check_player_online(username=""):
