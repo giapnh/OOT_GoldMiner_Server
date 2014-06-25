@@ -13,6 +13,10 @@ class RoomInfo:
         self.ready = []
         self.ready.append(False)
         self.ready.append(False)
+        "Player score"
+        self.score = []
+        self.score.append(0)
+        self.score.append(0)
         """Initial game state: Waiting!"""
         self.game_state = RoomInfo.STATE_WAITING
         pass

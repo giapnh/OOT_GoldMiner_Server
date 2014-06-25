@@ -100,3 +100,6 @@ class Argument:
 
     ARG_DROP_ANGLE_X = 135
     ARG_DROP_ANGLE_Y = 136
+
+    ARG_MAP_OBJ_TYPE = 140
+    ARG_SCORE = 150

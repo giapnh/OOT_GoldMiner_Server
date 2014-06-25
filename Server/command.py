@@ -43,6 +43,11 @@ class Command:
     CMD_PLAYER_DROP = 131
     CMD_PLAYER_DROP_RESULT = 132
 
+    CMD_PLAYER_TURN_TIME_OUT = 140
+    CMD_PLAYER_TURN = 141
+
+    CMD_ADD_SCORE = 150
+
     def __init__(self, code):
         self.args = {}
         self.code = code

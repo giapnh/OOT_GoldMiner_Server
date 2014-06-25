@@ -138,6 +138,9 @@ def analysis_message(sock, cmd):
     elif cmd.code == Command.CMD_PLAYER_DROP:
         analysis_message_player_drop(sock, cmd)
         pass
+    elif cmd.code == Command.CMD_PLAYER_DROP_RESULT:
+        analysis_message_player_drop_result(sock, cmd)
+        pass
     else:
         pass
     return cmd
@@ -376,10 +379,46 @@ def analysis_message_player_drop(sock, cmd):
         send_cmd.add_int(Argument.ARG_DROP_ANGLE_Y, angle_y)
         send(room.sock1, send_cmd)
         send(room.sock2, send_cmd)
+        pass
     pass
 
 def analysis_message_player_drop_result(sock, cmd):
-    #TODO
+    room_id = cmd.get_int(Argument.ARG_ROOM_ID, 0)
+    room = room_list.get(room_id)
+    if None == room:
+        return
+    code = cmd.get_int(Argument.ARG_CODE, 0)
+    if code == -1:
+        add_score = Command(Command.CMD_ADD_SCORE)
+        add_score.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(sock))
+        add_score.add_int(Argument.ARG_SCORE, -100)
+        send(room.sock1, add_score)
+        send(room.sock2, add_score)
+        pass
+    elif code == 0:
+        #TODO
+        pass
+    elif code == 1:
+        obj_type = cmd.get_int(Argument.ARG_MAP_OBJ_TYPE, 0)
+        add_score = Command(Command.CMD_ADD_SCORE)
+        add_score.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(sock))
+        add_score.add_int(Argument.ARG_SCORE, 100 * obj_type)
+        send(room.sock1, add_score)
+        send(room.sock2, add_score)
+        pass
+    "Change player turn"
+    if room.sock1 == sock:
+        change_turn = Command(Command.CMD_PLAYER_TURN)
+        change_turn.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room.sock2))
+        send(room.sock1, change_turn)
+        send(room.sock2, change_turn)
+        pass
+    elif room.sock2 == sock:
+        change_turn = Command(Command.CMD_PLAYER_TURN)
+        change_turn.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room.sock1))
+        send(room.sock1, change_turn)
+        send(room.sock2, change_turn)
+        pass
     pass
 
 def check_player_online(username=""):
@@ -483,7 +522,7 @@ def remove_sock(sock):
             break
         connection_list.remove(sock)
     except KeyError:
-        passpass
+        pass
 
 def send(sock, send_cmd):
     sock.sendall(send_cmd.get_bytes())
