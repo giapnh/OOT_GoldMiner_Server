@@ -377,8 +377,14 @@ def analysis_message_player_drop(sock, cmd):
         send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(sock))
         send_cmd.add_int(Argument.ARG_DROP_ANGLE_X, angle_x)
         send_cmd.add_int(Argument.ARG_DROP_ANGLE_Y, angle_y)
-        send(room.sock1, send_cmd)
-        send(room.sock2, send_cmd)
+        if sock == room.sock1:
+            send(room.sock1, send_cmd)
+            send(room.sock2, send_cmd)
+            pass
+        else:
+            send(room.sock2, send_cmd)
+            send(room.sock1, send_cmd)
+            pass
         pass
     pass
 
