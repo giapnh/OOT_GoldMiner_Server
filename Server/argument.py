@@ -97,3 +97,6 @@ class Argument:
     "On game"
     ARG_MOVE_FROM = 130
     ARG_MOVE_TO = 131
+
+    ARG_DROP_ANGLE_X = 135
+    ARG_DROP_ANGLE_Y = 136

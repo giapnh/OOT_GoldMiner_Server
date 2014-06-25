@@ -76,7 +76,7 @@ def read(sock, data):
                 read_count += 2
                 cmd.add_short(arg_code, short_val)
             elif arg_type == Argument.INT:
-                int_val = int(unpack("<I", data[read_count:read_count + 4])[0])
+                int_val = int(unpack("<i", data[read_count:read_count + 4])[0])
                 read_count += 4
                 cmd.add_int(arg_code, int_val)
             elif arg_type == Argument.LONG:
@@ -130,7 +130,10 @@ def analysis_message(sock, cmd):
         pass
         """On Game Playing Action"""
     elif cmd.code == Command.CMD_PLAYER_MOVE:
-
+        analysis_message_player_move(sock, cmd)
+        pass
+    elif cmd.code == Command.CMD_PLAYER_DROP:
+        analysis_message_player_drop(sock, cmd)
         pass
     else:
         pass
@@ -327,16 +330,47 @@ def analysis_message_game_ready(sock, cmd):
             send(room.sock2, start_cmd)
             "Generate map"
             map_cmd = Command(Command.CMD_MAP_INFO)
-            map_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map[room.sock1])
-            map_id = random.randint(1, 6)
+            #map_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map[room.sock1])
+            map_cmd.add_string(Argument.ARG_PLAYER_USERNAME, "linhnv")
+            map_id = random.randint(1, 5)
             map_cmd.add_int(Argument.ARG_MAP_ID, map_id)
             send(room.sock1, map_cmd)
             send(room.sock2, map_cmd)
+            pass
+        pass
+    pass
 
-def analysis_message_player_move(sock, cmd):
-    move_from = cmd.get_int(Argument.ARG_MOVE_FROM)
-    move_to = cmd.get_int(Argument.ARG_MOVE_TO)
-    
+
+def analysis_message_player_move(sock,cmd):
+    room_id = cmd.get_int(Argument.ARG_ROOM_ID, 0)
+    room = room_list.get(room_id)
+    if None != room:
+        #move_from = cmd.get_int(Argument.ARG_MOVE_FROM)
+        move_to = cmd.get_int(Argument.ARG_MOVE_TO)
+        send_cmd = Command(Command.CMD_PLAYER_MOVE)
+        send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(sock))
+        #send_cmd.add_int(Argument.ARG_MOVE_FROM, move_from)
+        send_cmd.add_int(Argument.ARG_MOVE_TO, move_to)
+        send(room.sock1, send_cmd)
+        send(room.sock2, send_cmd)
+        pass
+
+def analysis_message_player_drop(sock, cmd):
+    room_id = cmd.get_int(Argument.ARG_ROOM_ID, 0)
+    room = room_list.get(room_id)
+    if None != room:
+        angle_x = cmd.get_int(Argument.ARG_DROP_ANGLE_X, 0)
+        angle_y = cmd.get_int(Argument.ARG_DROP_ANGLE_Y, 0)
+        send_cmd = Command(Command.CMD_PLAYER_DROP)
+        send_cmd.add_int(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(sock))
+        send_cmd.add_int(Argument.ARG_DROP_ANGLE_X, angle_x)
+        send_cmd.add_int(Argument.ARG_DROP_ANGLE_Y, angle_y)
+        send(room.sock1, send_cmd)
+        send(room.sock2, send_cmd)
+    pass
+
+def analysis_message_player_drop_result(sock, cmd):
+    #TODO
     pass
 
 def check_player_online(username=""):
@@ -432,7 +466,7 @@ server_socket.listen(5)
 connection_list.append(server_socket)
 log.log("Game server started on port " + str(PORT))
 log.log("Start thread matching")
-thread.start_new_thread(thread_game_matching, (0.01, ))
+thread.start_new_thread(thread_game_matching, (0.05, ))
 while reading:
     # Get the list sockets which are ready to be read through select
     read_sockets, write_sockets, error_sockets = select.select(connection_list, [], [])

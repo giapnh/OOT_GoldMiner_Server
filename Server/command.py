@@ -39,6 +39,8 @@ class Command:
 
     "On game"
     CMD_PLAYER_MOVE = 130
+    CMD_PLAYER_DROP = 131
+    CMD_PLAYER_DROP_RESULT = 132
 
     def __init__(self, code):
         self.args = {}
