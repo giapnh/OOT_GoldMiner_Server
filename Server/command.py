@@ -17,6 +17,7 @@ class Command:
     CMD_PLAYER_INFO = 3
 
     CMD_DISCONNECT = 4
+    CMD_LOGOUT = 5
 
     CMD_LIST_FRIEND = 10
     CMD_ADD_FRIEND = 11

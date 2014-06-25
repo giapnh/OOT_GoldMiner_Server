@@ -99,6 +99,9 @@ def analysis_message(sock, cmd):
     if cmd.code == Command.CMD_LOGIN:
         analysis_message_login(sock, cmd)
         pass
+    elif cmd.code == Command.CMD_LOGOUT:
+        analysis_message_logout(sock, cmd)
+        pass
     elif cmd.code == Command.CMD_REGISTER:
         analysis_message_register(sock, cmd)
         pass
@@ -220,6 +223,10 @@ def analysis_message_register(sock, cmd):
     sock.sendall(send_cmd.get_bytes())
     pass
 
+
+def analysis_message_logout(sock, cmd):
+    remove_sock(sock)
+    pass
 
 def analysis_message_chat(sock, cmd):
     """
@@ -451,6 +458,32 @@ def thread_game_matching(sleep_time=0):
             pass
     pass
 
+def remove_sock(sock):
+    try:
+        sock.close()
+        """Remove client from list user"""
+        if sock in sock_name_map.keys():
+            name_sock_map.pop(sock_name_map[sock])
+            sock_name_map.pop(sock)
+        "Remove client if it waiting join game"
+        if sock in waiting_list:
+            waiting_list.remove(sock)
+        "Remove user if user being room"
+        for room in room_list.values():
+            if sock == room.sock1:
+                cmd = message_helper.gen_msg_room_exit()
+                if None != room.sock2:
+                    send(room.sock2, cmd)
+            elif sock == room.sock2:
+                cmd = message_helper.gen_msg_room_exit()
+                if None != room.sock1:
+                    send(room.sock1, cmd)
+            """Remove room"""
+            room_list.pop(room.room_id)
+            break
+        connection_list.remove(sock)
+    except KeyError:
+        passpass
 
 def send(sock, send_cmd):
     sock.sendall(send_cmd.get_bytes())
