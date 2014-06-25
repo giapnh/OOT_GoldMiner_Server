@@ -21,7 +21,7 @@ from room_info import RoomInfo
 @author: giapnh
 """
 
-HOST, PORT, RECV_BUFFER = "192.168.100.38", 9090, 4096
+HOST, PORT, RECV_BUFFER = "192.168.100.40", 9090, 4096
 data = None
 reading = True
 """Connection List"""
@@ -361,8 +361,10 @@ def analysis_message_player_drop(sock, cmd):
     if None != room:
         angle_x = cmd.get_int(Argument.ARG_DROP_ANGLE_X, 0)
         angle_y = cmd.get_int(Argument.ARG_DROP_ANGLE_Y, 0)
+        log.log(angle_x)
+        log.log(angle_y)
         send_cmd = Command(Command.CMD_PLAYER_DROP)
-        send_cmd.add_int(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(sock))
+        send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(sock))
         send_cmd.add_int(Argument.ARG_DROP_ANGLE_X, angle_x)
         send_cmd.add_int(Argument.ARG_DROP_ANGLE_Y, angle_y)
         send(room.sock1, send_cmd)

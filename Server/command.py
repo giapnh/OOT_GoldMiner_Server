@@ -167,7 +167,7 @@ class Command:
                 pack_into("<H", buff, offset, arg.number_value)
                 offset += 2
             elif arg.type == Argument.INT:
-                pack_into("<I", buff, offset, arg.number_value)
+                pack_into("<i", buff, offset, arg.number_value)
                 offset += 4
             elif arg.type == Argument.LONG:
                 pack_into("<L", buff, offset, arg.number_value)
