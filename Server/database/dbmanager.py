@@ -57,12 +57,13 @@ class DBManager:
     """
     def get_user_info(self, username=""):
         c = self.db.cursor()
-        c.execute("""SELECT username,level,levelup_point
-         ,cup,speed_move,speed_drop,speed_drag,require_point FROM user, level_up_require WHERE username = %s AND user.level = level_up_require.level""", (username, ))
+        c.execute("""SELECT username,user.level,levelup_point
+         ,cup,speed_move,speed_drop,speed_drag,require_point FROM user,level_up_require WHERE username = %s
+         AND user.level = level_up_require.level""", (username, ))
         if c.rowcount == 1:
             row = c.fetchone()
             info = {"username": row[0], "level": row[1], "levelup_point": row[2], "cup": row[3],
-                    "speed_move": row[4], "speed_drop": row[5], "speed_drag": row[6]
+                    "speed_move": row[4], "speed_drop": row[5], "speed_drag": row[6], "require_point": row[7]
                     }
             return info
         else:
@@ -144,20 +145,20 @@ class DBManager:
 
     def update_player_cup(self, username="", bonus=0):
         c = self.db.cursor()
-        c.execute("""UPDATE user SET cup = cup + %s WHERE username = %s""", (bonus,username, ))
+        c.execute("""UPDATE user SET cup = cup + %s WHERE username = %s""", (bonus, username, ))
         self.db.commit()
         return True
 
     def update_player_level_up_point(self, username="", bonus=0):
-        infor = self.get_user_info(username)
-        level = infor["level"]
-        level_up_point = infor["levelup_point"]
+        info = self.get_user_info(username)
+        level = int(info["level"])
+        level_up_point = int(info["levelup_point"])
         level_up_point_require = 0
         c = self.db.cursor()
         c.execute("""SELECT require_point FROM level_up_require WHERE level = %s""", (level, ))
         if c.rowcount > 0:
-            level_up_point_require = c.fetchone()[0]
-            log.log("Level up point require = " + level_up_point_require)
+            row = c.fetchone()
+            level_up_point_require = int(row[0])
             pass
         else:
             return False
@@ -169,9 +170,11 @@ class DBManager:
         else:
             level_up_point += bonus
             pass
-        c.execute("""UPDATE user SET level = %s, level_up_point = %s""", (level, level_up_point, ))
+        c2 = self.db.cursor()
+        c2.execute("""UPDATE user SET level = %s, levelup_point = %s WHERE username = %s""",
+                   (level, level_up_point, username,))
         self.db.commit()
-
+        return True
     """
     Close connection to mysql
     """
