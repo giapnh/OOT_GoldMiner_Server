@@ -2,6 +2,7 @@
 __author__ = 'Nguyen Huu Giap'
 import MySQLdb
 import hashlib
+from help import log
 
 class DBManager:
     #Static instance
@@ -57,7 +58,7 @@ class DBManager:
     def get_user_info(self, username=""):
         c = self.db.cursor()
         c.execute("""SELECT username,level,levelup_point
-         ,cup,speed_move,speed_drop,speed_drag FROM user where username = %s""", (username, ))
+         ,cup,speed_move,speed_drop,speed_drag,require_point FROM user, level_up_require WHERE username = %s AND user.level = level_up_require.level""", (username, ))
         if c.rowcount == 1:
             row = c.fetchone()
             info = {"username": row[0], "level": row[1], "levelup_point": row[2], "cup": row[3],
@@ -69,7 +70,7 @@ class DBManager:
 
     def get_list_friend_mutual(self, username=""):
         c = self.db.cursor()
-        c.execute("""SELECT *""")
+        # c.execute("""SELECT * FROM user WHERE user.id =  """)
         pass
 
     def get_list_friend_sent_invite(self, username=""):
@@ -140,6 +141,36 @@ class DBManager:
             c.execute("""DELETE FROM friendship WHERE user1_id = %s""", (to_id,))
             self.db.commit()
             return True
+
+    def update_player_cup(self, username="", bonus=0):
+        c = self.db.cursor()
+        c.execute("""UPDATE user SET cup = cup + %s WHERE username = %s""", (bonus,username, ))
+        self.db.commit()
+        return True
+
+    def update_player_level_up_point(self, username="", bonus=0):
+        infor = self.get_user_info(username)
+        level = infor["level"]
+        level_up_point = infor["levelup_point"]
+        level_up_point_require = 0
+        c = self.db.cursor()
+        c.execute("""SELECT require_point FROM level_up_require WHERE level = %s""", (level, ))
+        if c.rowcount > 0:
+            level_up_point_require = c.fetchone()[0]
+            log.log("Level up point require = " + level_up_point_require)
+            pass
+        else:
+            return False
+        if level_up_point + bonus > level_up_point_require:
+            #level up
+            level += 1
+            level_up_point = level_up_point + bonus - level_up_point_require
+            pass
+        else:
+            level_up_point += bonus
+            pass
+        c.execute("""UPDATE user SET level = %s, level_up_point = %s""", (level, level_up_point, ))
+        self.db.commit()
 
     """
     Close connection to mysql

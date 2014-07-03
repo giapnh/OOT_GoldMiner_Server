@@ -34,4 +34,5 @@ def gen_msg_join(username=""):
 
 def gen_msg_room_exit():
     msg = Command(Command.CMD_ROOM_EXIT)
+    msg.add_int(Argument.ARG_CODE, 1)
     return msg

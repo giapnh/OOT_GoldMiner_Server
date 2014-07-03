@@ -48,6 +48,9 @@ class Command:
 
     CMD_ADD_SCORE = 150
 
+    CMD_GAME_FINISH = 160
+    CMD_PLAYER_GAME_RESULT = 161
+
     def __init__(self, code):
         self.args = {}
         self.code = code

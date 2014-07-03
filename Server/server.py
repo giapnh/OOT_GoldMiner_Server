@@ -95,7 +95,7 @@ def analysis_message(sock, cmd):
     @param cmd: command
     @return: no return
     """
-    log.log("Receive:   " + cmd.get_log())
+    log.log("<<<<<<Receive:   " + cmd.get_log())
     if cmd.code == Command.CMD_LOGIN:
         analysis_message_login(sock, cmd)
         pass
@@ -128,6 +128,9 @@ def analysis_message(sock, cmd):
     elif cmd.code == Command.CMD_GAME_MATCHING_CANCEL:
         analysis_message_game_join_cancel(sock, cmd)
         pass
+    elif cmd.code == Command.CMD_ROOM_EXIT:
+
+        pass
     elif cmd.code == Command.CMD_GAME_READY:
         analysis_message_game_ready(sock, cmd)
         pass
@@ -135,11 +138,17 @@ def analysis_message(sock, cmd):
     elif cmd.code == Command.CMD_PLAYER_MOVE:
         analysis_message_player_move(sock, cmd)
         pass
+    elif cmd.code == Command.CMD_PLAYER_TURN_TIME_OUT:
+        analysis_message_turn_timeout(sock, cmd)
+        pass
     elif cmd.code == Command.CMD_PLAYER_DROP:
         analysis_message_player_drop(sock, cmd)
         pass
     elif cmd.code == Command.CMD_PLAYER_DROP_RESULT:
         analysis_message_player_drop_result(sock, cmd)
+        pass
+    elif cmd.code == Command.CMD_GAME_FINISH:
+        analysis_message_game_finish(sock, cmd)
         pass
     else:
         pass
@@ -207,7 +216,8 @@ def analysis_message_login(sock, cmd):
         send_cmd.add_int(Argument.ARG_CODE, 0)
         send_cmd.add_string(Argument.ARG_MESSAGE, "Invalid login info, please check again or register first!")
         send(sock, send_cmd)
-pass
+        pass
+    return
 
 
 def analysis_message_register(sock, cmd):
@@ -224,7 +234,7 @@ def analysis_message_register(sock, cmd):
         db.add_user(cmd.get_string(Argument.ARG_PLAYER_USERNAME), cmd.get_string(Argument.ARG_PLAYER_PASSWORD))
         send_cmd.add_int(Argument.ARG_CODE, 1)
     sock.sendall(send_cmd.get_bytes())
-    pass
+    return
 
 
 def analysis_message_logout(sock, cmd):
@@ -256,6 +266,7 @@ def analysis_message_list_friend(sock, cmd):
     @param cmd:
     @return:
     """
+
     #TODO
 
     # sock.sendall(cmd.get_bytes())
@@ -290,12 +301,34 @@ def analysis_message_remove_friend(sock, cmd):
     pass
 
 
+def analysis_message_invite_friend(sock, cmd):
+    pass
+
+
 """====================GAME MESSAGE================"""
 
 
 def analysis_message_game_join(sock, cmd):
     waiting_list.append(sock)
     log.log("Add client to Waiting List")
+    pass
+
+
+def analysis_message_room_exit(sock, cmd):
+    room_id = cmd.get_int(Argument.ARG_ROOM_ID, 0)
+    room = room_list.get(room_id)
+    if None != room:
+        send_cmd = Command(Command.CMD_ROOM_EXIT)
+        send_cmd.add_int(Argument.ARG_CODE, 1)
+        if room.sock1 == sock:
+            send(room.sock1, send_cmd)
+            send(room.sock2, send_cmd)
+            pass
+        else:
+            send(room.sock2, send_cmd)
+            send(room.sock1, send_cmd)
+            pass
+        pass
     pass
 
 
@@ -340,9 +373,9 @@ def analysis_message_game_ready(sock, cmd):
             send(room.sock2, start_cmd)
             "Generate map"
             map_cmd = Command(Command.CMD_MAP_INFO)
-            #map_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map[room.sock1])
-            map_cmd.add_string(Argument.ARG_PLAYER_USERNAME, "linhnv")
-            map_id = random.randint(1, 5)
+            map_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map[room.sock1])
+            # map_cmd.add_string(Argument.ARG_PLAYER_USERNAME, "linhnv")
+            map_id = random.randint(1, 2)
             map_cmd.add_int(Argument.ARG_MAP_ID, map_id)
             send(room.sock1, map_cmd)
             send(room.sock2, map_cmd)
@@ -365,18 +398,38 @@ def analysis_message_player_move(sock,cmd):
         send(room.sock2, send_cmd)
         pass
 
+
+def analysis_message_turn_timeout(sock, cmd):
+    room_id = cmd.get_int(Argument.ARG_ROOM_ID, 0)
+    room = room_list.get(room_id)
+    if None != room:
+        if sock == room.sock1:
+            change_turn = Command(Command.CMD_PLAYER_TURN)
+            change_turn.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room.sock2))
+            send(room.sock1, change_turn)
+            send(room.sock2, change_turn)
+            pass
+        else:
+            change_turn = Command(Command.CMD_PLAYER_TURN)
+            change_turn.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room.sock1))
+            send(room.sock1, change_turn)
+            send(room.sock2, change_turn)
+            pass
+        pass
+
+
 def analysis_message_player_drop(sock, cmd):
     room_id = cmd.get_int(Argument.ARG_ROOM_ID, 0)
     room = room_list.get(room_id)
     if None != room:
-        angle_x = cmd.get_int(Argument.ARG_DROP_ANGLE_X, 0)
-        angle_y = cmd.get_int(Argument.ARG_DROP_ANGLE_Y, 0)
-        log.log(angle_x)
-        log.log(angle_y)
+        rotation = cmd.get_string(Argument.ARG_DROP_ROTATION, "")
+        vel_x = cmd.get_int(Argument.ARG_DROP_VEL_X, 0)
+        vel_y = cmd.get_int(Argument.ARG_DROP_VEL_Y, 0)
         send_cmd = Command(Command.CMD_PLAYER_DROP)
         send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(sock))
-        send_cmd.add_int(Argument.ARG_DROP_ANGLE_X, angle_x)
-        send_cmd.add_int(Argument.ARG_DROP_ANGLE_Y, angle_y)
+        send_cmd.add_int(Argument.ARG_DROP_VEL_X, vel_x)
+        send_cmd.add_int(Argument.ARG_DROP_VEL_Y, vel_y)
+        send_cmd.add_string(Argument.ARG_DROP_ROTATION, rotation)
         if sock == room.sock1:
             send(room.sock1, send_cmd)
             send(room.sock2, send_cmd)
@@ -388,27 +441,68 @@ def analysis_message_player_drop(sock, cmd):
         pass
     pass
 
+
 def analysis_message_player_drop_result(sock, cmd):
     room_id = cmd.get_int(Argument.ARG_ROOM_ID, 0)
     room = room_list.get(room_id)
     if None == room:
         return
     code = cmd.get_int(Argument.ARG_CODE, 0)
-    if code == -1:
-        add_score = Command(Command.CMD_ADD_SCORE)
-        add_score.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(sock))
-        add_score.add_int(Argument.ARG_SCORE, -100)
-        send(room.sock1, add_score)
-        send(room.sock2, add_score)
-        pass
-    elif code == 0:
-        #TODO
-        pass
-    elif code == 1:
+
+    if code == 1:
         obj_type = cmd.get_int(Argument.ARG_MAP_OBJ_TYPE, 0)
         add_score = Command(Command.CMD_ADD_SCORE)
         add_score.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(sock))
-        add_score.add_int(Argument.ARG_SCORE, 100 * obj_type)
+        if obj_type == -1:
+            if room.sock1 == sock:
+                room.score[0] += -100
+                pass
+            else:
+                room.score[1] += -100
+                pass
+            add_score.add_int(Argument.ARG_SCORE, -100)
+            pass
+        else:
+            if room.sock1 == sock:
+                add = 0
+                if obj_type == 1:
+                    add = 10
+                    pass
+                elif obj_type == 2:
+                    add = 50
+                    pass
+                elif obj_type == 3:
+                    add = 250
+                    pass
+                elif obj_type == 4:
+                    add = 500
+                    pass
+                elif obj_type == 5:
+                    add = 660
+                    pass
+                room.score[0] += add
+                add_score.add_int(Argument.ARG_SCORE, add)
+                pass
+            else:
+                add = 0
+                if obj_type == 1:
+                    add = 10
+                    pass
+                elif obj_type == 2:
+                    add = 50
+                    pass
+                elif obj_type == 3:
+                    add = 250
+                    pass
+                elif obj_type == 4:
+                    add = 500
+                    pass
+                elif obj_type == 5:
+                    add = 660
+                    pass
+                room.score[1] += add
+                add_score.add_int(Argument.ARG_SCORE, add)
+                pass
         send(room.sock1, add_score)
         send(room.sock2, add_score)
         pass
@@ -427,6 +521,76 @@ def analysis_message_player_drop_result(sock, cmd):
         pass
     pass
 
+
+def analysis_message_game_finish(sock, cmd):
+    room_id = cmd.get_int(Argument.ARG_ROOM_ID, 0)
+    room = room_list.get(room_id)
+    if None != room:
+        send_cmd = Command(Command.CMD_GAME_FINISH)
+        if room.score[0] > room.score[1]:
+            send_cmd.add_int(Argument.ARG_CODE, 1)
+            send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room.sock1))
+            pass
+        elif room.score[0] < room.score[1]:
+            send_cmd.add_int(Argument.ARG_CODE, 1)
+            send_cmd.add_int(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room.sock2))
+            pass
+        else:
+            send_cmd.add_int(Argument.ARG_CODE, 0)
+            pass
+        send(room.sock1, send_cmd)
+        send(room.sock2, send_cmd)
+        "Send match result"
+        "Player 1"
+        player1_result = Command(Command.CMD_PLAYER_GAME_RESULT)
+        player1_result.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room.sock1))
+        player1_result.add_int(Argument.ARG_SCORE, room.score[0])
+        if room.score[0] > room.score[1]:
+            player1_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, 5)
+            player1_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room.score[0]/10)
+            db.update_player_cup(sock_name_map.get(room.sock1), 5)
+            # db.update_player_level_up_point(sock_name_map.get(room.sock1), room.score[0]/10)
+            pass
+        elif room.score[0] < room.score[1]:
+            player1_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, -5)
+            player1_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room.score[0]/10)
+            db.update_player_cup(sock_name_map.get(room.sock1), -5)
+            # db.update_player_level_up_point(sock_name_map.get(room.sock1), room.score[0]/10)
+            pass
+        else:
+            player1_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, 2)
+            player1_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room.score[0]/10)
+            db.update_player_cup(sock_name_map.get(room.sock1), 2)
+            # db.update_player_level_up_point(sock_name_map.get(room.sock1), room.score[0]/10)
+        send(room.sock1, player1_result)
+        send(room.sock2, player1_result)
+
+        "Player 2"
+        player2_result = Command(Command.CMD_PLAYER_GAME_RESULT)
+        player2_result.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room.sock2))
+        player2_result.add_int(Argument.ARG_SCORE, room.score[1])
+        if room.score[1] > room.score[0]:
+            player2_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, 5)
+            player2_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room.score[1]/10)
+            db.update_player_cup(sock_name_map.get(room.sock2), 5)
+            # db.update_player_level_up_point(sock_name_map.get(room.sock2), room.score[1]/10)
+            pass
+        elif room.score[1] < room.score[0]:
+            player2_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, -5)
+            player2_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room.score[1]/10)
+            db.update_player_cup(sock_name_map.get(room.sock2), -5)
+            # db.update_player_level_up_point(sock_name_map.get(room.sock2), room.score[1]/10)
+            pass
+        else:
+            player2_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, 2)
+            player2_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room.score[1]/10)
+            db.update_player_cup(sock_name_map.get(room.sock2), 2)
+            # db.update_player_level_up_point(sock_name_map.get(room.sock2), room.score[1]/10)
+        send(room.sock1, player2_result)
+        send(room.sock2, player2_result)
+    pass
+
+
 def check_player_online(username=""):
     if username in name_sock_map.keys():
         return True
@@ -436,7 +600,6 @@ def check_player_online(username=""):
 
 def thread_game_matching(sleep_time=0):
     room_id = 0
-    #TODO
     while reading:
         time.sleep(sleep_time)
         #In one time, send message matched game for 2 user.
@@ -454,8 +617,8 @@ def thread_game_matching(sleep_time=0):
 
             cmd1 = Command(Command.CMD_ROOM_INFO)
             cmd1.add_int(Argument.ARG_ROOM_ID, room_id)
-            cmd1.add_int(Argument.ARG_CUP_WIN, 100)
-            cmd1.add_int(Argument.ARG_CUP_LOST, 10)
+            cmd1.add_int(Argument.ARG_CUP_WIN, 5)
+            cmd1.add_int(Argument.ARG_CUP_LOST, -5)
 
             send(waiting_list[0], cmd1)
             "Send other player info"
@@ -466,19 +629,20 @@ def thread_game_matching(sleep_time=0):
             user2_info.add_int(Argument.ARG_PLAYER_LEVEL, int(info["level"]))
             user2_info.add_int(Argument.ARG_PLAYER_LEVEL_UP_POINT, int(info["levelup_point"]))
             user2_info.add_int(Argument.ARG_PLAYER_CUP, int(info["cup"]))
-            user2_info.add_int(Argument.ARG_PLAYER_LEVEL_UP_REQUIRE, 1000)
+            user2_info.add_int(Argument.ARG_PLAYER_LEVEL_UP_REQUIRE, int(info["require_point"]))
             user2_info.add_int(Argument.ARG_PLAYER_SPEED_MOVE, int(info["speed_move"]))
             user2_info.add_int(Argument.ARG_PLAYER_SPEED_DRAG, int(info["speed_drag"]))
             user2_info.add_int(Argument.ARG_PLAYER_SPEED_DROP, int(info["speed_drop"]))
             send(waiting_list[0], user2_info)
+
             "Send message join room to user2"
             cmd2 = Command(Command.CMD_GAME_MATCHING)
             cmd2.add_int(Argument.ARG_CODE, 1)
             send(waiting_list[1], cmd2)
             cmd2 = Command(Command.CMD_ROOM_INFO)
             cmd2.add_int(Argument.ARG_ROOM_ID, room_id)
-            cmd2.add_int(Argument.ARG_CUP_WIN, 100)
-            cmd2.add_int(Argument.ARG_CUP_LOST, 100)
+            cmd2.add_int(Argument.ARG_CUP_WIN, 5)
+            cmd2.add_int(Argument.ARG_CUP_LOST, -5)
             send(waiting_list[1], cmd2)
             "Send other player info"
             user1_name = sock_name_map.get(waiting_list[0])
@@ -488,7 +652,7 @@ def thread_game_matching(sleep_time=0):
             user1_info.add_int(Argument.ARG_PLAYER_LEVEL, int(info["level"]))
             user1_info.add_int(Argument.ARG_PLAYER_LEVEL_UP_POINT, int(info["levelup_point"]))
             user1_info.add_int(Argument.ARG_PLAYER_CUP, int(info["cup"]))
-            user1_info.add_int(Argument.ARG_PLAYER_LEVEL_UP_REQUIRE, 1000)
+            user1_info.add_int(Argument.ARG_PLAYER_LEVEL_UP_REQUIRE, int(info["require_point"]))
             user1_info.add_int(Argument.ARG_PLAYER_SPEED_MOVE, int(info["speed_move"]))
             user1_info.add_int(Argument.ARG_PLAYER_SPEED_DRAG, int(info["speed_drag"]))
             user1_info.add_int(Argument.ARG_PLAYER_SPEED_DROP, int(info["speed_drop"]))
@@ -502,6 +666,7 @@ def thread_game_matching(sleep_time=0):
             log.log("Remove from waiting_list; Now waiting list size = " + str(len(waiting_list)))
             pass
     pass
+
 
 def remove_sock(sock):
     try:
@@ -530,9 +695,10 @@ def remove_sock(sock):
     except KeyError:
         pass
 
+
 def send(sock, send_cmd):
     sock.sendall(send_cmd.get_bytes())
-    log.log("Send:   "+send_cmd.get_log())
+    log.log(">>>>>>>Send:   "+send_cmd.get_log())
     pass
 
 """Database"""
@@ -569,6 +735,7 @@ while reading:
             except IOError as err:
                 print('My exception occurred, value:', err.message)
                 print("Client (%s, %s) is offline" % addr)
+
                 sock.close()
                 try:
                     """Remove client from list user"""
