@@ -21,8 +21,8 @@ from room_info import RoomInfo
 @author: giapnh
 """
 
-# HOST, PORT, RECV_BUFFER = "192.168.100.40", 9090, 4096
-HOST, PORT, RECV_BUFFER = "182.48.50.239", 5555, 4096
+HOST, PORT, RECV_BUFFER = "192.168.100.40", 9090, 4096
+# HOST, PORT, RECV_BUFFER = "182.48.50.239", 5555, 4096
 data = None
 reading = True
 """Connection List"""
@@ -331,13 +331,11 @@ def analysis_message_game_join(sock, cmd):
 
 
 def analysis_message_room_exit(sock, cmd):
-    log.log("Check")
     room_id = cmd.get_int(Argument.ARG_ROOM_ID, 0)
     room = room_list.get(room_id)
     if None != room:
         send_cmd = Command(Command.CMD_ROOM_EXIT)
         send_cmd.add_int(Argument.ARG_CODE, 1)
-        log.log("Check 2")
         if room.sock1 == sock:
             send(room.sock1, send_cmd)
             send(room.sock2, send_cmd)
@@ -346,7 +344,6 @@ def analysis_message_room_exit(sock, cmd):
             send(room.sock2, send_cmd)
             send(room.sock1, send_cmd)
             pass
-        log.log("Check 3")
         del room_list[room_id]
         log.log("Size of room list = " + str(len(room_list)))
     pass
@@ -475,10 +472,16 @@ def analysis_message_player_drop_result(sock, cmd):
         add_score.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(sock))
         if obj_type == -1:
             if room.sock1 == sock:
-                room.score[0] += -100
+                if room.score[0] > 100:
+                    room.score[0] += -100
+                else:
+                    room.score[0] = 0
                 pass
             else:
-                room.score[1] += -100
+                if room.score[1] > 100:
+                    room.score[1] += 100
+                else:
+                    room.score[1] = 0
                 pass
             add_score.add_int(Argument.ARG_SCORE, -100)
             pass
@@ -749,13 +752,13 @@ def remove_sock(sock):
 
 def send(sock, send_cmd):
     sock.sendall(send_cmd.get_bytes())
-    log.log(">>>>>>>Send:   "+send_cmd.get_log())
+    log.log(">>>>>>>Send to  "+str(sock_name_map.get(sock))+":"+send_cmd.get_log())
     pass
 
 """Database"""
 db = DBManager()
-# db.connect('127.0.0.1', 'root', '', 'gold_miner_online')
-db.connect('127.0.0.1', 'root', 'oneofthem0107', 'gold_miner_online')
+db.connect('127.0.0.1', 'root', '', 'gold_miner_online')
+# db.connect('127.0.0.1', 'root', 'oneofthem0107', 'gold_miner_online')
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 server_socket.bind((HOST, PORT))
