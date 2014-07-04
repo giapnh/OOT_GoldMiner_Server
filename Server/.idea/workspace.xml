@@ -48,11 +48,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="server.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="server.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5051546" vertical-offset="11110" max-vertical-offset="12330">
-              <caret line="761" column="28" selection-start-line="761" selection-start-column="28" selection-end-line="761" selection-end-column="28" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="12330">
+              <caret line="24" column="40" selection-start-line="24" selection-start-column="27" selection-end-line="24" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -68,11 +68,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="client.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="client.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1620">
-              <caret line="71" column="28" selection-start-line="71" selection-start-column="28" selection-end-line="71" selection-end-column="28" />
+            <state vertical-scroll-proportion="0.21649484" vertical-offset="795" max-vertical-offset="1620">
+              <caret line="65" column="27" selection-start-line="65" selection-start-column="27" selection-end-line="65" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -151,8 +151,8 @@
         <option value="$PROJECT_DIR$/Constants.py" />
         <option value="$PROJECT_DIR$/database/dbmanager.py" />
         <option value="$PROJECT_DIR$/command.py" />
-        <option value="$PROJECT_DIR$/client.py" />
         <option value="$PROJECT_DIR$/server.py" />
+        <option value="$PROJECT_DIR$/client.py" />
       </list>
     </option>
   </component>
@@ -1005,18 +1005,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client.py">
+    <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1620">
-          <caret line="71" column="28" selection-start-line="71" selection-start-column="28" selection-end-line="71" selection-end-column="28" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="12330">
+          <caret line="24" column="40" selection-start-line="24" selection-start-column="27" selection-end-line="24" selection-end-column="40" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server.py">
+    <entry file="file://$PROJECT_DIR$/client.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5051546" vertical-offset="11110" max-vertical-offset="12330">
-          <caret line="761" column="28" selection-start-line="761" selection-start-column="28" selection-end-line="761" selection-end-column="28" />
+        <state vertical-scroll-proportion="0.21649484" vertical-offset="795" max-vertical-offset="1620">
+          <caret line="65" column="27" selection-start-line="65" selection-start-column="27" selection-end-line="65" selection-end-column="27" />
           <folding />
         </state>
       </provider>
