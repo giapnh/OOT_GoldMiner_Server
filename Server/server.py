@@ -22,7 +22,7 @@ from room_info import RoomInfo
 """
 
 # HOST, PORT, RECV_BUFFER = "192.168.100.40", 9090, 4096
-HOST, PORT, RECV_BUFFER = "127.0.0.1", 5555, 4096
+HOST, PORT, RECV_BUFFER = "182.48.50.239", 5555, 4096
 data = None
 reading = True
 """Connection List"""
@@ -755,7 +755,7 @@ def send(sock, send_cmd):
 """Database"""
 db = DBManager()
 # db.connect('127.0.0.1', 'root', '', 'gold_miner_online')
-db.connect('127.0.0.1', 'root', 'oneofthem0107', 'gold_miner_online')
+db.connect('182.48.50.239', 'root', 'oneofthem0107', 'gold_miner_online')
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 server_socket.bind((HOST, PORT))
