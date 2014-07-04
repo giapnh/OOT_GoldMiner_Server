@@ -22,7 +22,7 @@ from room_info import RoomInfo
 """
 
 # HOST, PORT, RECV_BUFFER = "192.168.100.40", 9090, 4096
-HOST, PORT, RECV_BUFFER = "localhost", 9090, 4096
+HOST, PORT, RECV_BUFFER = "127.0.0.1", 5555, 4096
 data = None
 reading = True
 """Connection List"""
