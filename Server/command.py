@@ -50,6 +50,7 @@ class Command:
 
     CMD_GAME_FINISH = 160
     CMD_PLAYER_GAME_RESULT = 161
+    CMD_GAME_FORCE_FINISH = 162
 
     def __init__(self, code):
         self.args = {}

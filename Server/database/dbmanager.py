@@ -136,7 +136,6 @@ class DBManager:
             c.execute("""SELECT id FROM user where username = %s""", (friend,))
             row2 = c.fetchone()
             to_id = int(row2[0])
-            #Add to pending_friendship
             c.execute("""DELETE FROM friendship WHERE user1_id = %s""", (from_id,))
             self.db.commit()
             c.execute("""DELETE FROM friendship WHERE user1_id = %s""", (to_id,))

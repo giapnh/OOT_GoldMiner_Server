@@ -21,7 +21,8 @@ from room_info import RoomInfo
 @author: giapnh
 """
 
-HOST, PORT, RECV_BUFFER = "192.168.100.40", 9090, 4096
+# HOST, PORT, RECV_BUFFER = "192.168.100.40", 9090, 4096
+HOST, PORT, RECV_BUFFER = "localhost", 9090, 4096
 data = None
 reading = True
 """Connection List"""
@@ -129,7 +130,7 @@ def analysis_message(sock, cmd):
         analysis_message_game_join_cancel(sock, cmd)
         pass
     elif cmd.code == Command.CMD_ROOM_EXIT:
-
+        analysis_message_room_exit(sock, cmd)
         pass
     elif cmd.code == Command.CMD_GAME_READY:
         analysis_message_game_ready(sock, cmd)
@@ -149,6 +150,9 @@ def analysis_message(sock, cmd):
         pass
     elif cmd.code == Command.CMD_GAME_FINISH:
         analysis_message_game_finish(sock, cmd)
+        pass
+    elif cmd.code == Command.CMD_GAME_FORCE_FINISH:
+
         pass
     else:
         pass
@@ -278,24 +282,38 @@ def analysis_message_add_friend(sock, cmd):
     @param cmd:
     @return:
     """
-    send_cmd = Command(Command.CMD_ADD_FRIEND)
     if db.invite_friend(cmd.get_string(Argument.ARG_PLAYER_USERNAME), cmd.get_string(Argument.ARG_PLAYER_USERNAME)):
+        send_cmd = Command(Command.CMD_ADD_FRIEND)
         send_cmd.add_int(Argument.ARG_CODE, 1)
         send_cmd.add_string(Argument.ARG_MESSAGE, "Send invite friend successful!")
-        #TODO send to friend invite message
+        send(sock, send_cmd)
+        send_cmd = Command(Command.CMD_ADD_FRIEND)
+        send_cmd.add_int(Argument.ARG_CODE, 2)
+        send_cmd.add_string(Argument.ARG_MESSAGE, "You have a friend request from "+str(sock_name_map.get(sock)))
+        send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(sock)))
+        send(name_sock_map.get(cmd.get_string(Argument.ARG_PLAYER_USERNAME)), send_cmd)
+        pass
     else:
+        send_cmd = Command(Command.CMD_ADD_FRIEND)
         send_cmd.add_int(Argument.ARG_CODE, 0)
         send_cmd.add_string(Argument.ARG_MESSAGE, "Send invite friend failure! Please try again!")
-    sock.sendall(send_cmd.get_bytes())
+        send(sock, send_cmd)
+        pass
 
 
 def analysis_message_accept_friend(sock, cmd):
-    db.accept_friend(cmd.get_string(Argument.ARG_PLAYER_USERNAME), cmd.get_string(Argument.ARG_PLAYER_USERNAME))
+    if db.accept_friend(cmd.get_string(Argument.ARG_PLAYER_USERNAME), cmd.get_string(Argument.ARG_PLAYER_USERNAME)):
+        send_cmd = Command(Command.CMD_ACCEPT_FRIEND)
+        send_cmd.add_int(Argument.ARG_CODE, 1)
+        send(sock, send_cmd)
     pass
 
 
 def analysis_message_remove_friend(sock, cmd):
-    db.un_friend(cmd.get_string(Argument.ARG_PLAYER_USERNAME), cmd.get_string(Argument.ARG_PLAYER_USERNAME))
+    if db.un_friend(cmd.get_string(Argument.ARG_PLAYER_USERNAME), cmd.get_string(Argument.ARG_PLAYER_USERNAME)):
+        send_cmd = Command(Command.CMD_REMOVE_FRIEND)
+        send_cmd.add_int(Argument.ARG_CODE, 1)
+        send(sock, send_cmd)
     pass
 
 
@@ -313,11 +331,13 @@ def analysis_message_game_join(sock, cmd):
 
 
 def analysis_message_room_exit(sock, cmd):
+    log.log("Check")
     room_id = cmd.get_int(Argument.ARG_ROOM_ID, 0)
     room = room_list.get(room_id)
     if None != room:
         send_cmd = Command(Command.CMD_ROOM_EXIT)
         send_cmd.add_int(Argument.ARG_CODE, 1)
+        log.log("Check 2")
         if room.sock1 == sock:
             send(room.sock1, send_cmd)
             send(room.sock2, send_cmd)
@@ -326,7 +346,9 @@ def analysis_message_room_exit(sock, cmd):
             send(room.sock2, send_cmd)
             send(room.sock1, send_cmd)
             pass
-        pass
+        log.log("Check 3")
+        del room_list[room_id]
+        log.log("Size of room list = " + str(len(room_list)))
     pass
 
 
@@ -588,28 +610,34 @@ def analysis_message_game_finish(sock, cmd):
         send(room.sock2, player2_result)
 
         "Send updated player info to player 1"
-        info = db.get_user_info(sock_name_map(room.sock1))
-        send_cmd = Command(Command.CMD_PLAYER_INFO)
-        send_cmd.add_int(Argument.ARG_PLAYER_LEVEL, int(info["level"]))
-        send_cmd.add_int(Argument.ARG_PLAYER_LEVEL_UP_POINT, int(info["levelup_point"]))
-        send_cmd.add_int(Argument.ARG_PLAYER_CUP, int(info["cup"]))
-        send_cmd.add_int(Argument.ARG_PLAYER_LEVEL_UP_REQUIRE, int(info["require_point"]))
-        send_cmd.add_int(Argument.ARG_PLAYER_SPEED_MOVE, 10)
-        send_cmd.add_int(Argument.ARG_PLAYER_SPEED_DROP, 10)
-        send_cmd.add_int(Argument.ARG_PLAYER_SPEED_DRAG, 10)
-        send(room.sock1, send_cmd)
-
+        info = db.get_user_info(str(sock_name_map.get(room.sock1)))
+        send_cmd2 = Command(Command.CMD_PLAYER_INFO)
+        send_cmd2.add_int(Argument.ARG_PLAYER_LEVEL, int(info["level"]))
+        send_cmd2.add_int(Argument.ARG_PLAYER_LEVEL_UP_POINT, int(info["levelup_point"]))
+        send_cmd2.add_int(Argument.ARG_PLAYER_CUP, int(info["cup"]))
+        send_cmd2.add_int(Argument.ARG_PLAYER_LEVEL_UP_REQUIRE, int(info["require_point"]))
+        send_cmd2.add_int(Argument.ARG_PLAYER_SPEED_MOVE, 10)
+        send_cmd2.add_int(Argument.ARG_PLAYER_SPEED_DROP, 10)
+        send_cmd2.add_int(Argument.ARG_PLAYER_SPEED_DRAG, 10)
+        send(room.sock1, send_cmd2)
         "Send updated player info to player 2"
-        info = db.get_user_info(sock_name_map(room.sock2))
-        send_cmd = Command(Command.CMD_PLAYER_INFO)
-        send_cmd.add_int(Argument.ARG_PLAYER_LEVEL, int(info["level"]))
-        send_cmd.add_int(Argument.ARG_PLAYER_LEVEL_UP_POINT, int(info["levelup_point"]))
-        send_cmd.add_int(Argument.ARG_PLAYER_CUP, int(info["cup"]))
-        send_cmd.add_int(Argument.ARG_PLAYER_LEVEL_UP_REQUIRE, int(info["require_point"]))
-        send_cmd.add_int(Argument.ARG_PLAYER_SPEED_MOVE, 10)
-        send_cmd.add_int(Argument.ARG_PLAYER_SPEED_DROP, 10)
-        send_cmd.add_int(Argument.ARG_PLAYER_SPEED_DRAG, 10)
-        send(room.sock2, send_cmd)
+        info2 = db.get_user_info(str(sock_name_map.get(room.sock2)))
+        send_cmd3 = Command(Command.CMD_PLAYER_INFO)
+        send_cmd3.add_int(Argument.ARG_PLAYER_LEVEL, int(info2["level"]))
+        send_cmd3.add_int(Argument.ARG_PLAYER_LEVEL_UP_POINT, int(info2["levelup_point"]))
+        send_cmd3.add_int(Argument.ARG_PLAYER_CUP, int(info2["cup"]))
+        send_cmd3.add_int(Argument.ARG_PLAYER_LEVEL_UP_REQUIRE, int(info2["require_point"]))
+        send_cmd3.add_int(Argument.ARG_PLAYER_SPEED_MOVE, 10)
+        send_cmd3.add_int(Argument.ARG_PLAYER_SPEED_DROP, 10)
+        send_cmd3.add_int(Argument.ARG_PLAYER_SPEED_DRAG, 10)
+        send(room.sock2, send_cmd3)
+        room_list.pop(room_id)
+        log.log("Removed room. Current number of room is "+len(room_list))
+    pass
+
+
+def analysis_message_game_force_finish(sock, cmd):
+
     pass
 
 
@@ -633,9 +661,9 @@ def thread_game_matching(sleep_time=0):
             room_info = RoomInfo(room_id, waiting_list[0], waiting_list[1])
             room_list[room_id] = room_info
             "Send message join room to user 1"
-            cmd1 = Command(Command.CMD_GAME_MATCHING)
-            cmd1.add_int(Argument.ARG_CODE, 1)
-            send(waiting_list[0], cmd1)
+            matching_cmd = Command(Command.CMD_GAME_MATCHING)
+            matching_cmd.add_int(Argument.ARG_CODE, 1)
+            send(waiting_list[0], matching_cmd)
 
             cmd1 = Command(Command.CMD_ROOM_INFO)
             cmd1.add_int(Argument.ARG_ROOM_ID, room_id)
@@ -683,8 +711,8 @@ def thread_game_matching(sleep_time=0):
             room_list[room_id] = RoomInfo(room_id, waiting_list[0], waiting_list[1])
             log.log("Apend new room")
             "Remove from Waiting_List"
-            waiting_list.pop(0)
-            waiting_list.pop(0)
+            del waiting_list[0]
+            del waiting_list[0]
             log.log("Remove from waiting_list; Now waiting list size = " + str(len(waiting_list)))
             pass
     pass
@@ -712,6 +740,7 @@ def remove_sock(sock):
                     send(room.sock1, cmd)
             """Remove room"""
             room_list.pop(room.room_id)
+            log.log("Remove room")
             break
         connection_list.remove(sock)
     except KeyError:
@@ -725,7 +754,8 @@ def send(sock, send_cmd):
 
 """Database"""
 db = DBManager()
-db.connect('127.0.0.1', 'root', '', 'gold_miner_online')
+# db.connect('127.0.0.1', 'root', '', 'gold_miner_online')
+db.connect('127.0.0.1', 'root', 'oneofthem0107', 'gold_miner_online')
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 server_socket.bind((HOST, PORT))
@@ -773,6 +803,7 @@ while reading:
                             cmd = message_helper.gen_msg_room_exit()
                             if None != room.sock2:
                                 send(room.sock2, cmd)
+
                         elif sock == room.sock2:
                             cmd = message_helper.gen_msg_room_exit()
                             if None != room.sock1:
