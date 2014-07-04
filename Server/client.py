@@ -63,7 +63,7 @@ def send(sock, cmd):
     sock.sendall(cmd.get_bytes())
     pass
 
-HOST, PORT = "localhost", 5555
+HOST, PORT = "127.0.0.1", 5555
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((HOST, PORT))
 # cmd = Command(Command.CMD_ADD_FRIEND)
