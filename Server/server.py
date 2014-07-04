@@ -661,21 +661,21 @@ def thread_game_matching(sleep_time=0):
             "Increment room_id 1 unit"
             room_id += 1
             "Create RoomInfo object and add to RoomList"
-            room_info = RoomInfo(room_id, waiting_list[0], waiting_list[1])
+            room_info = RoomInfo(room_id, waiting_list[len(waiting_list) - 1], waiting_list[len(waiting_list) -2])
             room_list[room_id] = room_info
             "Send message join room to user 1"
             matching_cmd = Command(Command.CMD_GAME_MATCHING)
             matching_cmd.add_int(Argument.ARG_CODE, 1)
-            send(waiting_list[0], matching_cmd)
+            send(waiting_list[len(waiting_list) - 1], matching_cmd)
 
             cmd1 = Command(Command.CMD_ROOM_INFO)
             cmd1.add_int(Argument.ARG_ROOM_ID, room_id)
             cmd1.add_int(Argument.ARG_CUP_WIN, 5)
             cmd1.add_int(Argument.ARG_CUP_LOST, -5)
 
-            send(waiting_list[0], cmd1)
+            send(waiting_list[len(waiting_list) - 1], cmd1)
             "Send other player info"
-            user2_name = sock_name_map.get(waiting_list[1])
+            user2_name = sock_name_map.get(waiting_list[len(waiting_list) - 2])
             info = db.get_user_info(user2_name)
             user2_info = Command(Command.CMD_FRIEND_INFO)
             user2_info.add_string(Argument.ARG_PLAYER_USERNAME, str(info["username"]))
@@ -686,19 +686,19 @@ def thread_game_matching(sleep_time=0):
             user2_info.add_int(Argument.ARG_PLAYER_SPEED_MOVE, int(info["speed_move"]))
             user2_info.add_int(Argument.ARG_PLAYER_SPEED_DRAG, int(info["speed_drag"]))
             user2_info.add_int(Argument.ARG_PLAYER_SPEED_DROP, int(info["speed_drop"]))
-            send(waiting_list[0], user2_info)
+            send(waiting_list[len(waiting_list) - 1], user2_info)
 
             "Send message join room to user2"
             cmd2 = Command(Command.CMD_GAME_MATCHING)
             cmd2.add_int(Argument.ARG_CODE, 1)
-            send(waiting_list[1], cmd2)
+            send(waiting_list[len(waiting_list) - 2], cmd2)
             cmd2 = Command(Command.CMD_ROOM_INFO)
             cmd2.add_int(Argument.ARG_ROOM_ID, room_id)
             cmd2.add_int(Argument.ARG_CUP_WIN, 5)
             cmd2.add_int(Argument.ARG_CUP_LOST, -5)
-            send(waiting_list[1], cmd2)
+            send(waiting_list[len(waiting_list) - 2], cmd2)
             "Send other player info"
-            user1_name = sock_name_map.get(waiting_list[0])
+            user1_name = sock_name_map.get(waiting_list[len(waiting_list) - 2])
             info = db.get_user_info(user1_name)
             user1_info = Command(Command.CMD_FRIEND_INFO)
             user1_info.add_string(Argument.ARG_PLAYER_USERNAME, str(info["username"]))
@@ -709,13 +709,13 @@ def thread_game_matching(sleep_time=0):
             user1_info.add_int(Argument.ARG_PLAYER_SPEED_MOVE, int(info["speed_move"]))
             user1_info.add_int(Argument.ARG_PLAYER_SPEED_DRAG, int(info["speed_drag"]))
             user1_info.add_int(Argument.ARG_PLAYER_SPEED_DROP, int(info["speed_drop"]))
-            send(waiting_list[1], user1_info)
+            send(waiting_list[len(waiting_list) - 2], user1_info)
             "Add to room_list"
-            room_list[room_id] = RoomInfo(room_id, waiting_list[0], waiting_list[1])
+            room_list[room_id] = RoomInfo(room_id, waiting_list[len(waiting_list) - 1], waiting_list[len(waiting_list) - 2])
             log.log("Apend new room")
             "Remove from Waiting_List"
-            del waiting_list[0]
-            del waiting_list[0]
+            waiting_list.pop()
+            waiting_list.pop()
             log.log("Remove from waiting_list; Now waiting list size = " + str(len(waiting_list)))
             pass
     pass
