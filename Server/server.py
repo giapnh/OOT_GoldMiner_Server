@@ -257,7 +257,8 @@ def analysis_message_chat(sock, cmd):
     send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, from_user)
     send_cmd.add_string(Argument.ARG_MESSAGE, message)
     if check_player_online(to_user):
-        name_sock_map[to_user].sendall(send_cmd.get_bytes())
+        send(name_sock_map[to_user],send_cmd)
+        # name_sock_map[to_user].sendall(send_cmd.get_bytes())
     pass
 
 
