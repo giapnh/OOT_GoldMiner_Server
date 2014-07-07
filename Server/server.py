@@ -257,7 +257,7 @@ def analysis_message_chat(sock, cmd):
     send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, from_user)
     send_cmd.add_string(Argument.ARG_MESSAGE, message)
     if check_player_online(to_user):
-        send(name_sock_map[to_user],send_cmd)
+        send(name_sock_map[to_user], send_cmd)
         # name_sock_map[to_user].sendall(send_cmd.get_bytes())
     pass
 
@@ -699,7 +699,7 @@ def thread_game_matching(sleep_time=0):
             cmd2.add_int(Argument.ARG_CUP_LOST, -5)
             send(waiting_list[len(waiting_list) - 2], cmd2)
             "Send other player info"
-            user1_name = sock_name_map.get(waiting_list[len(waiting_list) - 2])
+            user1_name = sock_name_map.get(waiting_list[len(waiting_list) - 1])
             info = db.get_user_info(user1_name)
             user1_info = Command(Command.CMD_FRIEND_INFO)
             user1_info.add_string(Argument.ARG_PLAYER_USERNAME, str(info["username"]))
