@@ -548,7 +548,7 @@ def analysis_message_player_drop_result(sock, cmd):
 
 def analysis_message_game_finish(sock, cmd):
     room_id = cmd.get_int(Argument.ARG_ROOM_ID, 0)
-    room = room_list.get(room_id)
+    room = room_list[room_id]
     if None != room:
         send_cmd = Command(Command.CMD_GAME_FINISH)
         if room.score[0] > room.score[1]:
