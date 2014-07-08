@@ -670,6 +670,7 @@ def thread_game_matching(sleep_time=0):
             send(waiting_list[len(waiting_list) - 1], matching_cmd)
 
             cmd1 = Command(Command.CMD_ROOM_INFO)
+            cmd1.add_string(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(room_info.sock1)))
             cmd1.add_int(Argument.ARG_ROOM_ID, room_id)
             cmd1.add_int(Argument.ARG_CUP_WIN, 5)
             cmd1.add_int(Argument.ARG_CUP_LOST, -5)
@@ -694,6 +695,7 @@ def thread_game_matching(sleep_time=0):
             cmd2.add_int(Argument.ARG_CODE, 1)
             send(waiting_list[len(waiting_list) - 2], cmd2)
             cmd2 = Command(Command.CMD_ROOM_INFO)
+            cmd2.add_string(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(room_info.sock1)))
             cmd2.add_int(Argument.ARG_ROOM_ID, room_id)
             cmd2.add_int(Argument.ARG_CUP_WIN, 5)
             cmd2.add_int(Argument.ARG_CUP_LOST, -5)
