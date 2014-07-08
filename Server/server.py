@@ -21,8 +21,8 @@ from room_info import RoomInfo
 @author: giapnh
 """
 
-HOST, PORT, RECV_BUFFER = "192.168.100.40", 5555, 4096
-# HOST, PORT, RECV_BUFFER = "182.48.50.239", 5555, 4096
+# HOST, PORT, RECV_BUFFER = "192.168.100.40", 5555, 4096
+HOST, PORT, RECV_BUFFER = "182.48.50.239", 5555, 4096
 data = None
 reading = True
 """Connection List"""
