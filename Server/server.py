@@ -637,7 +637,8 @@ def analysis_message_game_finish(sock, cmd):
         send(room.sock2, send_cmd3)
         room_list.pop(room_id)
         log.log("Removed room. Current number of room is "+len(room_list))
-    pass
+    else:
+        log.log("Can't find room")
 
 
 def analysis_message_game_force_finish(sock, cmd):
@@ -655,7 +656,7 @@ def check_player_online(username=""):
 def thread_game_matching(sleep_time=0):
     room_id = 0
     while reading:
-        time.sleep(sleep_time)
+        # time.sleep(sleep_time)
         #In one time, send message matched game for 2 user.
         # After that pop that from waiting_list
         if len(waiting_list) >= 2:
