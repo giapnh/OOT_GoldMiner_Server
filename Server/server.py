@@ -21,8 +21,8 @@ from room_info import RoomInfo
 @author: giapnh
 """
 
-# HOST, PORT, RECV_BUFFER = "192.168.100.40", 5555, 4096
-HOST, PORT, RECV_BUFFER = "182.48.50.239", 5555, 4096
+HOST, PORT, RECV_BUFFER = "192.168.100.40", 5555, 4096
+# HOST, PORT, RECV_BUFFER = "182.48.50.239", 5555, 4096
 data = None
 reading = True
 """Connection List"""
@@ -635,7 +635,7 @@ def analysis_message_game_finish(sock, cmd):
         send_cmd3.add_int(Argument.ARG_PLAYER_SPEED_DROP, 10)
         send_cmd3.add_int(Argument.ARG_PLAYER_SPEED_DRAG, 10)
         send(room.sock2, send_cmd3)
-        room_list.pop(room_id)
+        del room_list[room_id]
         log.log("Removed room. Current number of room is "+len(room_list))
     pass
 
