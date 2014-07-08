@@ -817,8 +817,10 @@ while reading:
                         break
                     connection_list.remove(sock)
                     continue
-                except KeyError:
+                except Exception as inst:
+                    log.log("Exception---------")
                     pass
+
 reading = False
 server_socket.close()
 
