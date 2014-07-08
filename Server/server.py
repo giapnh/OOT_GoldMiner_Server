@@ -771,7 +771,11 @@ log.log("Start thread matching")
 thread.start_new_thread(thread_game_matching, (0.05, ))
 while reading:
     # Get the list sockets which are ready to be read through select
-    read_sockets, write_sockets, error_sockets = select.select(connection_list, [], [])
+    try:
+        read_sockets, write_sockets, error_sockets = select.select(connection_list, [], [])
+    except Exception as ints:
+        print "Exception------"
+        pass
     for sock in read_sockets:
         #New connection
         if sock == server_socket:
