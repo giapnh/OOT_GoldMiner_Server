@@ -60,7 +60,7 @@ class DBManager:
         c.execute("""SELECT username,user.level,levelup_point
          ,cup,speed_move,speed_drop,speed_drag,require_point FROM user,level_up_require WHERE username = %s
          AND user.level = level_up_require.level""", (username, ))
-        if c.rowcount == 1:
+        if c.rowcount >= 1:
             row = c.fetchone()
             info = {"username": row[0], "level": row[1], "levelup_point": row[2], "cup": row[3],
                     "speed_move": row[4], "speed_drop": row[5], "speed_drag": row[6], "require_point": row[7]
