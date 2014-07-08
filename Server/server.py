@@ -572,19 +572,19 @@ def analysis_message_game_finish(sock, cmd):
         if room.score[0] > room.score[1]:
             player1_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, 5)
             player1_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room.score[0]/10)
-            db.update_player_cup(sock_name_map.get(room.sock1), 5)
+            # db.update_player_cup(sock_name_map.get(room.sock1), 5)
             db.update_player_level_up_point(sock_name_map.get(room.sock1), room.score[0]/10)
             pass
         elif room.score[0] < room.score[1]:
             player1_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, -5)
             player1_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room.score[0]/10)
-            db.update_player_cup(sock_name_map.get(room.sock1), -5)
+            # db.update_player_cup(sock_name_map.get(room.sock1), -5)
             db.update_player_level_up_point(sock_name_map.get(room.sock1), room.score[0]/10)
             pass
         else:
             player1_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, 2)
             player1_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room.score[0]/10)
-            db.update_player_cup(sock_name_map.get(room.sock1), 2)
+            # db.update_player_cup(sock_name_map.get(room.sock1), 2)
             db.update_player_level_up_point(sock_name_map.get(room.sock1), room.score[0]/10)
         send(room.sock1, player1_result)
         send(room.sock2, player1_result)
@@ -596,19 +596,19 @@ def analysis_message_game_finish(sock, cmd):
         if room.score[1] > room.score[0]:
             player2_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, 5)
             player2_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room.score[1]/10)
-            db.update_player_cup(sock_name_map.get(room.sock2), 5)
+            # db.update_player_cup(sock_name_map.get(room.sock2), 5)
             db.update_player_level_up_point(sock_name_map.get(room.sock2), room.score[1]/10)
             pass
         elif room.score[1] < room.score[0]:
             player2_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, -5)
             player2_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room.score[1]/10)
-            db.update_player_cup(sock_name_map.get(room.sock2), -5)
+            # db.update_player_cup(sock_name_map.get(room.sock2), -5)
             db.update_player_level_up_point(sock_name_map.get(room.sock2), room.score[1]/10)
             pass
         else:
             player2_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, 2)
             player2_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room.score[1]/10)
-            db.update_player_cup(sock_name_map.get(room.sock2), 2)
+            # db.update_player_cup(sock_name_map.get(room.sock2), 2)
             db.update_player_level_up_point(sock_name_map.get(room.sock2), room.score[1]/10)
         send(room.sock1, player2_result)
         send(room.sock2, player2_result)
@@ -662,7 +662,7 @@ def thread_game_matching(sleep_time=0):
             "Increment room_id 1 unit"
             room_id += 1
             "Create RoomInfo object and add to RoomList"
-            room_info = RoomInfo(room_id, waiting_list[len(waiting_list) - 1], waiting_list[len(waiting_list) -2])
+            room_info = RoomInfo(room_id, waiting_list[len(waiting_list) - 1], waiting_list[len(waiting_list)-2])
             room_list[room_id] = room_info
             "Send message join room to user 1"
             matching_cmd = Command(Command.CMD_GAME_MATCHING)
@@ -714,7 +714,7 @@ def thread_game_matching(sleep_time=0):
             user1_info.add_int(Argument.ARG_PLAYER_SPEED_DROP, int(info["speed_drop"]))
             send(waiting_list[len(waiting_list) - 2], user1_info)
             "Add to room_list"
-            room_list[room_id] = RoomInfo(room_id, waiting_list[len(waiting_list) - 1], waiting_list[len(waiting_list) - 2])
+            room_list[room_id] = RoomInfo(room_id, waiting_list[len(waiting_list) - 1], waiting_list[len(waiting_list)-2])
             log.log("Apend new room")
             "Remove from Waiting_List"
             waiting_list.pop()
