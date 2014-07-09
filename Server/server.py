@@ -572,6 +572,7 @@ def analysis_message_game_finish(sock, cmd):
             pass
         else:
             finish_cmd.add_int(Argument.ARG_CODE, 0)
+            log.log("SIDA vai")
             pass
         log.log("Pass6")
         send(room_info.sock1, finish_cmd)
