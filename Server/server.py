@@ -565,7 +565,7 @@ def analysis_message_game_finish(sock, cmd):
         elif room_info.score[0] < room_info.score[1]:
             send_cmd.add_int(Argument.ARG_CODE, 1)
             send_cmd.add_int(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(room_info.sock2)))
-            log.log("Pass5:" + str(sock_name_map.get(room_info.sock1)))
+            log.log("Pass5:" + str(sock_name_map.get(room_info.sock2)))
             pass
         else:
             send_cmd.add_int(Argument.ARG_CODE, 0)
@@ -766,10 +766,9 @@ def remove_sock(sock):
         pass
 
 
-def send(sock, send_cmd):
-    sock.sendall(send_cmd.get_bytes())
-    time.sleep(0.05)
-    log.log(">>>>>>>Send to  "+str(sock_name_map.get(sock))+":"+send_cmd.get_log())
+def send(socket, send_cmd):
+    socket.sendall(send_cmd.get_bytes())
+    log.log(">>>>>>>Send to  "+str(sock_name_map.get(socket))+":"+send_cmd.get_log())
     pass
 
 """Database"""
