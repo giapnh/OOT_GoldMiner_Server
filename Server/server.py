@@ -557,7 +557,7 @@ def analysis_message_game_finish(sock, cmd):
             pass
         elif room_info.score[0] < room_info.score[1]:
             finish_cmd.add_int(Argument.ARG_CODE, 1)
-            finish_cmd.add_int(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(room_info.sock2)))
+            finish_cmd.add_string(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(room_info.sock2)))
             pass
         else:
             finish_cmd.add_int(Argument.ARG_CODE, 0)
@@ -589,7 +589,6 @@ def analysis_message_game_finish(sock, cmd):
             db.update_player_level_up_point(sock_name_map.get(room_info.sock1), room_info.score[0]/10)
         send(room_info.sock1, player1_result)
         send(room_info.sock2, player1_result)
-        log.log("Pass 8")
         "Player 2"
         player2_result = Command(Command.CMD_PLAYER_GAME_RESULT)
         player2_result.add_string(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(room_info.sock2)))
@@ -613,7 +612,6 @@ def analysis_message_game_finish(sock, cmd):
             db.update_player_level_up_point(sock_name_map.get(room_info.sock2), room_info.score[1]/10)
         send(room_info.sock1, player2_result)
         send(room_info.sock2, player2_result)
-        log.log("Pass 9")
         "Send updated player info to player 1"
         info = db.get_user_info(str(sock_name_map.get(room_info.sock1)))
         send_cmd2 = Command(Command.CMD_PLAYER_INFO)
@@ -757,7 +755,6 @@ def remove_sock(sock):
 
 def send(socket, send_cmd):
     try:
-        time.sleep(0.1)
         socket.sendall(send_cmd.get_bytes())
     except Exception as inst:
         print str(inst.message)
