@@ -639,7 +639,7 @@ def analysis_message_game_finish(sock, cmd):
         send_cmd3.add_int(Argument.ARG_PLAYER_SPEED_DROP, 10)
         send_cmd3.add_int(Argument.ARG_PLAYER_SPEED_DRAG, 10)
         send(room.sock2, send_cmd3)
-        room_list.pop(room_id)
+        # room_list.pop(room_id)
         log.log("Removed room. Current number of room is "+len(room_list))
     else:
         log.log("Can't find room")
@@ -750,7 +750,7 @@ def remove_sock(sock):
                 if None != room.sock1:
                     send(room.sock1, cmd)
             """Remove room"""
-            room_list.pop(room.room_id)
+            # room_list.pop(room.room_id)
             log.log("Remove room")
             break
         connection_list.remove(sock)
@@ -824,7 +824,7 @@ while reading:
                             if None != room.sock1:
                                 send(room.sock1, cmd)
                         """Remove room"""
-                        room_list.pop(room.room_id)
+                        # room_list.pop(room.room_id)
                         break
                     connection_list.remove(sock)
                     continue
