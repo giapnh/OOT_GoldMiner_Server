@@ -550,7 +550,7 @@ def analysis_message_game_finish(sock, cmd):
     log.log("Pass1")
     room_id = cmd.get_int(Argument.ARG_ROOM_ID, 0)
     log.log("Pass2")
-    room_info = room_list[room_id]
+    room_info = room_list.get(room_id)
     if room_info.room_id == room_id:
         log.log("NGON ROI NHE")
 
@@ -571,15 +571,15 @@ def analysis_message_game_finish(sock, cmd):
             send_cmd.add_int(Argument.ARG_CODE, 0)
             pass
         log.log("Pass6")
-        send(room_info.sock2, send_cmd)
-        log.log("Pass6.1")
         send(room_info.sock1, send_cmd)
+        log.log("Pass6.1")
+        send(room_info.sock2, send_cmd)
         log.log("Pass7")
 
         "Send match result"
         "Player 1"
         player1_result = Command(Command.CMD_PLAYER_GAME_RESULT)
-        player1_result.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room_info.sock1))
+        player1_result.add_string(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(room_info.sock1)))
         player1_result.add_int(Argument.ARG_SCORE, room_info.score[0])
         if room_info.score[0] > room_info.score[1]:
             player1_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, 5)
@@ -603,7 +603,7 @@ def analysis_message_game_finish(sock, cmd):
         log.log("Pass 8")
         "Player 2"
         player2_result = Command(Command.CMD_PLAYER_GAME_RESULT)
-        player2_result.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room_info.sock2))
+        player2_result.add_string(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(room_info.sock2)))
         player2_result.add_int(Argument.ARG_SCORE, room_info.score[1])
         if room_info.score[1] > room_info.score[0]:
             player2_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, 5)
@@ -767,6 +767,7 @@ def remove_sock(sock):
 
 
 def send(socket, send_cmd):
+    log.log("Send roi ma:((")
     socket.sendall(send_cmd.get_bytes())
     log.log(">>>>>>>Send to  "+str(sock_name_map.get(socket))+":"+send_cmd.get_log())
     pass
