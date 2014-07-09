@@ -549,8 +549,11 @@ def analysis_message_player_drop_result(sock, cmd):
 def analysis_message_game_finish(sock, cmd):
     log.log("Pass1")
     room_id = cmd.get_int(Argument.ARG_ROOM_ID, 0)
-    room_info = room_list[room_id]
     log.log("Pass2")
+    for r in room_list:
+        if r.sock1 == sock or r.sock2 == sock:
+            log.log("Find!!!!!!!!!")
+            room_info = r
     if None != room_info:
         log.log("Pass3")
         send_cmd = Command(Command.CMD_GAME_FINISH)
@@ -724,7 +727,7 @@ def thread_game_matching(sleep_time=0):
             user1_info.add_int(Argument.ARG_PLAYER_SPEED_DROP, int(info["speed_drop"]))
             send(waiting_list[len(waiting_list) - 2], user1_info)
             "Add to room_list"
-            room_list[room_id] = RoomInfo(room_id, waiting_list[len(waiting_list) - 1], waiting_list[len(waiting_list) - 2])
+            room_list[room_id] = RoomInfo(room_id, waiting_list[len(waiting_list) - 1], waiting_list[len(waiting_list)-2])
             log.log("Apend new room")
             "Remove from Waiting_List"
             waiting_list.pop()

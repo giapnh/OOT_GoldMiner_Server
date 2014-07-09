@@ -51,8 +51,8 @@
       <file leaf-file-name="server.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.8822496" vertical-offset="9336" max-vertical-offset="12675">
-              <caret line="555" column="29" selection-start-line="555" selection-start-column="29" selection-end-line="555" selection-end-column="29" />
+            <state vertical-scroll-proportion="0.46397188" vertical-offset="7971" max-vertical-offset="12720">
+              <caret line="553" column="46" selection-start-line="553" selection-start-column="8" selection-end-line="553" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -91,8 +91,8 @@
       <file leaf-file-name="room_info.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/room_info.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="855">
-              <caret line="9" column="30" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="855">
+              <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -997,14 +997,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/room_info.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="855">
-          <caret line="9" column="30" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/dbmanager.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1040" max-vertical-offset="2805">
@@ -1013,10 +1005,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/room_info.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="855">
+          <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.8822496" vertical-offset="9336" max-vertical-offset="12675">
-          <caret line="555" column="29" selection-start-line="555" selection-start-column="29" selection-end-line="555" selection-end-column="29" />
+        <state vertical-scroll-proportion="0.46397188" vertical-offset="7971" max-vertical-offset="12720">
+          <caret line="553" column="46" selection-start-line="553" selection-start-column="8" selection-end-line="553" selection-end-column="46" />
           <folding />
         </state>
       </provider>
