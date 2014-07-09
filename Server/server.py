@@ -553,27 +553,30 @@ def analysis_message_game_finish(sock, cmd):
     room_info = room_list.get(room_id)
     if room_info.room_id == room_id:
         log.log("NGON ROI NHE")
+        log.log("" + str(sock_name_map.get(room_info.sock1)))
+        log.log("" + str(sock_name_map.get(room_info.sock2)))
+
 
     if None != room_info:
         log.log("Pass3")
-        send_cmd = Command(Command.CMD_GAME_FINISH)
+        finish_cmd = Command(Command.CMD_GAME_FINISH)
         if room_info.score[0] > room_info.score[1]:
-            send_cmd.add_int(Argument.ARG_CODE, 1)
-            send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(room_info.sock1)))
+            finish_cmd.add_int(Argument.ARG_CODE, 1)
+            finish_cmd.add_string(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(room_info.sock1)))
             log.log("Pass4:" + str(sock_name_map.get(room_info.sock1)))
             pass
         elif room_info.score[0] < room_info.score[1]:
-            send_cmd.add_int(Argument.ARG_CODE, 1)
-            send_cmd.add_int(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(room_info.sock2)))
+            finish_cmd.add_int(Argument.ARG_CODE, 1)
+            finish_cmd.add_int(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(room_info.sock2)))
             log.log("Pass5:" + str(sock_name_map.get(room_info.sock2)))
             pass
         else:
-            send_cmd.add_int(Argument.ARG_CODE, 0)
+            finish_cmd.add_int(Argument.ARG_CODE, 0)
             pass
         log.log("Pass6")
-        send(room_info.sock1, send_cmd)
+        send(room_info.sock1, finish_cmd)
         log.log("Pass6.1")
-        send(room_info.sock2, send_cmd)
+        send(room_info.sock2, finish_cmd)
         log.log("Pass7")
 
         "Send match result"
