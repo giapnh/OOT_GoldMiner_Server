@@ -574,7 +574,6 @@ def analysis_message_game_finish(sock, cmd):
             log.log("SIDA vai")
             pass
         log.log(">>>>>>>Check"+":"+finish_cmd.get_log())
-        log.log("Size = " + str(len(finish_cmd.get_bytes())))
         log.log("Pass6")
         send(room_info.sock1, finish_cmd)
         log.log("Pass6.1")
@@ -773,6 +772,7 @@ def remove_sock(sock):
 
 def send(socket, send_cmd):
     try:
+        time.sleep(0.1)
         socket.sendall(send_cmd.get_bytes())
     except Exception as inst:
         print str(inst.message)
