@@ -571,9 +571,9 @@ def analysis_message_game_finish(sock, cmd):
             send_cmd.add_int(Argument.ARG_CODE, 0)
             pass
         log.log("Pass6")
-        send(room_info.sock1, send_cmd)
-        log.log("Pass6.1")
         send(room_info.sock2, send_cmd)
+        log.log("Pass6.1")
+        send(room_info.sock1, send_cmd)
         log.log("Pass7")
 
         "Send match result"
@@ -668,14 +668,14 @@ def check_player_online(username=""):
 def thread_game_matching(sleep_time=0):
     room_id = 0
     while reading:
-        # time.sleep(sleep_time)
+        time.sleep(sleep_time)
         #In one time, send message matched game for 2 user.
         # After that pop that from waiting_list
         if len(waiting_list) >= 2:
             "Increment room_id 1 unit"
             room_id += 1
             "Create RoomInfo object and add to RoomList"
-            room_info = RoomInfo(room_id, waiting_list[len(waiting_list) - 1], waiting_list[len(waiting_list) -2])
+            room_info = RoomInfo(room_id, waiting_list[len(waiting_list) - 1], waiting_list[len(waiting_list)-2])
             room_list[room_id] = room_info
             "Send message join room to user 1"
             matching_cmd = Command(Command.CMD_GAME_MATCHING)
@@ -730,8 +730,8 @@ def thread_game_matching(sleep_time=0):
             room_list[room_id] = RoomInfo(room_id, waiting_list[len(waiting_list) - 1], waiting_list[len(waiting_list)-2])
             log.log("Apend new room")
             "Remove from Waiting_List"
-            waiting_list.pop()
-            waiting_list.pop()
+            waiting_list.pop(len(waiting_list) - 1)
+            waiting_list.pop(len(waiting_list) - 1)
             log.log("Remove from waiting_list; Now waiting list size = " + str(len(waiting_list)))
             pass
     pass
