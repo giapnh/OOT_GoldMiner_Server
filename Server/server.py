@@ -596,7 +596,7 @@ def analysis_message_game_finish(sock, cmd):
             db.update_player_level_up_point(sock_name_map.get(room.sock1), room.score[0]/10)
         send(room.sock1, player1_result)
         send(room.sock2, player1_result)
-
+        log.log("Pass 8")
         "Player 2"
         player2_result = Command(Command.CMD_PLAYER_GAME_RESULT)
         player2_result.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room.sock2))
@@ -620,7 +620,7 @@ def analysis_message_game_finish(sock, cmd):
             db.update_player_level_up_point(sock_name_map.get(room.sock2), room.score[1]/10)
         send(room.sock1, player2_result)
         send(room.sock2, player2_result)
-
+        log.log("Pass 9")
         "Send updated player info to player 1"
         info = db.get_user_info(str(sock_name_map.get(room.sock1)))
         send_cmd2 = Command(Command.CMD_PLAYER_INFO)
@@ -764,6 +764,7 @@ def remove_sock(sock):
 
 def send(sock, send_cmd):
     sock.sendall(send_cmd.get_bytes())
+    time.sleep(0.05)
     log.log(">>>>>>>Send to  "+str(sock_name_map.get(sock))+":"+send_cmd.get_log())
     pass
 
