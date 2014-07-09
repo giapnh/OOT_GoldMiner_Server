@@ -70,8 +70,16 @@ class DBManager:
             return None
 
     def get_list_friend_mutual(self, username=""):
-        c = self.db.cursor()
-        # c.execute("""SELECT * FROM user WHERE user.id =  """)
+        # c = self.db.cursor()
+        # u_id = 0
+        # c.execute("""select id from user where username = %s""", (username, ))
+        # if c.rowcount >= 1:
+        #     row = c.fetchone()
+        #     u_id = int(row[0])
+        #     pass
+        # c = self.db.cursor()
+        # c.execute("""SELECT user(*) FROM user, friendship WHERE user.id = friendship.user1_id and
+        # """, (username, ))
         pass
 
     def get_list_friend_sent_invite(self, username=""):
