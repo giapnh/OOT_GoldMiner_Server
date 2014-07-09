@@ -549,80 +549,81 @@ def analysis_message_player_drop_result(sock, cmd):
 def analysis_message_game_finish(sock, cmd):
     log.log("Pass1")
     room_id = cmd.get_int(Argument.ARG_ROOM_ID, 0)
-    room = room_list[room_id]
+    room_info = room_list[room_id]
     log.log("Pass2")
-    if None != room:
+    if None != room_info:
         log.log("Pass3")
         send_cmd = Command(Command.CMD_GAME_FINISH)
-        if room.score[0] > room.score[1]:
+        if room_info.score[0] > room_info.score[1]:
             send_cmd.add_int(Argument.ARG_CODE, 1)
-            send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room.sock1))
+            send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room_info.sock1))
             log.log("Pass4")
             pass
-        elif room.score[0] < room.score[1]:
+        elif room_info.score[0] < room_info.score[1]:
             send_cmd.add_int(Argument.ARG_CODE, 1)
-            send_cmd.add_int(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room.sock2))
+            send_cmd.add_int(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room_info.sock2))
             log.log("Pass5")
             pass
         else:
             send_cmd.add_int(Argument.ARG_CODE, 0)
             pass
         log.log("Pass6")
-        send(room.sock1, send_cmd)
-        send(room.sock2, send_cmd)
+        send(room_info.sock1, send_cmd)
+        log.log("Pass6.1")
+        send(room_info.sock2, send_cmd)
         log.log("Pass7")
 
         "Send match result"
         "Player 1"
         player1_result = Command(Command.CMD_PLAYER_GAME_RESULT)
-        player1_result.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room.sock1))
-        player1_result.add_int(Argument.ARG_SCORE, room.score[0])
-        if room.score[0] > room.score[1]:
+        player1_result.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room_info.sock1))
+        player1_result.add_int(Argument.ARG_SCORE, room_info.score[0])
+        if room_info.score[0] > room_info.score[1]:
             player1_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, 5)
-            player1_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room.score[0]/10)
-            db.update_player_cup(sock_name_map.get(room.sock1), 5)
-            db.update_player_level_up_point(sock_name_map.get(room.sock1), room.score[0]/10)
+            player1_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room_info.score[0]/10)
+            db.update_player_cup(sock_name_map.get(room_info.sock1), 5)
+            db.update_player_level_up_point(sock_name_map.get(room_info.sock1), room_info.score[0]/10)
             pass
-        elif room.score[0] < room.score[1]:
+        elif room_info.score[0] < room_info.score[1]:
             player1_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, -5)
-            player1_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room.score[0]/10)
-            db.update_player_cup(sock_name_map.get(room.sock1), -5)
-            db.update_player_level_up_point(sock_name_map.get(room.sock1), room.score[0]/10)
+            player1_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room_info.score[0]/10)
+            db.update_player_cup(sock_name_map.get(room_info.sock1), -5)
+            db.update_player_level_up_point(sock_name_map.get(room_info.sock1), room_info.score[0]/10)
             pass
         else:
             player1_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, 2)
-            player1_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room.score[0]/10)
-            db.update_player_cup(sock_name_map.get(room.sock1), 2)
-            db.update_player_level_up_point(sock_name_map.get(room.sock1), room.score[0]/10)
-        send(room.sock1, player1_result)
-        send(room.sock2, player1_result)
+            player1_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room_info.score[0]/10)
+            db.update_player_cup(sock_name_map.get(room_info.sock1), 2)
+            db.update_player_level_up_point(sock_name_map.get(room_info.sock1), room_info.score[0]/10)
+        send(room_info.sock1, player1_result)
+        send(room_info.sock2, player1_result)
         log.log("Pass 8")
         "Player 2"
         player2_result = Command(Command.CMD_PLAYER_GAME_RESULT)
-        player2_result.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room.sock2))
-        player2_result.add_int(Argument.ARG_SCORE, room.score[1])
-        if room.score[1] > room.score[0]:
+        player2_result.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room_info.sock2))
+        player2_result.add_int(Argument.ARG_SCORE, room_info.score[1])
+        if room_info.score[1] > room_info.score[0]:
             player2_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, 5)
-            player2_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room.score[1]/10)
-            db.update_player_cup(sock_name_map.get(room.sock2), 5)
-            db.update_player_level_up_point(sock_name_map.get(room.sock2), room.score[1]/10)
+            player2_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room_info.score[1]/10)
+            db.update_player_cup(sock_name_map.get(room_info.sock2), 5)
+            db.update_player_level_up_point(sock_name_map.get(room_info.sock2), room_info.score[1]/10)
             pass
-        elif room.score[1] < room.score[0]:
+        elif room_info.score[1] < room_info.score[0]:
             player2_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, -5)
-            player2_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room.score[1]/10)
-            db.update_player_cup(sock_name_map.get(room.sock2), -5)
-            db.update_player_level_up_point(sock_name_map.get(room.sock2), room.score[1]/10)
+            player2_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room_info.score[1]/10)
+            db.update_player_cup(sock_name_map.get(room_info.sock2), -5)
+            db.update_player_level_up_point(sock_name_map.get(room_info.sock2), room_info.score[1]/10)
             pass
         else:
             player2_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, 2)
-            player2_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room.score[1]/10)
-            db.update_player_cup(sock_name_map.get(room.sock2), 2)
-            db.update_player_level_up_point(sock_name_map.get(room.sock2), room.score[1]/10)
-        send(room.sock1, player2_result)
-        send(room.sock2, player2_result)
+            player2_result.add_int(Argument.ARG_PLAYER_BONUS_LEVELUP_POINT, room_info.score[1]/10)
+            db.update_player_cup(sock_name_map.get(room_info.sock2), 2)
+            db.update_player_level_up_point(sock_name_map.get(room_info.sock2), room_info.score[1]/10)
+        send(room_info.sock1, player2_result)
+        send(room_info.sock2, player2_result)
         log.log("Pass 9")
         "Send updated player info to player 1"
-        info = db.get_user_info(str(sock_name_map.get(room.sock1)))
+        info = db.get_user_info(str(sock_name_map.get(room_info.sock1)))
         send_cmd2 = Command(Command.CMD_PLAYER_INFO)
         send_cmd2.add_int(Argument.ARG_PLAYER_LEVEL, int(info["level"]))
         send_cmd2.add_int(Argument.ARG_PLAYER_LEVEL_UP_POINT, int(info["levelup_point"]))
@@ -631,9 +632,9 @@ def analysis_message_game_finish(sock, cmd):
         send_cmd2.add_int(Argument.ARG_PLAYER_SPEED_MOVE, 10)
         send_cmd2.add_int(Argument.ARG_PLAYER_SPEED_DROP, 10)
         send_cmd2.add_int(Argument.ARG_PLAYER_SPEED_DRAG, 10)
-        send(room.sock1, send_cmd2)
+        send(room_info.sock1, send_cmd2)
         "Send updated player info to player 2"
-        info2 = db.get_user_info(str(sock_name_map.get(room.sock2)))
+        info2 = db.get_user_info(str(sock_name_map.get(room_info.sock2)))
         send_cmd3 = Command(Command.CMD_PLAYER_INFO)
         send_cmd3.add_int(Argument.ARG_PLAYER_LEVEL, int(info2["level"]))
         send_cmd3.add_int(Argument.ARG_PLAYER_LEVEL_UP_POINT, int(info2["levelup_point"]))
@@ -642,7 +643,7 @@ def analysis_message_game_finish(sock, cmd):
         send_cmd3.add_int(Argument.ARG_PLAYER_SPEED_MOVE, 10)
         send_cmd3.add_int(Argument.ARG_PLAYER_SPEED_DROP, 10)
         send_cmd3.add_int(Argument.ARG_PLAYER_SPEED_DRAG, 10)
-        send(room.sock2, send_cmd3)
+        send(room_info.sock2, send_cmd3)
         # room_list.pop(room_id)
         log.log("Removed room. Current number of room is "+len(room_list))
     else:
