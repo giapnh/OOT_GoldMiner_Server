@@ -556,7 +556,6 @@ def analysis_message_game_finish(sock, cmd):
         log.log("" + str(sock_name_map.get(room_info.sock1)))
         log.log("" + str(sock_name_map.get(room_info.sock2)))
 
-
     if None != room_info:
         log.log("Pass3")
         finish_cmd = Command(Command.CMD_GAME_FINISH)
@@ -574,6 +573,7 @@ def analysis_message_game_finish(sock, cmd):
             finish_cmd.add_int(Argument.ARG_CODE, 0)
             log.log("SIDA vai")
             pass
+        log.log("Size = " + str(len(finish_cmd.get_bytes())))
         log.log("Pass6")
         send(room_info.sock1, finish_cmd)
         log.log("Pass6.1")
@@ -771,8 +771,10 @@ def remove_sock(sock):
 
 
 def send(socket, send_cmd):
-    log.log("Send roi ma:((")
-    socket.sendall(send_cmd.get_bytes())
+    try:
+        socket.sendall(send_cmd.get_bytes())
+    except Exception as inst:
+        print str(inst.message)
     log.log(">>>>>>>Send to  "+str(sock_name_map.get(socket))+":"+send_cmd.get_log())
     pass
 
