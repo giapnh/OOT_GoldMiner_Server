@@ -550,10 +550,9 @@ def analysis_message_game_finish(sock, cmd):
     log.log("Pass1")
     room_id = cmd.get_int(Argument.ARG_ROOM_ID, 0)
     log.log("Pass2")
-    for r in room_list:
-        if r.sock1 == sock or r.sock2 == sock:
-            log.log("Find!!!!!!!!!")
-            room_info = r
+    room_info = room_list[room_id]
+    if room_info.room_id == room_id:
+        log.log("NGON ROI NHE")
     if None != room_info:
         log.log("Pass3")
         send_cmd = Command(Command.CMD_GAME_FINISH)
