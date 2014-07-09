@@ -549,9 +549,10 @@ def analysis_message_player_drop_result(sock, cmd):
 def analysis_message_game_finish(sock, cmd):
     log.log("Pass1")
     room_id = cmd.get_int(Argument.ARG_ROOM_ID, 0)
-    room = room_list.get(room_id)
+    room = room_list[room_id]
     log.log("Pass2")
     if None != room:
+        log.log("Pass3")
         send_cmd = Command(Command.CMD_GAME_FINISH)
         if room.score[0] > room.score[1]:
             send_cmd.add_int(Argument.ARG_CODE, 1)
@@ -566,7 +567,7 @@ def analysis_message_game_finish(sock, cmd):
             pass
         send(room.sock1, send_cmd)
         send(room.sock2, send_cmd)
-        log.log("Pass3")
+        log.log("Pass4")
 
         "Send match result"
         "Player 1"
