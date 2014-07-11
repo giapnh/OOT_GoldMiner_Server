@@ -73,7 +73,7 @@ class Argument:
     ARG_OS_VERSION = 2
 
     ARG_TYPE = 9
-    ARG_COUNT = 10
+    ARG_COUNT = 8
 
     ARG_MESSAGE = 10
     ARG_PLAYER_USERNAME = 20

@@ -70,16 +70,18 @@ class DBManager:
             return None
 
     def get_list_friend_mutual(self, username=""):
-        # c = self.db.cursor()
-        # u_id = 0
-        # c.execute("""select id from user where username = %s""", (username, ))
-        # if c.rowcount >= 1:
-        #     row = c.fetchone()
-        #     u_id = int(row[0])
-        #     pass
-        # c = self.db.cursor()
-        # c.execute("""SELECT user(*) FROM user, friendship WHERE user.id = friendship.user1_id and
-        # """, (username, ))
+        c = self.db.cursor()
+        u_id = 0
+        c.execute("""select id from user where username = %s""", (username, ))
+        if c.rowcount >= 1:
+            row = c.fetchone()
+            u_id = int(row[0])
+            pass
+        c = self.db.cursor()
+        c.execute("""SELECT user(*) FROM user, friendship WHERE user.id = friendship.user1_id
+        and friendship.user2_id = %s
+        """, (username, ))
+        log.log("SIZE OF VALUE = "+c.rowcount)
         pass
 
     def get_list_friend_sent_invite(self, username=""):
@@ -124,13 +126,14 @@ class DBManager:
             c.execute("""SELECT id FROM user where username = %s""", (friend,))
             row2 = c.fetchone()
             to_id = int(row2[0])
-            #Add to pending_friendship
             c.execute("""INSERT INTO friendship(user1_id, user2_id)
             VALUES(%s, %s)""", (str(from_id), str(to_id)))
             self.db.commit()
             c.execute("""INSERT INTO friendship(user1_id, user2_id)
             VALUES(%s, %s)""", (str(to_id), str(from_id)))
             self.db.commit()
+            #remove from pending
+
             return True
 
     def un_friend(self, current_user="", friend=""):
@@ -151,10 +154,20 @@ class DBManager:
             return True
 
     def update_player_cup(self, username="", bonus=0):
-        c = self.db.cursor()
-        c.execute("""UPDATE user SET cup = cup + %s WHERE username = %s""", (bonus, username, ))
-        self.db.commit()
-        return True
+        info = self.get_user_info(username)
+        cup = int(info["cup"])
+        if cup + bonus > 0:
+            c = self.db.cursor()
+            c.execute("""UPDATE user SET cup = cup + %s WHERE username = %s""", (bonus, username, ))
+            self.db.commit()
+            return True
+            pass
+        else:
+            c = self.db.cursor()
+            c.execute("""UPDATE user SET cup = 0 WHERE username = %s""", (username, ))
+            self.db.commit()
+            return True
+            pass
 
     def update_player_level_up_point(self, username="", bonus=0):
         info = self.get_user_info(username)
