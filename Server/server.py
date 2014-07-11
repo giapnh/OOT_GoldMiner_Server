@@ -272,10 +272,14 @@ def analysis_message_list_friend(sock, cmd):
     @param cmd:
     @return:
     """
-
-    # TODO
-
-    # sock.sendall(cmd.get_bytes())
+    list_friend = db.get_list_friend_mutual(cmd.get_string(Argument.ARG_PLAYER_USERNAME))
+    for key in list_friend.keys():
+        friend_info = Command(Command.CMD_FRIEND_INFO)
+        friend_info.add_string(Argument.ARG_PLAYER_USERNAME, key)
+        friend_info.add_int(Argument.ARG_PLAYER_LEVEL, int(list_friend[key]["level"]))
+        friend_info.add_int(Argument.ARG_PLAYER_CUP, int(list_friend[key]["cup"]))
+        send(sock, friend_info)
+        pass
     pass
 
 

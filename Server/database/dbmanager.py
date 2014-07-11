@@ -60,6 +60,7 @@ class DBManager:
         c.execute("""SELECT username,user.level,levelup_point
          ,cup,speed_move,speed_drop,speed_drag,require_point FROM user,level_up_require WHERE username = %s
          AND user.level = level_up_require.level""", (username, ))
+        self.db.commit()
         if c.rowcount >= 1:
             row = c.fetchone()
             info = {"username": row[0], "level": row[1], "levelup_point": row[2], "cup": row[3],
@@ -81,8 +82,16 @@ class DBManager:
         c.execute("""SELECT user(username,level,cup,levelup_point,move_speed,drop_speed,drag_speed) FROM user, friendship WHERE user.id = friendship.user1_id
         and friendship.user2_id = %s
         """, (username, ))
+        self.db.commit()
+        list_friend = {}
         log.log("SIZE OF VALUE = "+c.rowcount)
-        pass
+        for row in c:
+            log.log("Fetch friend")
+            list_friend[row[0]] = {"level": row[1], "cup": row[2], "levelup_point": row[3], "move_speed": row[4],
+                                   "drop_speed": row[5], "drag_speed": row[6]}
+            print row
+            pass
+        return list_friend
 
     def get_list_friend_sent_invite(self, username=""):
         #TODO
@@ -134,7 +143,9 @@ class DBManager:
             VALUES(%s, %s)""", (str(to_id), str(from_id)))
             self.db.commit()
             #remove from pending
-
+            c.execute("""DELETE FROM pending_friendship WHERE friendship_from = %s and friendship_to = %s
+            or friendship_from = %s and friendship_to = %s""", (from_id, to_id, ))
+            self.db.commit()
             return True
 
     def un_friend(self, current_user="", friend=""):
