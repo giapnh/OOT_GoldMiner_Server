@@ -78,7 +78,7 @@ class DBManager:
             u_id = int(row[0])
             pass
         c = self.db.cursor()
-        c.execute("""SELECT user(*) FROM user, friendship WHERE user.id = friendship.user1_id
+        c.execute("""SELECT user(username,level,cup,levelup_point,move_speed,drop_speed,drag_speed) FROM user, friendship WHERE user.id = friendship.user1_id
         and friendship.user2_id = %s
         """, (username, ))
         log.log("SIZE OF VALUE = "+c.rowcount)
@@ -92,7 +92,7 @@ class DBManager:
         #TODO
         pass
 
-    def invite_friend(self, current_user="", friend=""):
+    def add_friend(self, current_user="", friend=""):
         c = self.db.cursor()
         if not self.check_user_exits(current_user) or not self.check_user_exits(friend):
             return False
@@ -111,6 +111,7 @@ class DBManager:
                 c.execute("""INSERT INTO pending_friendship(friendship_from, friendship_to)
                 VALUES(%s, %s)""", (str(from_id), str(to_id)))
                 self.db.commit()
+                log.log("Insert into pending list..........")
                 return True
             else:
                 return False
