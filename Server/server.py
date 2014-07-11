@@ -302,7 +302,8 @@ def analysis_message_add_friend(sock, cmd):
         send_cmd = Command(Command.CMD_ADD_FRIEND)
         send_cmd.add_byte(Argument.ARG_CODE, 0)
         send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(sock)))
-        send_cmd.add_string(Argument.ARG_MESSAGE, "Send invite friend failure! Please try again!")
+        send_cmd.add_string(Argument.ARG_MESSAGE, "Send friend invitation failure or became "
+                                                  "friend before you send invitation! Please try again!")
         send(sock, send_cmd)
         pass
 
