@@ -195,6 +195,7 @@ def analysis_message_login(sock, cmd):
             send_cmd.add_int(Argument.ARG_PLAYER_SPEED_DROP, int(info["speed_drop"]))
             send_cmd.add_int(Argument.ARG_PLAYER_SPEED_DRAG, int(info["speed_drag"]))
             send(sock, send_cmd)
+            remove_sock(old_sock)
             pass
         else:
             """Add player to list"""
