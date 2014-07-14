@@ -272,7 +272,9 @@ def analysis_message_list_friend(sock, cmd):
     @param cmd:
     @return:
     """
-    list_friend = db.get_list_friend_mutual(cmd.get_string(Argument.ARG_PLAYER_USERNAME))
+    limit = cmd.get_int(Argument.ARG_LIMIT,  0)
+    offset = cmd.get_int(Argument.ARG_OFFSET, 0)
+    list_friend = db.get_list_friend_mutual(cmd.get_string(Argument.ARG_PLAYER_USERNAME), limit, offset)
     for key in list_friend.keys():
         friend_info = Command(Command.CMD_FRIEND_INFO)
         friend_info.add_string(Argument.ARG_PLAYER_USERNAME, key)
@@ -317,7 +319,6 @@ def analysis_message_accept_friend(sock, cmd):
     if code == 0:
         "denied"
         # update database
-
         send_cmd = Command(Command.CMD_ACCEPT_FRIEND)
         send_cmd.add_byte(Argument.ARG_CODE, 0)
         send_cmd.add_string(Argument.ARG_MESSAGE, "Denied friend request successful")

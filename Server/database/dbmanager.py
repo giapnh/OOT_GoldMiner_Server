@@ -70,7 +70,7 @@ class DBManager:
         else:
             return None
 
-    def get_list_friend_mutual(self, username=""):
+    def get_list_friend_mutual(self, username="", limit=0, offset=0):
         c = self.db.cursor()
         u_id = 0
         c.execute("""select id from user where username = %s""", (username, ))
@@ -79,9 +79,10 @@ class DBManager:
             u_id = int(row[0])
             pass
         c = self.db.cursor()
-        c.execute("""SELECT user(username,level,cup,levelup_point,move_speed,drop_speed,drag_speed) FROM user, friendship WHERE user.id = friendship.user1_id
-        and friendship.user2_id = %s
-        """, (username, ))
+        c.execute("""SELECT user(username,level,cup,levelup_point,move_speed,drop_speed,drag_speed)
+        FROM user, friendship WHERE user.id = friendship.user1_id
+        and friendship.user2_id = %s LIMIT %s OFFSET %s
+        """, (u_id, limit, offset))
         self.db.commit()
         list_friend = {}
         log.log("SIZE OF VALUE = "+c.rowcount)
@@ -185,7 +186,6 @@ class DBManager:
         info = self.get_user_info(username)
         level = int(info["level"])
         level_up_point = int(info["levelup_point"])
-        level_up_point_require = 0
         c = self.db.cursor()
         c.execute("""SELECT require_point FROM level_up_require WHERE level = %s""", (level, ))
         if c.rowcount > 0:
