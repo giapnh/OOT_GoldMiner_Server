@@ -360,7 +360,7 @@ def analysis_message_remove_friend(sock, cmd):
         send_cmd.add_string(Argument.ARG_MESSAGE, "Remove friend successful!")
         send(sock, send_cmd)
         send_cmd = Command(Command.CMD_REMOVE_FRIEND)
-        send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(sock))
+        send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(sock)))
         send_cmd.add_int(Argument.ARG_CODE, 2)
         send_cmd.add_string(Argument.ARG_MESSAGE, "You are removed friendship with " + str(sock_name_map.get(sock)) +
                             " !")
