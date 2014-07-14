@@ -209,9 +209,9 @@ class DBManager:
                 c.execute("""SELECT id FROM user where username = %s""", (friend,))
                 row2 = c.fetchone()
                 to_id = int(row2[0])
-                c.execute("""DELETE FROM friendship WHERE user1_id = %s""", (from_id,))
+                c.execute("""DELETE FROM friendship WHERE userid_1 = %s and userid_2 = %s""", (from_id, to_id,))
                 self.db.commit()
-                c.execute("""DELETE FROM friendship WHERE user1_id = %s""", (to_id,))
+                c.execute("""DELETE FROM friendship WHERE userid_2 = %s and userid_1 = %s""", (from_id, to_id,))
                 self.db.commit()
                 return True
             pass

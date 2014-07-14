@@ -373,14 +373,14 @@ def analysis_message_cancel_request(sock, cmd):
         send_cmd = Command(Command.CMD_CANCEL_REQUEST)
         send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, cmd.get_string(Argument.ARG_PLAYER_USERNAME))
         send_cmd.add_int(Argument.ARG_CODE, 1)
-        send_cmd.add_string(Argument.ARG_MESSAGE, "FUCK LINH success!!!")
+        send_cmd.add_string(Argument.ARG_MESSAGE, "Cancel request successful!!!")
         send(sock, send_cmd)
         pass
     else:
         send_cmd = Command(Command.CMD_CANCEL_REQUEST)
         send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, cmd.get_string(Argument.ARG_PLAYER_USERNAME))
         send_cmd.add_int(Argument.ARG_CODE, 0)
-        send_cmd.add_string(Argument.ARG_MESSAGE, "FUCK LINH failure!!!")
+        send_cmd.add_string(Argument.ARG_MESSAGE, "Cancel request failure!!!")
         send(sock, send_cmd)
     pass
 
