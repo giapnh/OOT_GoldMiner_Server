@@ -301,7 +301,7 @@ def analysis_message_add_friend(sock, cmd):
     """
     if db.add_friend(sock_name_map.get(sock), cmd.get_string(Argument.ARG_PLAYER_USERNAME)):
         send_cmd = Command(Command.CMD_ADD_FRIEND)
-        send_cmd.add_byte(Argument.ARG_CODE, 1)
+        send_cmd.add_int(Argument.ARG_CODE, 1)
         send_cmd.add_string(Argument.ARG_MESSAGE, "Send friend request successful!")
         send(sock, send_cmd)
         if check_player_online(cmd.get_string(Argument.ARG_PLAYER_USERNAME)):
@@ -313,7 +313,7 @@ def analysis_message_add_friend(sock, cmd):
             pass
     else:
         send_cmd = Command(Command.CMD_ADD_FRIEND)
-        send_cmd.add_byte(Argument.ARG_CODE, 0)
+        send_cmd.add_int(Argument.ARG_CODE, 0)
         send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(sock)))
         send_cmd.add_string(Argument.ARG_MESSAGE, "Send friend invitation failure or became "
                                                   "friend before you send invitation! Please try again!")
