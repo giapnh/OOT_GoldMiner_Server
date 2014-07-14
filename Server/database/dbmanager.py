@@ -70,8 +70,20 @@ class DBManager:
         else:
             return None
 
-    def get_friend_info(self, username=""):
-
+    def get_friend_info(self, your_name="", friend_name=""):
+        c = self.db.cursor()
+        c.execute("""SELECT username,user.level,levelup_point
+         ,cup,speed_move,speed_drop,speed_drag,require_point FROM user,level_up_require WHERE username = %s
+         AND user.level = level_up_require.level""", (your_name, ))
+        self.db.commit()
+        if c.rowcount >= 1:
+            row = c.fetchone()
+            info = {"username": row[0], "level": row[1], "levelup_point": row[2], "cup": row[3],
+                    "speed_move": row[4], "speed_drop": row[5], "speed_drag": row[6], "require_point": row[7]
+                    }
+            return info
+        else:
+            return None
         pass
 
     def get_list_friend_mutual(self, username="", limit=0, offset=0):
