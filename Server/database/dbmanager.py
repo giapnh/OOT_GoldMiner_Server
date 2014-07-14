@@ -85,11 +85,11 @@ class DBManager:
                       (str(userid_1), str(userid_2), ))
             if c.rowcount > 0:
                 return 1
-            c.execute("""SELECT * FROM pending_friendship WHERE friendship_from = % and friendship_to = %s
+            c.execute("""SELECT * FROM pending_friendship WHERE friendship_from = %s and friendship_to = %s
             """, (str(userid_1), str(userid_2), ))
             if c.rowcount > 0:
                 return 2
-            c.execute("""SELECT * FROM pending_friendship WHERE friendship_from = % and friendship_to = %s
+            c.execute("""SELECT * FROM pending_friendship WHERE friendship_from = %s and friendship_to = %s
             """, (str(userid_2), str(userid_1), ))
             if c.rowcount > 0:
                 return 3
