@@ -867,9 +867,10 @@ def remove_sock(sock):
 def send(socket, send_cmd):
     try:
         socket.sendall(send_cmd.get_bytes())
+        log.log(">>>>>>>Send to  " + str(sock_name_map.get(socket)) + ":" + send_cmd.get_log())
     except Exception as inst:
-        print str(inst.message)
-    log.log(">>>>>>>Send to  " + str(sock_name_map.get(socket)) + ":" + send_cmd.get_log())
+        pass
+        # print str(inst.message)
     pass
 
 
