@@ -198,21 +198,26 @@ class DBManager:
         pass
 
     def un_friend(self, current_user="", friend=""):
-        c = self.db.cursor()
-        if not self.check_user_exits(current_user) or not self.check_user_exits(friend):
+        try:
+            c = self.db.cursor()
+            if not self.check_user_exits(current_user) or not self.check_user_exits(friend):
+                return False
+            else:
+                c.execute("""SELECT id FROM user where username = %s""", (current_user, ))
+                row = c.fetchone()
+                from_id = int(row[0])
+                c.execute("""SELECT id FROM user where username = %s""", (friend,))
+                row2 = c.fetchone()
+                to_id = int(row2[0])
+                c.execute("""DELETE FROM friendship WHERE user1_id = %s""", (from_id,))
+                self.db.commit()
+                c.execute("""DELETE FROM friendship WHERE user1_id = %s""", (to_id,))
+                self.db.commit()
+                return True
+            pass
+        except Exception:
             return False
-        else:
-            c.execute("""SELECT id FROM user where username = %s""", (current_user, ))
-            row = c.fetchone()
-            from_id = int(row[0])
-            c.execute("""SELECT id FROM user where username = %s""", (friend,))
-            row2 = c.fetchone()
-            to_id = int(row2[0])
-            c.execute("""DELETE FROM friendship WHERE user1_id = %s""", (from_id,))
-            self.db.commit()
-            c.execute("""DELETE FROM friendship WHERE user1_id = %s""", (to_id,))
-            self.db.commit()
-            return True
+            pass
 
     def cancel_request(self, current_user="", friend=""):
         try:

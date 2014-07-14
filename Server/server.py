@@ -354,9 +354,16 @@ def analysis_message_accept_friend(sock, cmd):
 
 
 def analysis_message_remove_friend(sock, cmd):
-    if db.un_friend(cmd.get_string(Argument.ARG_PLAYER_USERNAME), cmd.get_string(Argument.ARG_PLAYER_USERNAME)):
+    if db.un_friend(sock_name_map.get(sock), cmd.get_string(Argument.ARG_PLAYER_USERNAME)):
         send_cmd = Command(Command.CMD_REMOVE_FRIEND)
         send_cmd.add_int(Argument.ARG_CODE, 1)
+        send_cmd.add_string(Argument.ARG_MESSAGE, "Remove friend successful!")
+        send(sock, send_cmd)
+        pass
+    else:
+        send_cmd = Command(Command.CMD_REMOVE_FRIEND)
+        send_cmd.add_int(Argument.ARG_CODE, 0)
+        send_cmd.add_string(Argument.ARG_MESSAGE, "Remove friend failure!")
         send(sock, send_cmd)
     pass
 
