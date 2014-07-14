@@ -338,7 +338,7 @@ def analysis_message_accept_friend(sock, cmd):
                 send_cmd = Command(Command.CMD_ACCEPT_FRIEND)
                 send_cmd.add_byte(Argument.ARG_CODE, 1)
                 send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(sock))
-                send(name_sock_map(cmd.get_string(Argument.ARG_PLAYER_USERNAME)), send_cmd)
+                send(name_sock_map.get(cmd.get_string(Argument.ARG_PLAYER_USERNAME)), send_cmd)
                 pass
     pass
 
