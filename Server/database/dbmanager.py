@@ -139,6 +139,10 @@ class DBManager:
             c.execute("""SELECT id FROM user where username = %s""", (friend,))
             row2 = c.fetchone()
             to_id = int(row2[0])
+            c.execute("""SELECT * FROM friendship WHERE userid_1 = %s and userid_2 = %s""",
+                      (str(from_id), str(to_id), ))
+            if c.rowcount > 0:
+                return False
             c.execute("""SELECT friendship_from, friendship_to FROM pending_friendship
             where friendship_from = %s and friendship_to = %s""",
                       (str(from_id), str(to_id), ))
