@@ -153,6 +153,24 @@ class DBManager:
             self.db.commit()
             return True
 
+    def denied_friend(self, current_user="", friend=""):
+        c = self.db.cursor()
+        if not self.check_user_exits(current_user) or not self.check_user_exits(friend):
+            return False
+        else:
+            c.execute("""SELECT id FROM user where username = %s""", (current_user, ))
+            row = c.fetchone()
+            from_id = int(row[0])
+            c.execute("""SELECT id FROM user where username = %s""", (friend,))
+            row2 = c.fetchone()
+            to_id = int(row2[0])
+            #remove from pending
+            c.execute("""DELETE FROM pending_friendship WHERE friendship_from = %s and friendship_to = %s
+            or friendship_from = %s and friendship_to = %s""", (from_id, to_id, to_id, from_id, ))
+            self.db.commit()
+            return True
+        pass
+
     def un_friend(self, current_user="", friend=""):
         c = self.db.cursor()
         if not self.check_user_exits(current_user) or not self.check_user_exits(friend):

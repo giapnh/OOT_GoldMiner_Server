@@ -319,6 +319,7 @@ def analysis_message_accept_friend(sock, cmd):
     if code == 0:
         "denied"
         # update database
+        db.denied_friend(sock_name_map.get(sock), cmd.get_string(Argument.ARG_PLAYER_USERNAME))
         send_cmd = Command(Command.CMD_ACCEPT_FRIEND)
         send_cmd.add_byte(Argument.ARG_CODE, 0)
         send_cmd.add_string(Argument.ARG_MESSAGE, "Denied friend request successful")
