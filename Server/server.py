@@ -344,7 +344,7 @@ def analysis_message_accept_friend(sock, cmd):
             # If other user is online, send message
             if check_player_online(cmd.get_string(Argument.ARG_PLAYER_USERNAME)):
                 send_cmd = Command(Command.CMD_ACCEPT_FRIEND)
-                send_cmd.add_byte(Argument.ARG_CODE, 1)
+                send_cmd.add_byte(Argument.ARG_CODE, 2)
                 send_cmd.add_string(Argument.ARG_MESSAGE, "You and " + str(sock_name_map.get(sock))
                                     + " became friend!")
                 send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(sock)))
