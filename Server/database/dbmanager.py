@@ -145,7 +145,7 @@ class DBManager:
             self.db.commit()
             #remove from pending
             c.execute("""DELETE FROM pending_friendship WHERE friendship_from = %s and friendship_to = %s
-            or friendship_from = %s and friendship_to = %s""", (from_id, to_id, ))
+            or friendship_from = %s and friendship_to = %s""", (from_id, to_id, to_id, from_id))
             self.db.commit()
             return True
 
