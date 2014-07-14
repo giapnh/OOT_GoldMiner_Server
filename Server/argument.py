@@ -73,6 +73,7 @@ class Argument:
     ARG_OS_VERSION = 2
     ARG_LIMIT = 3
     ARG_OFFSET = 4
+    ARG_AMOUNT = 5
 
     ARG_TYPE = 9
     ARG_COUNT = 8

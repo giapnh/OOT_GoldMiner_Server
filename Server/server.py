@@ -123,6 +123,9 @@ def analysis_message(sock, cmd):
     elif cmd.code == Command.CMD_REMOVE_FRIEND:
         analysis_message_remove_friend(sock, cmd)
         pass
+    elif cmd.code == Command.CMD_UPGRADE:
+        analysis_message_upgrade(sock, cmd)
+        pass
         """Game Action"""
     elif cmd.code == Command.CMD_GAME_MATCHING:
         analysis_message_game_join(sock, cmd)
@@ -357,6 +360,17 @@ def analysis_message_remove_friend(sock, cmd):
 
 def analysis_message_invite_friend(sock, cmd):
     pass
+
+
+def analysis_message_upgrade(sock, cmd):
+    kind = cmd.get_int(Argument.ARG_TYPE, 0)
+    amount = cmd.get_int(Argument.ARG_AMOUNT, 0)
+    if type == 0:
+        return
+    if amount <= 0:
+        return
+    db.upgrade(sock_name_map.get(sock), kind, amount)
+    return
 
 
 """====================GAME MESSAGE================"""

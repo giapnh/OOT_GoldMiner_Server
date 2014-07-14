@@ -255,6 +255,38 @@ class DBManager:
                    (level, level_up_point, username,))
         self.db.commit()
         return True
+
+    """
+    Upgrade
+    """
+    def upgrade(self, username="", kind=0, amount=0):
+        c = self.db.cursor()
+        if not self.check_user_exits(username):
+            return
+        c.execute("""SELECT upgrade_avai FROM user WHERE username = %s""", (username,))
+        if c.rowcount > 0:
+            row = c.fetchone()
+            upgrade_avai = int(row[0])
+            if upgrade_avai == 0:
+                return
+            else:
+                if kind == 1:
+                    c.execute("""UPDATE user SET speed_move = speed_move + %s, upgrade_avai = upgrade_avai - %s
+                    WHERE username = %s""", (amount, amount, username, ))
+                    self.db.commit()
+                    pass
+                elif kind == 2:
+                    c.execute("""UPDATE user SET speed_drop = speed_drop + %s, upgrade_avai = upgrade_avai - %s
+                    WHERE username = %s""", (amount, amount, username, ))
+                    self.db.commit()
+                    pass
+                elif kind == 3:
+                    c.execute("""UPDATE user SET speed_drag = speed_drag + %s, upgrade_avai = upgrade_avai - %s
+                    WHERE username = %s""", (amount, amount, username, ))
+                    self.db.commit()
+                    pass
+            pass
+        pass
     """
     Close connection to mysql
     """
