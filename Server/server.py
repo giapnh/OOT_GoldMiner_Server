@@ -114,6 +114,9 @@ def analysis_message(sock, cmd):
     elif cmd.code == Command.CMD_LIST_FRIEND:
         analysis_message_list_friend(sock, cmd)
         pass
+    elif cmd.code == Command.CMD_FRIEND_INFO:
+        analysis_message_friend_info(sock, cmd)
+        pass
     elif cmd.code == Command.CMD_ADD_FRIEND:
         analysis_message_add_friend(sock, cmd)
         pass
@@ -291,6 +294,24 @@ def analysis_message_list_friend(sock, cmd):
         pass
     pass
 
+
+def analysis_message_friend_info(sock, cmd):
+    info = db.get_user_info(cmd.get_string(Argument.ARG_PLAYER_USERNAME))
+    if None != info:
+        friend_info = Command(Command.CMD_FRIEND_INFO)
+        friend_info.add_string(Argument.ARG_PLAYER_USERNAME, str(info["username"]))
+        friend_info.add_int(Argument.ARG_PLAYER_LEVEL, int(info["level"]))
+        friend_info.add_int(Argument.ARG_PLAYER_LEVEL_UP_POINT, int(info["levelup_point"]))
+        friend_info.add_int(Argument.ARG_PLAYER_CUP, int(info["cup"]))
+        friend_info.add_int(Argument.ARG_PLAYER_LEVEL_UP_REQUIRE, int(info["require_point"]))
+        friend_info.add_int(Argument.ARG_PLAYER_SPEED_MOVE, int(info["speed_move"]))
+        friend_info.add_int(Argument.ARG_PLAYER_SPEED_DRAG, int(info["speed_drag"]))
+        friend_info.add_int(Argument.ARG_PLAYER_SPEED_DROP, int(info["speed_drop"]))
+        friend_info.add_int(Argument.ARG_FRIEND_TYPE,
+                           db.get_friend_type(sock_name_map.get(sock),cmd.get_string(Argument.ARG_PLAYER_USERNAME)))
+        send(sock, friend_info)
+        pass
+    pass
 
 def analysis_message_add_friend(sock, cmd):
     """
