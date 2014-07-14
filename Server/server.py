@@ -290,7 +290,7 @@ def analysis_message_add_friend(sock, cmd):
     @param cmd:
     @return:
     """
-    if db.add_friend(cmd.get_string(Argument.ARG_PLAYER_USERNAME), cmd.get_string(Argument.ARG_PLAYER_USERNAME)):
+    if db.add_friend(sock_name_map.get(sock), cmd.get_string(Argument.ARG_PLAYER_USERNAME)):
         send_cmd = Command(Command.CMD_ADD_FRIEND)
         send_cmd.add_byte(Argument.ARG_CODE, 1)
         send_cmd.add_string(Argument.ARG_MESSAGE, "Send invite friend successful!")
