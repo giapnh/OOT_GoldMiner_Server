@@ -295,7 +295,7 @@ def analysis_message_add_friend(sock, cmd):
     if db.add_friend(sock_name_map.get(sock), cmd.get_string(Argument.ARG_PLAYER_USERNAME)):
         send_cmd = Command(Command.CMD_ADD_FRIEND)
         send_cmd.add_byte(Argument.ARG_CODE, 1)
-        send_cmd.add_string(Argument.ARG_MESSAGE, "Send invite friend successful!")
+        send_cmd.add_string(Argument.ARG_MESSAGE, "Send friend request successful!")
         send(sock, send_cmd)
         if check_player_online(cmd.get_string(Argument.ARG_PLAYER_USERNAME)):
             send_cmd = Command(Command.CMD_ADD_FRIEND)
@@ -425,8 +425,8 @@ def analysis_message_game_ready(sock, cmd):
             "Generate map"
             map_cmd = Command(Command.CMD_MAP_INFO)
             map_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map[room.sock1])
-            # map_cmd.add_string(Argument.ARG_PLAYER_USERNAME, "linhnv")
             map_id = random.randint(1, 2)
+            #TODO
             map_cmd.add_int(Argument.ARG_MAP_ID, map_id)
             send(room.sock1, map_cmd)
             send(room.sock2, map_cmd)
