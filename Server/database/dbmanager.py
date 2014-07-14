@@ -137,15 +137,15 @@ class DBManager:
             c.execute("""SELECT id FROM user where username = %s""", (friend,))
             row2 = c.fetchone()
             to_id = int(row2[0])
-            c.execute("""INSERT INTO friendship(user1_id, user2_id)
+            c.execute("""INSERT INTO friendship(userid_1, userid_2)
             VALUES(%s, %s)""", (str(from_id), str(to_id)))
             self.db.commit()
-            c.execute("""INSERT INTO friendship(user1_id, user2_id)
-            VALUES(%s, %s)""", (str(to_id), str(from_id)))
+            c.execute("""INSERT INTO friendship(userid_1, userid_2)
+            VALUES(%s, %s)""", (str(to_id), str(from_id), ))
             self.db.commit()
             #remove from pending
             c.execute("""DELETE FROM pending_friendship WHERE friendship_from = %s and friendship_to = %s
-            or friendship_from = %s and friendship_to = %s""", (from_id, to_id, to_id, from_id))
+            or friendship_from = %s and friendship_to = %s""", (from_id, to_id, to_id, from_id, ))
             self.db.commit()
             return True
 
