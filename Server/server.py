@@ -349,7 +349,7 @@ def analysis_message_accept_friend(sock, cmd):
         # update database
         db.denied_friend(sock_name_map.get(sock), cmd.get_string(Argument.ARG_PLAYER_USERNAME))
         send_cmd = Command(Command.CMD_ACCEPT_FRIEND)
-        send_cmd.add_byte(Argument.ARG_CODE, 0)
+        send_cmd.add_int(Argument.ARG_CODE, 0)
         send_cmd.add_string(Argument.ARG_MESSAGE, "Denied friend request successful")
         send(sock, send_cmd)
     else:
@@ -358,14 +358,14 @@ def analysis_message_accept_friend(sock, cmd):
         if db.accept_friend(sock_name_map.get(sock), cmd.get_string(Argument.ARG_PLAYER_USERNAME)):
             # send message to user
             send_cmd = Command(Command.CMD_ACCEPT_FRIEND)
-            send_cmd.add_byte(Argument.ARG_CODE, 1)
+            send_cmd.add_int(Argument.ARG_CODE, 1)
             send_cmd.add_string(Argument.ARG_MESSAGE, "You and " + str(cmd.get_string(Argument.ARG_PLAYER_USERNAME))
                                 + " became friend!")
             send(sock, send_cmd)
             # If other user is online, send message
             if check_player_online(cmd.get_string(Argument.ARG_PLAYER_USERNAME)):
                 send_cmd = Command(Command.CMD_ACCEPT_FRIEND)
-                send_cmd.add_byte(Argument.ARG_CODE, 2)
+                send_cmd.add_int(Argument.ARG_CODE, 2)
                 send_cmd.add_string(Argument.ARG_MESSAGE, "You and " + str(sock_name_map.get(sock))
                                     + " became friend!")
                 send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(sock)))
