@@ -330,7 +330,7 @@ def analysis_message_add_friend(sock, cmd):
             send_cmd.add_int(Argument.ARG_CODE, 2)
             send_cmd.add_string(Argument.ARG_MESSAGE, "You have a friend request from " + str(sock_name_map.get(sock)))
             send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(sock)))
-            send(name_sock_map.get(cmd.get_string(Argument.ARG_PLAYER_USERNAME)), send_cmd)
+            send(name_sock_map[cmd.get_string(Argument.ARG_PLAYER_USERNAME)], send_cmd)
             pass
     else:
         send_cmd = Command(Command.CMD_ADD_FRIEND)
@@ -369,7 +369,7 @@ def analysis_message_accept_friend(sock, cmd):
                 send_cmd.add_string(Argument.ARG_MESSAGE, "You and " + str(sock_name_map.get(sock))
                                     + " became friend!")
                 send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(sock)))
-                send(name_sock_map.get(cmd.get_string(Argument.ARG_PLAYER_USERNAME)), send_cmd)
+                send(name_sock_map[cmd.get_string(Argument.ARG_PLAYER_USERNAME)], send_cmd)
                 pass
     pass
 
@@ -385,7 +385,7 @@ def analysis_message_remove_friend(sock, cmd):
         send_cmd.add_int(Argument.ARG_CODE, 2)
         send_cmd.add_string(Argument.ARG_MESSAGE, "You are removed friendship with " + str(sock_name_map.get(sock)) +
                             " !")
-        send(name_sock_map.get(cmd.get_string(Argument.ARG_PLAYER_USERNAME)), send_cmd)
+        send(name_sock_map[cmd.get_string(Argument.ARG_PLAYER_USERNAME)], send_cmd)
         pass
     else:
         send_cmd = Command(Command.CMD_REMOVE_FRIEND)
