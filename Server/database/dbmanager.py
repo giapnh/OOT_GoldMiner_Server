@@ -70,6 +70,10 @@ class DBManager:
         else:
             return None
 
+    def get_friend_info(self, username=""):
+
+        pass
+
     def get_list_friend_mutual(self, username="", limit=0, offset=0):
         c = self.db.cursor()
         u_id = 0
@@ -115,11 +119,11 @@ class DBManager:
             to_id = int(row2[0])
             c.execute("""SELECT friendship_from, friendship_to FROM pending_friendship
             where friendship_from = %s and friendship_to = %s""",
-                      (str(from_id), str(to_id)))
+                      (str(from_id), str(to_id), ))
             if c.rowcount == 0:
                 #Add to pending_friendship
                 c.execute("""INSERT INTO pending_friendship(friendship_from, friendship_to)
-                VALUES(%s, %s)""", (str(from_id), str(to_id)))
+                VALUES(%s, %s)""", (str(from_id), str(to_id), ))
                 self.db.commit()
                 log.log("Insert into pending list..........")
                 return True
@@ -138,7 +142,7 @@ class DBManager:
             row2 = c.fetchone()
             to_id = int(row2[0])
             c.execute("""INSERT INTO friendship(userid_1, userid_2)
-            VALUES(%s, %s)""", (str(from_id), str(to_id)))
+            VALUES(%s, %s)""", (str(from_id), str(to_id), ))
             self.db.commit()
             c.execute("""INSERT INTO friendship(userid_1, userid_2)
             VALUES(%s, %s)""", (str(to_id), str(from_id), ))
