@@ -280,6 +280,7 @@ def analysis_message_list_friend(sock, cmd):
         friend_info.add_string(Argument.ARG_PLAYER_USERNAME, key)
         friend_info.add_int(Argument.ARG_PLAYER_LEVEL, int(list_friend[key]["level"]))
         friend_info.add_int(Argument.ARG_PLAYER_CUP, int(list_friend[key]["cup"]))
+        #TODO
         send(sock, friend_info)
         pass
     pass
@@ -723,6 +724,9 @@ def thread_game_matching(sleep_time=0):
             user2_info.add_int(Argument.ARG_PLAYER_SPEED_MOVE, int(info["speed_move"]))
             user2_info.add_int(Argument.ARG_PLAYER_SPEED_DRAG, int(info["speed_drag"]))
             user2_info.add_int(Argument.ARG_PLAYER_SPEED_DROP, int(info["speed_drop"]))
+            user2_info.add_int(Argument.ARG_FRIEND_TYPE,
+                               db.get_friend_type(sock_name_map.get(waiting_list[len(waiting_list) - 1]),
+                                                  sock_name_map.get(waiting_list[len(waiting_list) - 2])))
             send(waiting_list[len(waiting_list) - 1], user2_info)
 
             "Send message join room to user2"
@@ -747,6 +751,9 @@ def thread_game_matching(sleep_time=0):
             user1_info.add_int(Argument.ARG_PLAYER_SPEED_MOVE, int(info["speed_move"]))
             user1_info.add_int(Argument.ARG_PLAYER_SPEED_DRAG, int(info["speed_drag"]))
             user1_info.add_int(Argument.ARG_PLAYER_SPEED_DROP, int(info["speed_drop"]))
+            user1_info.add_int(Argument.ARG_FRIEND_TYPE,
+                               db.get_friend_type(sock_name_map.get(waiting_list[len(waiting_list) - 2]),
+                                                  sock_name_map.get(waiting_list[len(waiting_list) - 1])))
             send(waiting_list[len(waiting_list) - 2], user1_info)
             "Add to room_list"
             room_list[room_id] = RoomInfo(room_id, waiting_list[len(waiting_list) - 1],

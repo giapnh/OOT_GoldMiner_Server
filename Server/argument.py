@@ -90,6 +90,8 @@ class Argument:
     ARG_PLAYER_SPEED_DROP = 31
     ARG_PLAYER_SPEED_DRAG = 32
 
+    ARG_FRIEND_TYPE = 40
+
     ARG_ROOM_ID = 100
     ARG_CUP_WIN = 101
     ARG_CUP_LOST = 102
