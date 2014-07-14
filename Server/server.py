@@ -57,7 +57,7 @@ def read(sock, data):
             arg_type = int(unpack("B", data[read_count:read_count + 1])[0])
             read_count += 1
             if arg_type == Argument.STRING:
-                #string len
+                # string len
                 str_len = int(unpack("<I", data[read_count:read_count + 4])[0])
                 read_count += 4
                 str_val = str(unpack(str(str_len) + "s", data[read_count:read_count + str_len])[0])
@@ -182,7 +182,7 @@ def analysis_message_login(sock, cmd):
             disconnect_cmd.add_int(Argument.ARG_CODE, 1)
             disconnect_cmd.add_string(Argument.ARG_MESSAGE, Message.MSG_DISCONNECT)
             send(old_sock, disconnect_cmd)
-            #Send message login success to new client
+            # Send message login success to new client
             """Add player to list"""
             name_sock_map[cmd.get_string(Argument.ARG_PLAYER_USERNAME)] = sock
             sock_name_map[sock] = cmd.get_string(Argument.ARG_PLAYER_USERNAME)
@@ -278,7 +278,7 @@ def analysis_message_list_friend(sock, cmd):
     @param cmd:
     @return:
     """
-    limit = cmd.get_int(Argument.ARG_LIMIT,  0)
+    limit = cmd.get_int(Argument.ARG_LIMIT, 0)
     offset = cmd.get_int(Argument.ARG_OFFSET, 0)
     list_friend = db.get_list_friend_mutual(cmd.get_string(Argument.ARG_PLAYER_USERNAME), limit, offset)
     for key in list_friend.keys():
@@ -286,7 +286,7 @@ def analysis_message_list_friend(sock, cmd):
         friend_info.add_string(Argument.ARG_PLAYER_USERNAME, key)
         friend_info.add_int(Argument.ARG_PLAYER_LEVEL, int(list_friend[key]["level"]))
         friend_info.add_int(Argument.ARG_PLAYER_CUP, int(list_friend[key]["cup"]))
-        #TODO
+        # TODO
         send(sock, friend_info)
         pass
     pass
@@ -335,7 +335,7 @@ def analysis_message_accept_friend(sock, cmd):
         "accept"
         # update database
         if db.accept_friend(sock_name_map.get(sock), cmd.get_string(Argument.ARG_PLAYER_USERNAME)):
-            #send message to user
+            # send message to user
             send_cmd = Command(Command.CMD_ACCEPT_FRIEND)
             send_cmd.add_byte(Argument.ARG_CODE, 1)
             send_cmd.add_string(Argument.ARG_MESSAGE, "You and " + str(cmd.get_string(Argument.ARG_PLAYER_USERNAME))
@@ -346,8 +346,8 @@ def analysis_message_accept_friend(sock, cmd):
                 send_cmd = Command(Command.CMD_ACCEPT_FRIEND)
                 send_cmd.add_byte(Argument.ARG_CODE, 1)
                 send_cmd.add_string(Argument.ARG_MESSAGE, "You and " + str(sock_name_map.get(sock))
-                                + " became friend!")
-                send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(sock))
+                                    + " became friend!")
+                send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(sock)))
                 send(name_sock_map.get(cmd.get_string(Argument.ARG_PLAYER_USERNAME)), send_cmd)
                 pass
     pass
@@ -477,7 +477,7 @@ def analysis_message_game_ready(sock, cmd):
             map_cmd = Command(Command.CMD_MAP_INFO)
             map_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map[room.sock1])
             map_id = random.randint(1, 2)
-            #TODO
+            # TODO
             map_cmd.add_int(Argument.ARG_MAP_ID, map_id)
             send(room.sock1, map_cmd)
             send(room.sock2, map_cmd)
@@ -494,7 +494,7 @@ def analysis_message_player_move(sock, cmd):
         move_to = cmd.get_int(Argument.ARG_MOVE_TO)
         send_cmd = Command(Command.CMD_PLAYER_MOVE)
         send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(sock))
-        #send_cmd.add_int(Argument.ARG_MOVE_FROM, move_from)
+        # send_cmd.add_int(Argument.ARG_MOVE_FROM, move_from)
         send_cmd.add_int(Argument.ARG_MOVE_TO, move_to)
         send(room.sock1, send_cmd)
         send(room.sock2, send_cmd)
@@ -879,7 +879,7 @@ while reading:
             sockfd, addr = server_socket.accept()
             connection_list.append(sockfd)
             log.log("Have connection from :" + str(addr))
-        #Some incoming message from a client
+        # Some incoming message from a client
         else:
             # Data received from client, process it
             try:
