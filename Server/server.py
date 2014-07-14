@@ -123,6 +123,9 @@ def analysis_message(sock, cmd):
     elif cmd.code == Command.CMD_REMOVE_FRIEND:
         analysis_message_remove_friend(sock, cmd)
         pass
+    elif cmd.code == Command.CMD_CANCEL_REQUEST:
+        analysis_message_cancel_request(sock, cmd)
+        pass
     elif cmd.code == Command.CMD_UPGRADE:
         analysis_message_upgrade(sock, cmd)
         pass
@@ -354,6 +357,21 @@ def analysis_message_remove_friend(sock, cmd):
     if db.un_friend(cmd.get_string(Argument.ARG_PLAYER_USERNAME), cmd.get_string(Argument.ARG_PLAYER_USERNAME)):
         send_cmd = Command(Command.CMD_REMOVE_FRIEND)
         send_cmd.add_int(Argument.ARG_CODE, 1)
+        send(sock, send_cmd)
+    pass
+
+
+def analysis_message_cancel_request(sock, cmd):
+    if db.cancel_request(sock_name_map.get(sock), cmd.get_string(Argument.ARG_PLAYER_USERNAME)):
+        send_cmd = Command(Command.CMD_CANCEL_REQUEST)
+        send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, cmd.get_string(Argument.ARG_PLAYER_USERNAME))
+        send_cmd.add_int(Argument.ARG_CODE, 1)
+        send(sock, send_cmd)
+        pass
+    else:
+        send_cmd = Command(Command.CMD_CANCEL_REQUEST)
+        send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, cmd.get_string(Argument.ARG_PLAYER_USERNAME))
+        send_cmd.add_int(Argument.ARG_CODE, 0)
         send(sock, send_cmd)
     pass
 

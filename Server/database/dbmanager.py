@@ -214,6 +214,27 @@ class DBManager:
             self.db.commit()
             return True
 
+    def cancel_request(self, current_user="", friend=""):
+        try:
+            c = self.db.cursor()
+            if not self.check_user_exits(current_user) or not self.check_user_exits(friend):
+                return False
+            else:
+                c.execute("""SELECT id FROM user where username = %s""", (current_user, ))
+                row = c.fetchone()
+                from_id = int(row[0])
+                c.execute("""SELECT id FROM user where username = %s""", (friend,))
+                row2 = c.fetchone()
+                to_id = int(row2[0])
+                c.execute("""DELETE FROM pending_friendship WHERE friendship_from = %s and friendship_to =
+                %s""", (from_id, to_id,))
+                self.db.commit()
+                return True
+        except Exception:
+            return False
+            pass
+        return False
+
     def update_player_cup(self, username="", bonus=0):
         info = self.get_user_info(username)
         cup = int(info["cup"])
