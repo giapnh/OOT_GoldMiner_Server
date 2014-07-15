@@ -953,7 +953,7 @@ def thread_game_matching(sleep_time=0):
             "Increment room_id 1 unit"
             room_id += 1
             "Create RoomInfo object and add to RoomList"
-            room_info = RoomInfo(room_id, waiting_list[len(waiting_list) - 1], waiting_list[len(waiting_list) - 2])
+            room_info = RoomInfo(room_id, waiting_list[len(waiting_list) - 1], waiting_list[len(waiting_list) - 2], RoomInfo.TYPE_RANDOM)
             room_list[room_id] = room_info
             "Send message join room to user 1"
             matching_cmd = Command(Command.CMD_GAME_MATCHING)
@@ -1010,9 +1010,6 @@ def thread_game_matching(sleep_time=0):
                                db.get_friend_type(sock_name_map.get(waiting_list[len(waiting_list) - 2]),
                                                   sock_name_map.get(waiting_list[len(waiting_list) - 1])))
             send(waiting_list[len(waiting_list) - 2], user1_info)
-            "Add to room_list"
-            room_list[room_id] = RoomInfo(room_id, waiting_list[len(waiting_list) - 1],
-                                          waiting_list[len(waiting_list) - 2], RoomInfo.TYPE_RANDOM)
             log.log("Apend new room")
             "Remove from Waiting_List"
             playing_list.append(waiting_list[len(waiting_list) - 1])
@@ -1118,7 +1115,7 @@ while reading:
                 try:
                     """Remove client from list user"""
                     if sock in sock_name_map.keys():
-                        name_sock_map.pop(sock_name_map[sock])
+                        name_sock_map.pop(str(sock_name_map[sock]))
                         sock_name_map.pop(sock)
                     "Remove client if it waiting join game"
                     if sock in waiting_list:
