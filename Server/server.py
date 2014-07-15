@@ -800,8 +800,8 @@ def analysis_message_player_drop_result(sock, cmd):
 
 
 def analysis_message_game_finish(sock, cmd):
-    room_id = cmd.get_int(Argument.ARG_ROOM_ID, 0)
-    room_info = room_list.get(room_id)
+    rid = cmd.get_int(Argument.ARG_ROOM_ID, 0)
+    room_info = room_list.get(rid)
     if None != room_info:
         finish_cmd = Command(Command.CMD_GAME_FINISH)
         if room_info.score[0] > room_info.score[1]:
@@ -1066,6 +1066,10 @@ def send(s, send_cmd):
     pass
 
 
+def restart():
+
+    pass
+
 """Database"""
 db = DBManager()
 # db.connect('127.0.0.1', 'root', '', 'gold_miner_online')
@@ -1074,7 +1078,7 @@ server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 server_socket.bind((HOST, PORT))
 server_socket.setblocking(0)
-server_socket.listen(5)
+server_socket.listen(10)
 connection_list.append(server_socket)
 log.log("Game server started on port " + str(PORT))
 log.log("Start thread matching")
