@@ -58,6 +58,8 @@ class Command:
 
     CMD_UPGRADE = 200
 
+    CMD_PING = 1000
+
     def __init__(self, code):
         self.args = {}
         self.code = code

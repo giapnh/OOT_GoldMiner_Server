@@ -51,8 +51,8 @@
       <file leaf-file-name="server.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4112478" vertical-offset="7011" max-vertical-offset="16575">
-              <caret line="483" column="71" selection-start-line="483" selection-start-column="71" selection-end-line="483" selection-end-column="71" />
+            <state vertical-scroll-proportion="0.8330404" vertical-offset="6516" max-vertical-offset="16650">
+              <caret line="466" column="62" selection-start-line="466" selection-start-column="62" selection-end-line="466" selection-end-column="62" />
               <folding>
                 <element signature="e#24#47#0" expanded="true" />
               </folding>
@@ -63,8 +63,8 @@
       <file leaf-file-name="command.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/command.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="3045">
-              <caret line="27" column="31" selection-start-line="27" selection-start-column="31" selection-end-line="27" selection-end-column="31" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="3075">
+              <caret line="60" column="19" selection-start-line="60" selection-start-column="19" selection-end-line="60" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -151,9 +151,9 @@
         <option value="$PROJECT_DIR$/message_helper.py" />
         <option value="$PROJECT_DIR$/Constants.py" />
         <option value="$PROJECT_DIR$/client.py" />
-        <option value="$PROJECT_DIR$/command.py" />
         <option value="$PROJECT_DIR$/argument.py" />
         <option value="$PROJECT_DIR$/database/dbmanager.py" />
+        <option value="$PROJECT_DIR$/command.py" />
         <option value="$PROJECT_DIR$/server.py" />
       </list>
     </option>
@@ -1010,14 +1010,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/command.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="3045">
-          <caret line="27" column="31" selection-start-line="27" selection-start-column="31" selection-end-line="27" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/dbmanager.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1765" max-vertical-offset="4890">
@@ -1026,10 +1018,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/command.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="3075">
+          <caret line="60" column="19" selection-start-line="60" selection-start-column="19" selection-end-line="60" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4112478" vertical-offset="7011" max-vertical-offset="16575">
-          <caret line="483" column="71" selection-start-line="483" selection-start-column="71" selection-end-line="483" selection-end-column="71" />
+        <state vertical-scroll-proportion="0.8330404" vertical-offset="6516" max-vertical-offset="16650">
+          <caret line="466" column="62" selection-start-line="466" selection-start-column="62" selection-end-line="466" selection-end-column="62" />
           <folding>
             <element signature="e#24#47#0" expanded="true" />
           </folding>

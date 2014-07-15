@@ -464,7 +464,7 @@ def analysis_message_invite_game(sock, cmd):
             send_cmd = Command(Command.CMD_INVITE_GAME)
             send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map[sock])
             send_cmd.add_int(Argument.ARG_CODE, 2)
-            send_cmd.add_string(Argument.ARG_MESSAGE, cmd.get_string(Argument.ARG_MESSAGE))
+            send_cmd.add_string(Argument.ARG_MESSAGE, message)
             send(name_sock_map[friend_name], send_cmd)
             pass
         pass
@@ -1061,6 +1061,11 @@ while reading:
                 data = sock.recv(RECV_BUFFER)
                 if data:
                     read(sock, data)
+                    pass
+                else:
+                    ping = Command(Command.CMD_PING)
+                    send(sock, ping)
+                    log.log("Send ping message")
             except IOError as err:
                 print('My exception occurred, value:', err.message)
                 print("Client (%s, %s) is offline" % addr)
