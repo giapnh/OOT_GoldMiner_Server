@@ -106,7 +106,7 @@ class DBManager:
             u_id = int(row[0])
             pass
         c = self.db.cursor()
-        c.execute("""SELECT user(username,level,cup,levelup_point,move_speed,drop_speed,drag_speed)
+        c.execute("""SELECT user(username,level,cup,levelup_point,speed_move,speed_drop,speed_drag)
         FROM user, friendship WHERE user.id = friendship.user1_id
         and friendship.user2_id = %s LIMIT %s OFFSET %s
         """, (u_id, limit, offset))
@@ -115,8 +115,8 @@ class DBManager:
         log.log("SIZE OF VALUE = "+c.rowcount)
         for row in c:
             log.log("Fetch friend")
-            list_friend[row[0]] = {"level": row[1], "cup": row[2], "levelup_point": row[3], "move_speed": row[4],
-                                   "drop_speed": row[5], "drag_speed": row[6]}
+            list_friend[row[0]] = {"level": row[1], "cup": row[2], "levelup_point": row[3], "speed_move": row[4],
+                                   "speed_drop": row[5], "speed_drag": row[6]}
             print row
             pass
         return list_friend
