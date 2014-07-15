@@ -51,8 +51,8 @@
       <file leaf-file-name="server.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.61008406" vertical-offset="5262" max-vertical-offset="14385">
-              <caret line="375" column="38" selection-start-line="375" selection-start-column="38" selection-end-line="375" selection-end-column="38" />
+            <state vertical-scroll-proportion="0.84033614" vertical-offset="13660" max-vertical-offset="14385">
+              <caret line="944" column="36" selection-start-line="944" selection-start-column="36" selection-end-line="944" selection-end-column="36" />
               <folding>
                 <element signature="e#24#47#0" expanded="true" />
               </folding>
@@ -103,8 +103,8 @@
       <file leaf-file-name="dbmanager.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/database/dbmanager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1035" max-vertical-offset="4920">
-              <caret line="69" column="13" selection-start-line="69" selection-start-column="13" selection-end-line="69" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="4905">
+              <caret line="23" column="38" selection-start-line="23" selection-start-column="38" selection-end-line="23" selection-end-column="38" />
               <folding />
             </state>
           </provider>
@@ -1010,14 +1010,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/dbmanager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="627" max-vertical-offset="4890">
-          <caret line="69" column="13" selection-start-line="69" selection-start-column="13" selection-end-line="69" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/socket.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="4.4901314" vertical-offset="705" max-vertical-offset="8640">
@@ -1026,10 +1018,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/database/dbmanager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="4905">
+          <caret line="23" column="38" selection-start-line="23" selection-start-column="38" selection-end-line="23" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.61008406" vertical-offset="5262" max-vertical-offset="14385">
-          <caret line="375" column="38" selection-start-line="375" selection-start-column="38" selection-end-line="375" selection-end-column="38" />
+        <state vertical-scroll-proportion="0.84033614" vertical-offset="13660" max-vertical-offset="14385">
+          <caret line="944" column="36" selection-start-line="944" selection-start-column="36" selection-end-line="944" selection-end-column="36" />
           <folding>
             <element signature="e#24#47#0" expanded="true" />
           </folding>

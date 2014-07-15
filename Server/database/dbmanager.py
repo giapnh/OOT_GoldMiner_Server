@@ -21,6 +21,7 @@ class DBManager:
     Check user exits?
     """
     def check_user_exits(self, username=""):
+        username = str.lower(username)
         c = self.db.cursor()
         c.execute("""SELECT * FROM user where username = %s""",
                   (username, ))

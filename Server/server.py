@@ -180,7 +180,7 @@ def analysis_message_login(sock, cmd):
                            cmd.get_string(Argument.ARG_PLAYER_PASSWORD)):
         if cmd.get_string(Argument.ARG_PLAYER_USERNAME) in name_sock_map.keys():
             # Send message disconnect to old client
-            old_sock = name_sock_map[cmd.get_string(Argument.ARG_PLAYER_USERNAME)]
+            old_sock = name_sock_map[str.lower(cmd.get_string(Argument.ARG_PLAYER_USERNAME))]
             disconnect_cmd = Command(Command.CMD_DISCONNECT)
             disconnect_cmd.add_int(Argument.ARG_CODE, 1)
             disconnect_cmd.add_string(Argument.ARG_MESSAGE, Message.MSG_DISCONNECT)
@@ -208,7 +208,7 @@ def analysis_message_login(sock, cmd):
             pass
         else:
             """Add player to list"""
-            name_sock_map[cmd.get_string(Argument.ARG_PLAYER_USERNAME)] = sock
+            name_sock_map[str.lower(cmd.get_string(Argument.ARG_PLAYER_USERNAME))] = sock
             sock_name_map[sock] = cmd.get_string(Argument.ARG_PLAYER_USERNAME)
             send_cmd = Command(Command.CMD_LOGIN)
             send_cmd.add_int(Argument.ARG_CODE, 1)
