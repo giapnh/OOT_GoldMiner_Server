@@ -1098,10 +1098,10 @@ while reading:
                 if data:
                     read(sock, data)
                     pass
-                else:
-                    ping = Command(Command.CMD_PING)
-                    send(sock, ping)
-                    log.log("Send ping message")
+                # else:
+                #     ping = Command(Command.CMD_PING)
+                #     send(sock, ping)
+                #     log.log("Send ping message")
             except IOError as err:
                 print('My exception occurred, value:', err.message)
                 print("Client (%s, %s) is offline" % addr)
