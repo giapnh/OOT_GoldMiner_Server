@@ -288,7 +288,7 @@ def analysis_message_list_friend(sock, cmd):
         log.log("PASS1")
         limit = cmd.get_int(Argument.ARG_LIMIT, 0)
         offset = cmd.get_int(Argument.ARG_OFFSET, 0)
-        log.log("Limit = " + limit + "; Offset = " + offset)
+        log.log("Limit = " + str(limit) + "; Offset = " + str(offset))
         list_friend = db.get_list_friend_mutual(sock_name_map[sock], limit, offset)
         log.log("PASS2")
         for key in list_friend.keys():

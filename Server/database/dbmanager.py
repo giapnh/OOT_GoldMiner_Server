@@ -112,12 +112,11 @@ class DBManager:
             and friendship.user2_id = %s LIMIT %s OFFSET %s
             """, (u_id, limit, offset, ))
             list_friend = {}
-            log.log("SIZE OF VALUE = "+c.rowcount)
+            log.log("SIZE OF VALUE = "+str(c.rowcount))
             for row in c:
                 log.log("Fetch friend")
                 list_friend[row[0]] = {"level": row[1], "cup": row[2], "levelup_point": row[3], "speed_move": row[4],
                                        "speed_drop": row[5], "speed_drag": row[6]}
-                print row
                 pass
             pass
         except Exception as inst:
