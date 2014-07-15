@@ -109,7 +109,7 @@ class DBManager:
             c = self.db.cursor()
             c.execute("""SELECT username,level,cup
             FROM user, friendship WHERE user.id = friendship.userid_1
-            and friendship.userid_2 = %s ORDER BY cup DESC LIMIT %s OFFSET %s
+            and friendship.userid_2 = %s ORDER BY cup ASC LIMIT %s OFFSET %s
             """, (u_id, limit, offset, ))
             list_friend = {}
             for row in c:
