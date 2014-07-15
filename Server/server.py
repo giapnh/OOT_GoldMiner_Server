@@ -364,13 +364,19 @@ def analysis_message_accept_friend(sock, cmd):
             send(sock, send_cmd)
             # If other user is online, send message
             if check_player_online(cmd.get_string(Argument.ARG_PLAYER_USERNAME)):
-                send_cmd = Command(Command.CMD_ACCEPT_FRIEND)
-                send_cmd.add_int(Argument.ARG_CODE, 2)
-                send_cmd.add_string(Argument.ARG_MESSAGE, "You and " + str(sock_name_map.get(sock))
-                                    + " became friend!")
-                send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(sock)))
-                send(name_sock_map[cmd.get_string(Argument.ARG_PLAYER_USERNAME)], send_cmd)
+                try:
+                    send_cmd2 = Command(Command.CMD_ACCEPT_FRIEND)
+                    send_cmd2.add_int(Argument.ARG_CODE, 2)
+                    send_cmd2.add_string(Argument.ARG_MESSAGE, "You and " + str(sock_name_map.get(sock))
+                                         + " became friend!")
+                    send_cmd2.add_string(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(sock)))
+                    send(name_sock_map[cmd.get_string(Argument.ARG_PLAYER_USERNAME)], send_cmd2)
+                    pass
+                except Exception as inst:
+                    print inst.message
                 pass
+            else:
+                log.log("Client is offline")
     pass
 
 
