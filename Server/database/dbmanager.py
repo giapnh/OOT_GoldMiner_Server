@@ -118,10 +118,10 @@ class DBManager:
                 list_friend[row[0]] = {"level": row[1], "cup": row[2], "levelup_point": row[3], "speed_move": row[4],
                                        "speed_drop": row[5], "speed_drag": row[6]}
                 pass
-            pass
+            return list_friend
         except Exception as inst:
             print inst.message
-        return list_friend
+            return None
 
     def get_list_friend_sent_invite(self, username=""):
         #TODO
