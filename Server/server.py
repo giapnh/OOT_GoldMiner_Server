@@ -289,14 +289,14 @@ def analysis_message_list_friend(sock, cmd):
         limit = cmd.get_int(Argument.ARG_LIMIT, 0)
         offset = cmd.get_int(Argument.ARG_OFFSET, 0)
         log.log("Limit = " + str(limit) + "; Offset = " + str(offset))
-        list_friend = db.get_list_friend_mutual(sock_name_map[sock], limit, offset)
+        friends = db.get_list_friend_mutual(sock_name_map[sock], limit, offset)
         log.log("PASS2")
-        for key in list_friend.keys():
+        for key in friends.keys():
             log.log("PASS3")
             friend_info = Command(Command.CMD_FRIEND_INFO)
             friend_info.add_string(Argument.ARG_PLAYER_USERNAME, key)
-            friend_info.add_int(Argument.ARG_PLAYER_LEVEL, int(list_friend[key]["level"]))
-            friend_info.add_int(Argument.ARG_PLAYER_CUP, int(list_friend[key]["cup"]))
+            friend_info.add_int(Argument.ARG_PLAYER_LEVEL, int(friends[key]["level"]))
+            friend_info.add_int(Argument.ARG_PLAYER_CUP, int(friends[key]["cup"]))
             if check_player_online(key):
                 friend_info.add_int(Argument.ARG_ONLINE, 1)
                 pass
