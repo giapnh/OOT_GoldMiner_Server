@@ -113,7 +113,6 @@ class DBManager:
             """, (u_id, limit, offset, ))
             list_friend = {}
             for row in c:
-                log.log("Fetch friend")
                 list_friend[row[0]] = {"level": row[1], "cup": row[2]}
                 pass
             return list_friend
