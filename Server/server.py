@@ -1082,7 +1082,7 @@ while reading:
     try:
         read_sockets, write_sockets, error_sockets = select.select(connection_list, [], [])
     except Exception as ints:
-        print "Exception------"
+        print "Oh my god!!!" + str(inst.message)
         pass
     for sock in read_sockets:
         # New connection
@@ -1108,7 +1108,6 @@ while reading:
             except IOError as err:
                 print('My exception occurred, value:', err.message)
                 print("Client (%s, %s) is offline" % addr)
-
                 sock.close()
                 try:
                     """Remove client from list user"""
