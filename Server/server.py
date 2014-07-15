@@ -480,8 +480,8 @@ def analysis_message_invite_game(sock, cmd):
 
 def analysis_message_accept_invite_game(sock, cmd):
     try:
-        user1 = sock_name_map[sock]
-        user2 = cmd.get_string(Argument.ARG_PLAYER_USERNAME)
+        user1 = str.lower(sock_name_map[sock])
+        user2 = str.lower(cmd.get_string(Argument.ARG_PLAYER_USERNAME))
         if check_player_online(user1) and check_player_online(user2):
             if name_sock_map[user1] in playing_list or name_sock_map[user2] in playing_list:
                 log.log("Playing!!!!")
