@@ -139,6 +139,9 @@ def analysis_message(sock, cmd):
     elif cmd.code == Command.CMD_GAME_MATCHING_CANCEL:
         analysis_message_game_join_cancel(sock, cmd)
         pass
+    elif cmd.code == Command.CMD_INVITE_GAME:
+        analysis_message_invite_game(sock, cmd)
+        pass
     elif cmd.code == Command.CMD_ROOM_EXIT:
         analysis_message_room_exit(sock, cmd)
         pass
@@ -162,10 +165,10 @@ def analysis_message(sock, cmd):
         analysis_message_game_finish(sock, cmd)
         pass
     elif cmd.code == Command.CMD_GAME_FORCE_FINISH:
+        #TODO
+        pass
+    "On game item message"
 
-        pass
-    else:
-        pass
     return cmd
 
 
@@ -289,7 +292,12 @@ def analysis_message_list_friend(sock, cmd):
         friend_info.add_string(Argument.ARG_PLAYER_USERNAME, key)
         friend_info.add_int(Argument.ARG_PLAYER_LEVEL, int(list_friend[key]["level"]))
         friend_info.add_int(Argument.ARG_PLAYER_CUP, int(list_friend[key]["cup"]))
-        # TODO
+        if check_player_online(key):
+            friend_info.add_int(Argument.ARG_ONLINE, 1)
+            pass
+        else:
+            friend_info.add_int(Argument.ARG_ONLINE, 0)
+            pass
         send(sock, friend_info)
         pass
     pass
@@ -308,7 +316,7 @@ def analysis_message_friend_info(sock, cmd):
         friend_info.add_int(Argument.ARG_PLAYER_SPEED_DRAG, int(info["speed_drag"]))
         friend_info.add_int(Argument.ARG_PLAYER_SPEED_DROP, int(info["speed_drop"]))
         friend_info.add_int(Argument.ARG_FRIEND_TYPE,
-                           db.get_friend_type(sock_name_map.get(sock),cmd.get_string(Argument.ARG_PLAYER_USERNAME)))
+                           db.get_friend_type(sock_name_map.get(sock), cmd.get_string(Argument.ARG_PLAYER_USERNAME)))
         send(sock, friend_info)
         pass
     pass
@@ -418,7 +426,38 @@ def analysis_message_cancel_request(sock, cmd):
     pass
 
 
-def analysis_message_invite_friend(sock, cmd):
+def analysis_message_invite_game(sock, cmd):
+    friend_name = cmd.get_string(Argument.ARG_PLAYER_USERNAME)
+    message = cmd.get_string(Argument.ARG_MESSAGE, "Choi game dau khong?")
+    if check_player_online(friend_name):
+        if name_sock_map[friend_name] in playing_list:
+            send_cmd = Command(Command.CMD_INVITE_GAME)
+            send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, friend_name)
+            send_cmd.add_int(Argument.ARG_CODE, 0)
+            send_cmd.add_string(Argument.ARG_MESSAGE, ""+friend_name+" is playing!")
+            send(sock, send_cmd)
+            pass
+        else:
+            "Send to A"
+            send_cmd = Command(Command.CMD_INVITE_GAME)
+            send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, friend_name)
+            send_cmd.add_int(Argument.ARG_CODE, 1)
+            send_cmd.add_string(Argument.ARG_MESSAGE, "Success!")
+            send(sock, send_cmd)
+            "Send to B"
+            send_cmd = Command(Command.CMD_INVITE_GAME)
+            send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map[sock])
+            send_cmd.add_string(Argument.ARG_MESSAGE, cmd.get_string(Argument.ARG_MESSAGE))
+            send(name_sock_map[friend_name], send_cmd)
+            pass
+        pass
+    else:
+        send_cmd = Command(Command.CMD_INVITE_GAME)
+        send_cmd.add_string(Argument.ARG_PLAYER_USERNAME, friend_name)
+        send_cmd.add_int(Argument.ARG_CODE, 0)
+        send_cmd.add_string(Argument.ARG_MESSAGE, ""+friend_name+" is offline!")
+        send(sock, send_cmd)
+        pass
     pass
 
 
@@ -456,7 +495,13 @@ def analysis_message_room_exit(sock, cmd):
             send(room.sock2, send_cmd)
             send(room.sock1, send_cmd)
             pass
-        del room_list[room_id]
+        try:
+            playing_list.remove(room.sock1)
+            playing_list.remove(room.sock2)
+            del room_list[room_id]
+            pass
+        except Exception as inst:
+            print inst.message
         log.log("Size of room list = " + str(len(room_list)))
     pass
 
@@ -834,7 +879,9 @@ def thread_game_matching(sleep_time=0):
                                           waiting_list[len(waiting_list) - 2])
             log.log("Apend new room")
             "Remove from Waiting_List"
+            playing_list.append(waiting_list[len(waiting_list) - 1])
             waiting_list.pop(len(waiting_list) - 1)
+            playing_list.append(waiting_list[len(waiting_list) - 1])
             waiting_list.pop(len(waiting_list) - 1)
             log.log("Remove from waiting_list; Now waiting list size = " + str(len(waiting_list)))
             pass
@@ -865,6 +912,10 @@ def remove_sock(sock):
             # room_list.pop(room.room_id)
             log.log("Remove room")
             break
+        for s in playing_list:
+            if s == sock:
+                playing_list.remove(s)
+                break
         connection_list.remove(sock)
     except KeyError:
         pass
