@@ -479,75 +479,80 @@ def analysis_message_invite_game(sock, cmd):
 
 
 def analysis_message_accept_invite_game(sock, cmd):
-    user1 = sock_name_map[sock]
-    user2 = cmd.get_string(Argument.ARG_PLAYER_USERNAME)
-    if check_player_online(user1) and check_player_online(user2):
-        if name_sock_map[user1] in playing_list or name_sock_map[user2] in playing_list:
-            log.log("Playing!!!!")
-            return
-        else:
-            global room_id
-            room_id += 1
-            "Send message join room to user 1"
-            matching_cmd = Command(Command.CMD_GAME_MATCHING)
-            matching_cmd.add_int(Argument.ARG_CODE, 1)
-            send(name_sock_map[user1], matching_cmd)
+    try:
+        user1 = sock_name_map[sock]
+        user2 = cmd.get_string(Argument.ARG_PLAYER_USERNAME)
+        if check_player_online(user1) and check_player_online(user2):
+            if name_sock_map[user1] in playing_list or name_sock_map[user2] in playing_list:
+                log.log("Playing!!!!")
+                return
+            else:
+                global room_id
+                room_id += 1
+                "Send message join room to user 1"
+                matching_cmd = Command(Command.CMD_GAME_MATCHING)
+                matching_cmd.add_int(Argument.ARG_CODE, 1)
+                send(name_sock_map[user1], matching_cmd)
 
-            cmd1 = Command(Command.CMD_ROOM_INFO)
-            cmd1.add_string(Argument.ARG_PLAYER_USERNAME, user2)
-            cmd1.add_int(Argument.ARG_ROOM_ID, room_id)
-            cmd1.add_int(Argument.ARG_CUP_WIN, 0)
-            cmd1.add_int(Argument.ARG_CUP_LOST, 0)
+                cmd1 = Command(Command.CMD_ROOM_INFO)
+                cmd1.add_string(Argument.ARG_PLAYER_USERNAME, user2)
+                cmd1.add_int(Argument.ARG_ROOM_ID, room_id)
+                cmd1.add_int(Argument.ARG_CUP_WIN, 0)
+                cmd1.add_int(Argument.ARG_CUP_LOST, 0)
 
-            send(name_sock_map[user1], cmd1)
-            "Send other player info"
-            info = db.get_user_info(user2)
-            user2_info = Command(Command.CMD_FRIEND_INFO)
-            user2_info.add_string(Argument.ARG_PLAYER_USERNAME, str(info["username"]))
-            user2_info.add_int(Argument.ARG_PLAYER_LEVEL, int(info["level"]))
-            user2_info.add_int(Argument.ARG_PLAYER_LEVEL_UP_POINT, int(info["levelup_point"]))
-            user2_info.add_int(Argument.ARG_PLAYER_CUP, int(info["cup"]))
-            user2_info.add_int(Argument.ARG_PLAYER_LEVEL_UP_REQUIRE, int(info["require_point"]))
-            user2_info.add_int(Argument.ARG_PLAYER_SPEED_MOVE, int(info["speed_move"]))
-            user2_info.add_int(Argument.ARG_PLAYER_SPEED_DRAG, int(info["speed_drag"]))
-            user2_info.add_int(Argument.ARG_PLAYER_SPEED_DROP, int(info["speed_drop"]))
-            user2_info.add_int(Argument.ARG_FRIEND_TYPE,
-                               db.get_friend_type(user1, user2))
-            send(name_sock_map[user1], user2_info)
+                send(name_sock_map[user1], cmd1)
+                "Send other player info"
+                info = db.get_user_info(user2)
+                user2_info = Command(Command.CMD_FRIEND_INFO)
+                user2_info.add_string(Argument.ARG_PLAYER_USERNAME, str(info["username"]))
+                user2_info.add_int(Argument.ARG_PLAYER_LEVEL, int(info["level"]))
+                user2_info.add_int(Argument.ARG_PLAYER_LEVEL_UP_POINT, int(info["levelup_point"]))
+                user2_info.add_int(Argument.ARG_PLAYER_CUP, int(info["cup"]))
+                user2_info.add_int(Argument.ARG_PLAYER_LEVEL_UP_REQUIRE, int(info["require_point"]))
+                user2_info.add_int(Argument.ARG_PLAYER_SPEED_MOVE, int(info["speed_move"]))
+                user2_info.add_int(Argument.ARG_PLAYER_SPEED_DRAG, int(info["speed_drag"]))
+                user2_info.add_int(Argument.ARG_PLAYER_SPEED_DROP, int(info["speed_drop"]))
+                user2_info.add_int(Argument.ARG_FRIEND_TYPE,
+                                   db.get_friend_type(user1, user2))
+                send(name_sock_map[user1], user2_info)
 
-            "Send message join room to user2"
-            cmd2 = Command(Command.CMD_GAME_MATCHING)
-            cmd2.add_int(Argument.ARG_CODE, 1)
-            send(name_sock_map[user2], cmd2)
-            cmd2 = Command(Command.CMD_ROOM_INFO)
-            cmd2.add_string(Argument.ARG_PLAYER_USERNAME, user1)
-            cmd2.add_int(Argument.ARG_ROOM_ID, room_id)
-            cmd2.add_int(Argument.ARG_CUP_WIN, 0)
-            cmd2.add_int(Argument.ARG_CUP_LOST, 0)
-            send(name_sock_map[user2], cmd2)
-            "Send other player info"
-            info = db.get_user_info(user1)
-            user1_info = Command(Command.CMD_FRIEND_INFO)
-            user1_info.add_string(Argument.ARG_PLAYER_USERNAME, str(info["username"]))
-            user1_info.add_int(Argument.ARG_PLAYER_LEVEL, int(info["level"]))
-            user1_info.add_int(Argument.ARG_PLAYER_LEVEL_UP_POINT, int(info["levelup_point"]))
-            user1_info.add_int(Argument.ARG_PLAYER_CUP, int(info["cup"]))
-            user1_info.add_int(Argument.ARG_PLAYER_LEVEL_UP_REQUIRE, int(info["require_point"]))
-            user1_info.add_int(Argument.ARG_PLAYER_SPEED_MOVE, int(info["speed_move"]))
-            user1_info.add_int(Argument.ARG_PLAYER_SPEED_DRAG, int(info["speed_drag"]))
-            user1_info.add_int(Argument.ARG_PLAYER_SPEED_DROP, int(info["speed_drop"]))
-            user1_info.add_int(Argument.ARG_FRIEND_TYPE,
-                               db.get_friend_type(user2, user1))
-            send(name_sock_map[user2], user1_info)
-            "Add to room_list"
-            room_list[room_id] = RoomInfo(room_id, name_sock_map[user1],
-                                          name_sock_map[user2])
-            log.log("Apend new room")
-            "Remove from Waiting_List"
-            playing_list.append(name_sock_map[user1])
-            playing_list.append(name_sock_map[user2])
+                "Send message join room to user2"
+                cmd2 = Command(Command.CMD_GAME_MATCHING)
+                cmd2.add_int(Argument.ARG_CODE, 1)
+                send(name_sock_map[user2], cmd2)
+                cmd2 = Command(Command.CMD_ROOM_INFO)
+                cmd2.add_string(Argument.ARG_PLAYER_USERNAME, user1)
+                cmd2.add_int(Argument.ARG_ROOM_ID, room_id)
+                cmd2.add_int(Argument.ARG_CUP_WIN, 0)
+                cmd2.add_int(Argument.ARG_CUP_LOST, 0)
+                send(name_sock_map[user2], cmd2)
+                "Send other player info"
+                info = db.get_user_info(user1)
+                user1_info = Command(Command.CMD_FRIEND_INFO)
+                user1_info.add_string(Argument.ARG_PLAYER_USERNAME, str(info["username"]))
+                user1_info.add_int(Argument.ARG_PLAYER_LEVEL, int(info["level"]))
+                user1_info.add_int(Argument.ARG_PLAYER_LEVEL_UP_POINT, int(info["levelup_point"]))
+                user1_info.add_int(Argument.ARG_PLAYER_CUP, int(info["cup"]))
+                user1_info.add_int(Argument.ARG_PLAYER_LEVEL_UP_REQUIRE, int(info["require_point"]))
+                user1_info.add_int(Argument.ARG_PLAYER_SPEED_MOVE, int(info["speed_move"]))
+                user1_info.add_int(Argument.ARG_PLAYER_SPEED_DRAG, int(info["speed_drag"]))
+                user1_info.add_int(Argument.ARG_PLAYER_SPEED_DROP, int(info["speed_drop"]))
+                user1_info.add_int(Argument.ARG_FRIEND_TYPE,
+                                   db.get_friend_type(user2, user1))
+                send(name_sock_map[user2], user1_info)
+                "Add to room_list"
+                room_list[room_id] = RoomInfo(room_id, name_sock_map[user1],
+                                              name_sock_map[user2])
+                log.log("Apend new room")
+                "Remove from Waiting_List"
+                playing_list.append(name_sock_map[user1])
+                playing_list.append(name_sock_map[user2])
+            pass
         pass
-    pass
+    except Exception as inst:
+        print inst.message
+        pass
+    return
 
 
 def analysis_message_upgrade(sock, cmd):
