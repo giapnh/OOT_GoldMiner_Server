@@ -285,19 +285,15 @@ def analysis_message_list_friend(sock, cmd):
     @return:
     """
     try:
-        log.log("PASS1")
         limit = cmd.get_int(Argument.ARG_LIMIT, 0)
         offset = cmd.get_int(Argument.ARG_OFFSET, 0)
-        log.log("Limit = " + str(limit) + "; Offset = " + str(offset))
         friends = db.get_list_friend_mutual(sock_name_map[sock], limit, offset)
         if None == friends:
             friend_info = Command(Command.CMD_LIST_FRIEND)
             friend_info.add_int(Argument.ARG_COUNT, 0)
             send(sock, friend_info)
             return
-        log.log("PASS2")
         for key in friends.keys():
-            log.log("PASS3")
             friend_info = Command(Command.CMD_LIST_FRIEND)
             friend_info.add_int(Argument.ARG_COUNT, len(friends))
             send(sock, friend_info)
