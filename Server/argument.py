@@ -75,8 +75,8 @@ class Argument:
     ARG_OFFSET = 4
     ARG_AMOUNT = 5
 
-    ARG_TYPE = 9
     ARG_COUNT = 8
+    ARG_TYPE = 9
 
     ARG_MESSAGE = 10
     ARG_PLAYER_USERNAME = 20

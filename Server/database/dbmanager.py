@@ -108,8 +108,8 @@ class DBManager:
                 pass
             c = self.db.cursor()
             c.execute("""SELECT user(username,level,cup,levelup_point,speed_move,speed_drop,speed_drag)
-            FROM user, friendship WHERE user.id = friendship.user1_id
-            and friendship.user2_id = %s LIMIT %s OFFSET %s
+            FROM user, friendship WHERE user.id = friendship.userid_1
+            and friendship.userid_2 = %s LIMIT %s OFFSET %s
             """, (u_id, limit, offset, ))
             list_friend = {}
             log.log("SIZE OF VALUE = "+str(c.rowcount))
