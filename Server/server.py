@@ -142,6 +142,9 @@ def analysis_message(sock, cmd):
     elif cmd.code == Command.CMD_INVITE_GAME:
         analysis_message_invite_game(sock, cmd)
         pass
+    elif cmd.code == Command.CMD_ACCEPT_INVITE_GAME:
+
+        pass
     elif cmd.code == Command.CMD_ROOM_EXIT:
         analysis_message_room_exit(sock, cmd)
         pass
@@ -293,23 +296,24 @@ def analysis_message_list_friend(sock, cmd):
             friend_info.add_int(Argument.ARG_COUNT, 0)
             send(sock, friend_info)
             return
-        for key in friends.keys():
+        else:
             friend_info = Command(Command.CMD_LIST_FRIEND)
             friend_info.add_int(Argument.ARG_COUNT, len(friends))
             send(sock, friend_info)
-            friend_info = Command(Command.CMD_FRIEND_INFO)
-            friend_info.add_string(Argument.ARG_PLAYER_USERNAME, key)
-            friend_info.add_int(Argument.ARG_PLAYER_LEVEL, int(friends[key]["level"]))
-            friend_info.add_int(Argument.ARG_PLAYER_CUP, int(friends[key]["cup"]))
-            if check_player_online(key):
-                friend_info.add_int(Argument.ARG_ONLINE, 1)
+            for key in friends.keys():
+                friend_info = Command(Command.CMD_FRIEND_INFO)
+                friend_info.add_string(Argument.ARG_PLAYER_USERNAME, key)
+                friend_info.add_int(Argument.ARG_PLAYER_LEVEL, int(friends[key]["level"]))
+                friend_info.add_int(Argument.ARG_PLAYER_CUP, int(friends[key]["cup"]))
+                if check_player_online(key):
+                    friend_info.add_int(Argument.ARG_ONLINE, 1)
+                    pass
+                else:
+                    friend_info.add_int(Argument.ARG_ONLINE, 0)
+                    pass
+                send(sock, friend_info)
                 pass
-            else:
-                friend_info.add_int(Argument.ARG_ONLINE, 0)
-                pass
-            send(sock, friend_info)
             pass
-        pass
     except Exception as inst:
         print inst.message
     pass
