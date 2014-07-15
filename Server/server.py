@@ -821,7 +821,7 @@ def analysis_message_game_finish(sock, cmd):
         player1_result.add_string(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(room_info.sock1)))
         player1_result.add_int(Argument.ARG_SCORE, room_info.score[0])
         if room_info.score[0] > room_info.score[1]:
-            if room.type == RoomInfo.TYPE_RANDOM:
+            if room.room_type == RoomInfo.TYPE_RANDOM:
                 player1_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, 5)
                 db.update_player_cup(sock_name_map.get(room_info.sock1), 5)
                 pass
@@ -833,7 +833,7 @@ def analysis_message_game_finish(sock, cmd):
             db.update_player_level_up_point(sock_name_map.get(room_info.sock1), room_info.score[0] / 10)
             pass
         elif room_info.score[0] < room_info.score[1]:
-            if room.type == RoomInfo.TYPE_RANDOM:
+            if room.room_type == RoomInfo.TYPE_RANDOM:
                 player1_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, -5)
                 db.update_player_cup(sock_name_map.get(room_info.sock1), -5)
                 pass
@@ -845,7 +845,7 @@ def analysis_message_game_finish(sock, cmd):
             db.update_player_level_up_point(sock_name_map.get(room_info.sock1), room_info.score[0] / 10)
             pass
         else:
-            if room.type == RoomInfo.TYPE_RANDOM:
+            if room.room_type == RoomInfo.TYPE_RANDOM:
                 player1_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, 2)
                 db.update_player_cup(sock_name_map.get(room_info.sock1), 2)
                 pass
@@ -862,7 +862,7 @@ def analysis_message_game_finish(sock, cmd):
         player2_result.add_string(Argument.ARG_PLAYER_USERNAME, str(sock_name_map.get(room_info.sock2)))
         player2_result.add_int(Argument.ARG_SCORE, room_info.score[1])
         if room_info.score[1] > room_info.score[0]:
-            if room.type == RoomInfo.TYPE_RANDOM:
+            if room.room_type == RoomInfo.TYPE_RANDOM:
                 player2_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, 5)
                 db.update_player_cup(sock_name_map.get(room_info.sock2), 5)
                 pass
@@ -874,7 +874,7 @@ def analysis_message_game_finish(sock, cmd):
             db.update_player_level_up_point(sock_name_map.get(room_info.sock2), room_info.score[1] / 10)
             pass
         elif room_info.score[1] < room_info.score[0]:
-            if room.type == RoomInfo.TYPE_RANDOM:
+            if room.room_type == RoomInfo.TYPE_RANDOM:
                 player2_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, -5)
                 db.update_player_cup(sock_name_map.get(room_info.sock2), -5)
                 pass
@@ -886,7 +886,7 @@ def analysis_message_game_finish(sock, cmd):
             db.update_player_level_up_point(sock_name_map.get(room_info.sock2), room_info.score[1] / 10)
             pass
         else:
-            if room.type == RoomInfo.TYPE_RANDOM:
+            if room.room_type == RoomInfo.TYPE_RANDOM:
                 player2_result.add_int(Argument.ARG_PLAYER_BONUS_CUP, 2)
                 db.update_player_cup(sock_name_map.get(room_info.sock2), 2)
                 pass
