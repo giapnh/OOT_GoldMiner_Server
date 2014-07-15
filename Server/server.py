@@ -895,7 +895,7 @@ def analysis_message_game_force_finish(sock, cmd):
 
 
 def check_player_online(username=""):
-    if username in name_sock_map.keys():
+    if str.lower(username) in name_sock_map.keys():
         return True
     else:
         return False
