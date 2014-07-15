@@ -284,10 +284,13 @@ def analysis_message_list_friend(sock, cmd):
     @param cmd:
     @return:
     """
+    log.log("PASS1")
     limit = cmd.get_int(Argument.ARG_LIMIT, 0)
     offset = cmd.get_int(Argument.ARG_OFFSET, 0)
     list_friend = db.get_list_friend_mutual(cmd.get_string(Argument.ARG_PLAYER_USERNAME), limit, offset)
+    log.log("PASS2")
     for key in list_friend.keys():
+        log.log("PASS3")
         friend_info = Command(Command.CMD_FRIEND_INFO)
         friend_info.add_string(Argument.ARG_PLAYER_USERNAME, key)
         friend_info.add_int(Argument.ARG_PLAYER_LEVEL, int(list_friend[key]["level"]))
