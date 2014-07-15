@@ -98,26 +98,30 @@ class DBManager:
         return 0
 
     def get_list_friend_mutual(self, username="", limit=0, offset=0):
-        c = self.db.cursor()
-        u_id = 0
-        c.execute("""select id from user where username = %s""", (username, ))
-        if c.rowcount >= 1:
-            row = c.fetchone()
-            u_id = int(row[0])
+        try:
+            c = self.db.cursor()
+            u_id = 0
+            c.execute("""select id from user where username = %s""", (username, ))
+            if c.rowcount >= 1:
+                row = c.fetchone()
+                u_id = int(row[0])
+                pass
+            c = self.db.cursor()
+            c.execute("""SELECT user(username,level,cup,levelup_point,speed_move,speed_drop,speed_drag)
+            FROM user, friendship WHERE user.id = friendship.user1_id
+            and friendship.user2_id = %s LIMIT %s OFFSET %s
+            """, (u_id, limit, offset, ))
+            list_friend = {}
+            log.log("SIZE OF VALUE = "+c.rowcount)
+            for row in c:
+                log.log("Fetch friend")
+                list_friend[row[0]] = {"level": row[1], "cup": row[2], "levelup_point": row[3], "speed_move": row[4],
+                                       "speed_drop": row[5], "speed_drag": row[6]}
+                print row
+                pass
             pass
-        c = self.db.cursor()
-        c.execute("""SELECT user(username,level,cup,levelup_point,speed_move,speed_drop,speed_drag)
-        FROM user, friendship WHERE user.id = friendship.user1_id
-        and friendship.user2_id = %s LIMIT %s OFFSET %s
-        """, (u_id, limit, offset, ))
-        list_friend = {}
-        log.log("SIZE OF VALUE = "+c.rowcount)
-        for row in c:
-            log.log("Fetch friend")
-            list_friend[row[0]] = {"level": row[1], "cup": row[2], "levelup_point": row[3], "speed_move": row[4],
-                                   "speed_drop": row[5], "speed_drag": row[6]}
-            print row
-            pass
+        except Exception as inst:
+            print inst.message
         return list_friend
 
     def get_list_friend_sent_invite(self, username=""):
