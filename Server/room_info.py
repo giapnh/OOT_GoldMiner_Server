@@ -5,6 +5,8 @@ class RoomInfo:
     STATE_WAITING = 0
     STATE_PLAYING = 1
     STATE_FINISH = 2
+    TYPE_RANDOM = 1
+    TYPE_INVITE = 2
 
     def __init__(self, room_id, sock1, sock2):
         self.room_id = room_id
@@ -19,6 +21,7 @@ class RoomInfo:
         self.score.append(0)
         """Initial game state: Waiting!"""
         self.game_state = RoomInfo.STATE_WAITING
+        self.type = RoomInfo.TYPE_RANDOM
         pass
 
     def ready(self, sock, is_ready):
