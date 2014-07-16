@@ -1080,7 +1080,7 @@ server_socket.listen(64)
 connection_list.append(server_socket)
 log.log("Game server started on port " + str(PORT))
 log.log("Start thread matching")
-thread.start_new_thread(thread_game_matching, (0.05, ))
+thread.start_new_thread(thread_game_matching, (0, ))
 while reading:
     # Get the list sockets which are ready to be read through select
     try:
