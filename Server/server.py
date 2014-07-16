@@ -1050,7 +1050,8 @@ def remove_sock(sock):
                 playing_list.remove(s)
                 break
         connection_list.remove(sock)
-    except KeyError:
+    except Exception as inst:
+        print inst.message
         pass
 
 
@@ -1075,7 +1076,7 @@ server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 server_socket.bind((HOST, PORT))
 server_socket.setblocking(0)
-server_socket.listen(10)
+server_socket.listen(64)
 connection_list.append(server_socket)
 log.log("Game server started on port " + str(PORT))
 log.log("Start thread matching")
