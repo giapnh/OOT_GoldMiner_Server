@@ -733,6 +733,7 @@ def analysis_message_player_drop_result(sock, cmd):
         return
     code = cmd.get_int(Argument.ARG_CODE, 0)
     item_used = cmd.get_string(Argument.ARG_ITEM_USED, "0").split(";")
+    log.log("Len = "+str(len(item_used)))
     score_mul = 1
     is_change_turn = True
     if len(item_used) == 0:
