@@ -732,35 +732,38 @@ def analysis_message_player_drop_result(sock, cmd):
     if None == room:
         return
     code = cmd.get_int(Argument.ARG_CODE, 0)
-    item_used = cmd.get_string(Argument.ARG_ITEM_USED, "0").split(";")
-    log.log("Len = "+str(len(item_used)))
+    item_used_str = cmd.get_string(Argument.ARG_ITEM_USED, "")
     score_mul = 1
     is_change_turn = True
-    if len(item_used) == 0:
+    if item_used_str != "":
+        item_used = item_used_str.split(";")
+        log.log("Len = "+str(len(item_used)))
+        if len(item_used) == 0:
+            pass
+        elif len(item_used) == 1:
+            if int(item_used[0]) == 10:
+                is_change_turn = False
+                pass
+            elif int(item_used[0]) == 11:
+                score_mul = 2
+                pass
+            pass
+        else:
+            if int(item_used[0]) == 10:
+                is_change_turn = False
+                pass
+            elif int(item_used[0]) == 11:
+                score_mul = 2
+                pass
+            if int(item_used[1]) == 10:
+                is_change_turn = False
+                pass
+            elif int(item_used[1]) == 11:
+                score_mul = 2
+                pass
+            pass
         pass
-    elif len(item_used) == 1:
-        if int(item_used[0]) == 10:
-            is_change_turn = False
-            pass
-        elif int(item_used[0]) == 11:
-            score_mul = 2
-            pass
-        pass
-    else:
-        if int(item_used[0]) == 10:
-            is_change_turn = False
-            pass
-        elif int(item_used[0]) == 11:
-            score_mul = 2
-            pass
-        if int(item_used[1]) == 10:
-            is_change_turn = False
-            pass
-        elif int(item_used[1]) == 11:
-            score_mul = 2
-            pass
-        pass
-
+    
     if code == 1:
         obj_type = cmd.get_int(Argument.ARG_MAP_OBJ_TYPE, 0)
         add_score = Command(Command.CMD_ADD_SCORE)
