@@ -763,9 +763,13 @@ def analysis_message_player_drop_result(sock, cmd):
                 pass
             pass
         pass
-    
+
     if code == 1:
         obj_type = cmd.get_int(Argument.ARG_MAP_OBJ_TYPE, 0)
+        if obj_type == 10 or obj_type == 11:
+            is_change_turn = False
+            pass
+
         add_score = Command(Command.CMD_ADD_SCORE)
         add_score.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(sock))
         if obj_type == -1:
