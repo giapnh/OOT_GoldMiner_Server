@@ -686,6 +686,21 @@ def analysis_message_turn_timeout(sock, cmd):
             send(room.sock1, change_turn)
             send(room.sock2, change_turn)
             pass
+        "Random item"
+        if random.random() > 0.5:
+            random_item = Command(Command.CMD_ITEM_APPEAR)
+            "type = 10: bonus turn, type = 11: x2 score"
+            if random.random() > 0.5:
+                random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 10)
+                pass
+            else:
+                random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 11)
+                pass
+            random_item.add_int(Argument.ARG_POSITION_X, random.randint(-13, 13))
+            random_item.add_int(Argument.ARG_POSITION_Y, random.randint(-8, 0))
+            random_item.add_int(Argument.ARG_ITEM_TIME_LIFE, 30)
+            send(room.sock1, random_item)
+            send(room.sock2, random_item)
         pass
 
 
@@ -701,6 +716,7 @@ def analysis_message_player_drop(sock, cmd):
         send_cmd.add_int(Argument.ARG_DROP_VEL_X, vel_x)
         send_cmd.add_int(Argument.ARG_DROP_VEL_Y, vel_y)
         send_cmd.add_string(Argument.ARG_DROP_ROTATION, rotation)
+        send_cmd.add_int(Argument.ARG_ITEM_USED, cmd.get_int(Argument.ARG_ITEM_USED, 0))
         if sock == room.sock1:
             send(room.sock1, send_cmd)
             send(room.sock2, send_cmd)
@@ -719,7 +735,11 @@ def analysis_message_player_drop_result(sock, cmd):
     if None == room:
         return
     code = cmd.get_int(Argument.ARG_CODE, 0)
-
+    item_used = cmd.get_int(Argument.ARG_ITEM_USED, 0)
+    score_mul = 1
+    if item_used == 11:
+        "x2 score item"
+        score_mul = 2
     if code == 1:
         obj_type = cmd.get_int(Argument.ARG_MAP_OBJ_TYPE, 0)
         add_score = Command(Command.CMD_ADD_SCORE)
@@ -733,7 +753,7 @@ def analysis_message_player_drop_result(sock, cmd):
                 pass
             else:
                 if room.score[1] > 100:
-                    room.score[1] += 100
+                    room.score[1] += -100
                 else:
                     room.score[1] = 0
                 pass
@@ -757,7 +777,7 @@ def analysis_message_player_drop_result(sock, cmd):
                 elif obj_type == 5:
                     add = 660
                     pass
-                room.score[0] += add
+                room.score[0] += score_mul * add
                 add_score.add_int(Argument.ARG_SCORE, add)
                 pass
             else:
@@ -777,7 +797,7 @@ def analysis_message_player_drop_result(sock, cmd):
                 elif obj_type == 5:
                     add = 660
                     pass
-                room.score[1] += add
+                room.score[1] += score_mul * add
                 add_score.add_int(Argument.ARG_SCORE, add)
                 pass
         send(room.sock1, add_score)
@@ -796,6 +816,22 @@ def analysis_message_player_drop_result(sock, cmd):
         send(room.sock1, change_turn)
         send(room.sock2, change_turn)
         pass
+
+    "Random item"
+    if random.random() > 0.5:
+        random_item = Command(Command.CMD_ITEM_APPEAR)
+        "type = 10: bonus turn, type = 11: x2 score"
+        if random.random() > 0.5:
+            random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 10)
+            pass
+        else:
+            random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 11)
+            pass
+        random_item.add_int(Argument.ARG_POSITION_X, random.randint(-13, 13))
+        random_item.add_int(Argument.ARG_POSITION_Y, random.randint(-8, 0))
+        random_item.add_int(Argument.ARG_ITEM_TIME_LIFE, 30)
+        send(room.sock1, random_item)
+        send(room.sock2, random_item)
     pass
 
 
@@ -1105,10 +1141,9 @@ while reading:
                 if data:
                     read(sock, data)
                     pass
-                # else:
-                #     ping = Command(Command.CMD_PING)
-                #     send(sock, ping)
-                #     log.log("Send ping message")
+                else:
+                    ping = Command(Command.CMD_PING)
+                    send(sock, ping)
             except IOError as err:
                 print('My exception occurred, value:', err.message)
                 print("Client (%s, %s) is offline" % addr)

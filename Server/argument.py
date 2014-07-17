@@ -112,6 +112,7 @@ class Argument:
 
     ARG_MAP_OBJ_TYPE = 140
     ARG_ITEM_TIME_LIFE = 141
+    ARG_ITEM_USED = 142
 
     ARG_SCORE = 150
 
