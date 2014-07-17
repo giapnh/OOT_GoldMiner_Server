@@ -51,11 +51,21 @@
       <file leaf-file-name="server.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.78655463" vertical-offset="12027" max-vertical-offset="18105">
-              <caret line="833" column="93" selection-start-line="833" selection-start-column="93" selection-end-line="833" selection-end-column="93" />
+            <state vertical-scroll-proportion="-2.9243698" vertical-offset="7575" max-vertical-offset="18105">
+              <caret line="389" column="81" selection-start-line="389" selection-start-column="81" selection-end-line="389" selection-end-column="81" />
               <folding>
                 <element signature="e#24#47#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Message.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Message.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
+              <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -155,6 +165,7 @@
         <option value="$PROJECT_DIR$/database/dbmanager.py" />
         <option value="$PROJECT_DIR$/argument.py" />
         <option value="$PROJECT_DIR$/room_info.py" />
+        <option value="$PROJECT_DIR$/Message.py" />
         <option value="$PROJECT_DIR$/server.py" />
       </list>
     </option>
@@ -636,14 +647,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/command.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1560" max-vertical-offset="2805">
-          <caret line="106" column="22" selection-start-line="106" selection-start-column="22" selection-end-line="106" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/argument.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1425" max-vertical-offset="1605">
@@ -1026,10 +1029,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Message.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.78655463" vertical-offset="12027" max-vertical-offset="18105">
-          <caret line="833" column="93" selection-start-line="833" selection-start-column="93" selection-end-line="833" selection-end-column="93" />
+        <state vertical-scroll-proportion="-2.9243698" vertical-offset="7575" max-vertical-offset="18105">
+          <caret line="389" column="81" selection-start-line="389" selection-start-column="81" selection-end-line="389" selection-end-column="81" />
           <folding>
             <element signature="e#24#47#0" expanded="true" />
           </folding>

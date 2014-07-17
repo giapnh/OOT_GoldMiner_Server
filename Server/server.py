@@ -233,7 +233,7 @@ def analysis_message_login(sock, cmd):
     else:
         send_cmd = Command(Command.CMD_LOGIN)
         send_cmd.add_int(Argument.ARG_CODE, 0)
-        send_cmd.add_string(Argument.ARG_MESSAGE, "Invalid login info, please check again or register first!")
+        send_cmd.add_string(Argument.ARG_MESSAGE, Message.LOGIN_INVALID)
         send(sock, send_cmd)
         pass
     return
@@ -347,7 +347,7 @@ def analysis_message_add_friend(sock, cmd):
     if db.add_friend(sock_name_map.get(sock), cmd.get_string(Argument.ARG_PLAYER_USERNAME)):
         send_cmd = Command(Command.CMD_ADD_FRIEND)
         send_cmd.add_int(Argument.ARG_CODE, 1)
-        send_cmd.add_string(Argument.ARG_MESSAGE, "Send friend request successful!")
+        send_cmd.add_string(Argument.ARG_MESSAGE, Message.FRIEND_REQUEST_SUCCESS)
         send(sock, send_cmd)
         if check_player_online(cmd.get_string(Argument.ARG_PLAYER_USERNAME)):
             send_cmd = Command(Command.CMD_ADD_FRIEND)
@@ -687,7 +687,7 @@ def analysis_message_turn_timeout(sock, cmd):
             send(room.sock2, change_turn)
             pass
         "Random item"
-        if random.random() > 0.5:
+        if random.random(0, 1) ==1:
             random_item = Command(Command.CMD_ITEM_APPEAR)
             "type = 10: bonus turn, type = 11: x2 score"
             if random.random() > 0.5:
@@ -716,7 +716,7 @@ def analysis_message_player_drop(sock, cmd):
         send_cmd.add_int(Argument.ARG_DROP_VEL_X, vel_x)
         send_cmd.add_int(Argument.ARG_DROP_VEL_Y, vel_y)
         send_cmd.add_string(Argument.ARG_DROP_ROTATION, rotation)
-        send_cmd.add_int(Argument.ARG_ITEM_USED, cmd.get_int(Argument.ARG_ITEM_USED, 0))
+        send_cmd.add_string(Argument.ARG_ITEM_USED, cmd.get_string(Argument.ARG_ITEM_USED, "0"))
         if sock == room.sock1:
             send(room.sock1, send_cmd)
             send(room.sock2, send_cmd)
