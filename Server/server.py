@@ -695,7 +695,7 @@ def analysis_message_turn_timeout(sock, cmd):
                 pass
             random_item.add_int(Argument.ARG_POSITION_X, random.randint(-13, 13))
             random_item.add_int(Argument.ARG_POSITION_Y, random.randint(-8, 0))
-            random_item.add_int(Argument.ARG_ITEM_TIME_LIFE, 30)
+            random_item.add_int(Argument.ARG_ITEM_TIME_LIFE, 10)
             send(room.sock1, random_item)
             send(room.sock2, random_item)
         pass
@@ -866,7 +866,7 @@ def analysis_message_player_drop_result(sock, cmd):
     #     pass
     random_item.add_int(Argument.ARG_POSITION_X, random.randint(-13, 13))
     random_item.add_int(Argument.ARG_POSITION_Y, random.randint(-8, 0))
-    random_item.add_int(Argument.ARG_ITEM_TIME_LIFE, 30)
+    random_item.add_int(Argument.ARG_ITEM_TIME_LIFE, 10)
     send(room.sock1, random_item)
     send(room.sock2, random_item)
     pass
