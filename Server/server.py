@@ -691,7 +691,7 @@ def analysis_message_turn_timeout(sock, cmd):
                 random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 10)
                 pass
             else:
-                random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 11)
+                random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 10)
                 pass
             random_item.add_int(Argument.ARG_POSITION_X, random.randint(-13, 13))
             random_item.add_int(Argument.ARG_POSITION_Y, random.randint(-8, 0))
@@ -862,7 +862,7 @@ def analysis_message_player_drop_result(sock, cmd):
             random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 10)
             pass
         else:
-            random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 11)
+            random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 10)
             pass
         random_item.add_int(Argument.ARG_POSITION_X, random.randint(-13, 13))
         random_item.add_int(Argument.ARG_POSITION_Y, random.randint(-8, 0))
