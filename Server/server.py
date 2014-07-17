@@ -570,8 +570,6 @@ def analysis_message_upgrade(sock, cmd):
 
 
 """====================GAME MESSAGE================"""
-
-
 def analysis_message_game_join(sock, cmd):
     waiting_list.append(sock)
     log.log("Add client to Waiting List")
@@ -646,7 +644,6 @@ def analysis_message_game_ready(sock, cmd):
             map_cmd = Command(Command.CMD_MAP_INFO)
             map_cmd.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map[room.sock1])
             map_id = random.randint(1, 2)
-            # TODO
             map_cmd.add_int(Argument.ARG_MAP_ID, map_id)
             send(room.sock1, map_cmd)
             send(room.sock2, map_cmd)
@@ -1161,9 +1158,9 @@ while reading:
                 if data:
                     read(sock, data)
                     pass
-                else:
-                    ping = Command(Command.CMD_PING)
-                    send(sock, ping)
+                # else:
+                #     ping = Command(Command.CMD_PING)
+                #     send(sock, ping)
             except IOError as err:
                 print('My exception occurred, value:', err.message)
                 print("Client (%s, %s) is offline" % addr)
