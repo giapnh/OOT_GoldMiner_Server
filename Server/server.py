@@ -684,10 +684,10 @@ def analysis_message_turn_timeout(sock, cmd):
             send(room.sock2, change_turn)
             pass
         "Random item"
-        if random.random(0, 1) ==1:
+        if random.randint(0, 1) == 1:
             random_item = Command(Command.CMD_ITEM_APPEAR)
             "type = 10: bonus turn, type = 11: x2 score"
-            if random.random() > 0.5:
+            if random.randint(1, 2) == 1:
                 random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 10)
                 pass
             else:
@@ -855,20 +855,20 @@ def analysis_message_player_drop_result(sock, cmd):
         pass
 
     "Random item"
-    # if random.random() > 0.5:
-    random_item = Command(Command.CMD_ITEM_APPEAR)
-    "type = 10: bonus turn, type = 11: x2 score"
-    # if random.random() > 0.5:
-    random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 10)
-    #     pass
-    # else:
-    #     random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 11)
-    #     pass
-    random_item.add_int(Argument.ARG_POSITION_X, random.randint(-13, 13))
-    random_item.add_int(Argument.ARG_POSITION_Y, random.randint(-8, 0))
-    random_item.add_int(Argument.ARG_ITEM_TIME_LIFE, 10)
-    send(room.sock1, random_item)
-    send(room.sock2, random_item)
+    if random.randint(1, 2) == 1:
+        random_item = Command(Command.CMD_ITEM_APPEAR)
+        "type = 10: bonus turn, type = 11: x2 score"
+        if random.randint(1, 2) == 1:
+            random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 10)
+            pass
+        else:
+            random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 11)
+            pass
+        random_item.add_int(Argument.ARG_POSITION_X, random.randint(-13, 13))
+        random_item.add_int(Argument.ARG_POSITION_Y, random.randint(-8, 0))
+        random_item.add_int(Argument.ARG_ITEM_TIME_LIFE, 10)
+        send(room.sock1, random_item)
+        send(room.sock2, random_item)
     pass
 
 
