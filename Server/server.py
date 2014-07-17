@@ -739,24 +739,24 @@ def analysis_message_player_drop_result(sock, cmd):
     if len(item_used) == 0:
         pass
     elif len(item_used) == 1:
-        if item_used[0] == 10:
+        if int(item_used[0]) == 10:
             is_change_turn = False
             pass
-        elif item_used[0] == 11:
+        elif int(item_used[0]) == 11:
             score_mul = 2
             pass
         pass
     else:
-        if item_used[0] == 10:
+        if int(item_used[0]) == 10:
             is_change_turn = False
             pass
-        elif item_used[0] == 11:
+        elif int(item_used[0]) == 11:
             score_mul = 2
             pass
-        if item_used[1] == 10:
+        if int(item_used[1]) == 10:
             is_change_turn = False
             pass
-        elif item_used[1] == 11:
+        elif int(item_used[1]) == 11:
             score_mul = 2
             pass
         pass
