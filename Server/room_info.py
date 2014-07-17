@@ -19,6 +19,7 @@ class RoomInfo:
         self.score = []
         self.score.append(0)
         self.score.append(0)
+
         """Initial game state: Waiting!"""
         self.game_state = RoomInfo.STATE_WAITING
         self.room_type = r_type

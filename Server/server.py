@@ -735,11 +735,21 @@ def analysis_message_player_drop_result(sock, cmd):
     if None == room:
         return
     code = cmd.get_int(Argument.ARG_CODE, 0)
-    item_used = cmd.get_int(Argument.ARG_ITEM_USED, 0)
+    item_used = cmd.get_string(Argument.ARG_ITEM_USED, "0").split(";")
     score_mul = 1
-    if item_used == 11:
-        "x2 score item"
+    is_change_turn = True
+    if item_used[0] == 10:
+        is_change_turn = False
+        pass
+    elif item_used[0] == 11:
         score_mul = 2
+        pass
+    if item_used[1] == 10:
+        is_change_turn = False
+        pass
+    elif item_used[1] == 11:
+        score_mul = 2
+        pass
     if code == 1:
         obj_type = cmd.get_int(Argument.ARG_MAP_OBJ_TYPE, 0)
         add_score = Command(Command.CMD_ADD_SCORE)
@@ -806,13 +816,23 @@ def analysis_message_player_drop_result(sock, cmd):
     "Change player turn"
     if room.sock1 == sock:
         change_turn = Command(Command.CMD_PLAYER_TURN)
-        change_turn.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room.sock2))
+        if is_change_turn:
+            change_turn.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room.sock2))
+            pass
+        else:
+            change_turn.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room.sock1))
+            pass
         send(room.sock1, change_turn)
         send(room.sock2, change_turn)
         pass
     elif room.sock2 == sock:
         change_turn = Command(Command.CMD_PLAYER_TURN)
-        change_turn.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room.sock1))
+        if is_change_turn:
+            change_turn.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room.sock1))
+            pass
+        else:
+            change_turn.add_string(Argument.ARG_PLAYER_USERNAME, sock_name_map.get(room.sock2))
+            pass
         send(room.sock1, change_turn)
         send(room.sock2, change_turn)
         pass
