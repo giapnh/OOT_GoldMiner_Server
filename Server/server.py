@@ -444,7 +444,7 @@ def analysis_message_cancel_request(sock, cmd):
 
 def analysis_message_invite_game(sock, cmd):
     friend_name = cmd.get_string(Argument.ARG_PLAYER_USERNAME)
-    message = cmd.get_string(Argument.ARG_MESSAGE, "Choi game dau khong?")
+    message = cmd.get_string(Argument.ARG_MESSAGE, "Do you want to play game with me?")
     if check_player_online(friend_name):
         if name_sock_map[friend_name] in playing_list:
             send_cmd = Command(Command.CMD_INVITE_GAME)
