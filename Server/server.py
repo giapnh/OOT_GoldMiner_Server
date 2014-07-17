@@ -735,18 +735,31 @@ def analysis_message_player_drop_result(sock, cmd):
     item_used = cmd.get_string(Argument.ARG_ITEM_USED, "0").split(";")
     score_mul = 1
     is_change_turn = True
-    if item_used[0] == 10:
-        is_change_turn = False
+    if len(item_used) == 0:
         pass
-    elif item_used[0] == 11:
-        score_mul = 2
+    elif len(item_used) == 1:
+        if item_used[0] == 10:
+            is_change_turn = False
+            pass
+        elif item_used[0] == 11:
+            score_mul = 2
+            pass
         pass
-    if item_used[1] == 10:
-        is_change_turn = False
+    else:
+        if item_used[0] == 10:
+            is_change_turn = False
+            pass
+        elif item_used[0] == 11:
+            score_mul = 2
+            pass
+        if item_used[1] == 10:
+            is_change_turn = False
+            pass
+        elif item_used[1] == 11:
+            score_mul = 2
+            pass
         pass
-    elif item_used[1] == 11:
-        score_mul = 2
-        pass
+
     if code == 1:
         obj_type = cmd.get_int(Argument.ARG_MAP_OBJ_TYPE, 0)
         add_score = Command(Command.CMD_ADD_SCORE)
