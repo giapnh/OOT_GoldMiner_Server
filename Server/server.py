@@ -805,7 +805,7 @@ def analysis_message_player_drop_result(sock, cmd):
                     add = 660
                     pass
                 room.score[0] += score_mul * add
-                add_score.add_int(Argument.ARG_SCORE, add)
+                add_score.add_int(Argument.ARG_SCORE, score_mul * add)
                 pass
             else:
                 add = 0
@@ -825,7 +825,7 @@ def analysis_message_player_drop_result(sock, cmd):
                     add = 660
                     pass
                 room.score[1] += score_mul * add
-                add_score.add_int(Argument.ARG_SCORE, add)
+                add_score.add_int(Argument.ARG_SCORE, score_mul * add)
                 pass
         send(room.sock1, add_score)
         send(room.sock2, add_score)
