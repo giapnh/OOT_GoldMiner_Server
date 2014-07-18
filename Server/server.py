@@ -688,10 +688,10 @@ def analysis_message_turn_timeout(sock, cmd):
             random_item = Command(Command.CMD_ITEM_APPEAR)
             "type = 10: bonus turn, type = 11: x2 score"
             if random.randint(1, 2) == 1:
-                random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 10)
+                random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 11)
                 pass
             else:
-                random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 10)
+                random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 11)
                 pass
             random_item.add_int(Argument.ARG_POSITION_X, random.randint(-13, 13))
             random_item.add_int(Argument.ARG_POSITION_Y, random.randint(-8, 0))
@@ -859,10 +859,10 @@ def analysis_message_player_drop_result(sock, cmd):
         random_item = Command(Command.CMD_ITEM_APPEAR)
         "type = 10: bonus turn, type = 11: x2 score"
         if random.randint(1, 2) == 1:
-            random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 10)
+            random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 11)
             pass
         else:
-            random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 10)
+            random_item.add_int(Argument.ARG_MAP_OBJ_TYPE, 11)
             pass
         random_item.add_int(Argument.ARG_POSITION_X, random.randint(-13, 13))
         random_item.add_int(Argument.ARG_POSITION_Y, random.randint(-8, 0))
